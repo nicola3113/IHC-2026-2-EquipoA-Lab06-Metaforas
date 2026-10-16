@@ -1,0 +1,39 @@
+# Laboratorio 6 · Metáforas de Interfaz — Trabajo Grupal Semana 07
+
+**Curso:** Interacción Hombre-Computador (202W0606) — Semestre 2026-2
+**Universidad Nacional Mayor de San Marcos** · Facultad de Ingeniería de Sistemas e Informática
+**Docente:** Mg. Ing. Ernesto D. Cancho-Rodríguez, MBA (GWU)
+**Equipo A**
+
+Desarrollo de la Guía de Laboratorio 6 (*Metáforas de Interfaz: Definición, Tipos y Criterios de Diseño*):
+documentación paso a paso de los ejercicios 6.1–6.3 y UML (L.4) y diseño, prototipo y evaluación de una
+metáfora propia para el proyecto del equipo, *Ernesto Investing AI* (L.5).
+
+## Estado
+
+| Fase | Contenido | Estado |
+|---|---|---|
+| 0 | Plan y estructura | ✅ [`PLAN.md`](PLAN.md) |
+| 1 | Paso 1 — Galería interactiva (6.1) mejorada | ⏳ |
+| 2 | Paso 2 — Comparativa de estilos (6.2) | ⏳ |
+| 3 | Paso 3 — Medición (6.3), CSV → Excel | ⏳ esperando CSV reales |
+| 4 | Paso 4 — Notebook de análisis (6.3b) | ⏳ |
+| 5 | Paso 5 — Diagramas UML (SVG + `.puml`) | ⏳ |
+| 6 | L.5 — Metáfora propia «El portafolio como huerto» | ⏳ |
+| 7 | Informes Word en APA 7 | ⏳ |
+| 8 | Empaquetado `.zip` | ⏳ |
+
+## Enlaces
+
+| Recurso | Enlace |
+|---|---|
+| Ejercicio 6.1 publicado por el docente | https://spiffy-creponne-8c534b.netlify.app/ |
+| Ejercicio 6.3 publicado por el docente | https://stately-croquembouche-93dd68.netlify.app/ |
+
+## Estructura
+
+- `insumos/` — material del docente sin modificar (guía, HTML, notebook, UML).
+- `L4_paso_a_paso/` — evidencias de los pasos 1 a 5.
+- `L5_metafora_propia/` — prototipo, datos, notebook, UML y capturas de la metáfora propia.
+- `build/` — scripts de generación (informes, Excel, diagramas).
+- `entregables/` — informes finales y `.zip`.

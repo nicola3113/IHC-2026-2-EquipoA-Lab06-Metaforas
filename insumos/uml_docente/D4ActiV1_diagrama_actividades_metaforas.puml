@@ -1,0 +1,126 @@
+@startuml
+' =============================================
+' DIAGRAMA DE ACTIVIDADES - BATD
+' =============================================
+skinparam style strictuml
+skinparam RoundCorner 15
+skinparam defaultFontName "Arial"
+skinparam backgroundColor white
+skinparam Shadowing true
+skinparam dpi 300
+skinparam ArrowThickness 1.5
+skinparam defaultFontStyle bold
+skinparam noteFontStyle bold
+skinparam ArrowColor darkgreen
+
+skinparam activity {
+    BackgroundColor #85C1E9
+    BorderColor black
+    FontColor black
+    FontStyle bold
+    FontSize 13
+}
+
+skinparam activityDiamond {
+    BackgroundColor #F7DC6F
+    BorderColor #5D6D7E
+    FontColor black
+    FontStyle bold
+}
+
+skinparam noteBackgroundColor #FFFFCC
+skinparam noteBorderColor black
+skinparam noteFontColor #000000
+
+skinparam partition {
+    BackgroundColor #FBFCFC
+    BorderColor #5D6D7E
+    FontColor black
+    FontStyle bold
+}
+
+title Diagrama de Actividades — Evolución de la Data en el Sistema de Evaluación
+
+start
+
+partition "Fase 1: Carga Inicial" {
+    :Cargar arreglo JSON\ncon 12 metáforas;
+    note right
+      Datos estáticos definidos
+      en el código fuente
+      (dominio fuente/destino,
+      tipo, detalle, referencia)
+    end note
+    :Renderizar 12 tarjetas\nen el grid principal;
+    :Inicializar objeto de métricas\n(clics=0, tiempo=performance.now());
+}
+
+partition "Fase 2: Exploración Interactiva" {
+    repeat
+        :Usuario selecciona filtro\no hace clic en tarjeta;
+        if (¿Es filtro de categoría?) then (sí)
+            :Filtrar arreglo por tipo;
+            :Re-renderizar tarjetas filtradas;
+            :Incrementar contador de filtros;
+        else (no)
+            :Registrar tarjeta explorada\nen Set de tarjetas únicas;
+            :Abrir modal con detalle\n(origen, mapeo, fortalezas,\ndebilidades, referencia);
+        endif
+        :Actualizar panel de métricas\nen tiempo real;
+    repeat while (¿Usuario sigue explorando?) is (sí)
+}
+
+partition "Fase 3: Estudio Controlado" {
+    :Usuario presiona\n"Iniciar estudio";
+    :indiceTarea = 0;
+
+    repeat
+        :Cargar tarea[indiceTarea];
+        :Registrar marca de inicio\ncon performance.now();
+        :Renderizar componente\ninteractivo según estilo\n(esqueumórfico/plano/neumórfico);
+        :Iniciar conteo de clics\n(clics = 0, éxito = false);
+
+        repeat
+            :Usuario interactúa\ncon el componente;
+            :Incrementar clics++;
+            if (¿Acción correcta completada?) then (sí)
+                :éxito = true;
+            else (no)
+            endif
+        repeat while (¿Tarea no completada?) is (sí)
+
+        :Usuario presiona\n"Completar tarea";
+        :tiempoMs = performance.now() - inicio;
+        :Crear objeto RegistroTarea\n{tarea, estilo, tiempo, clics, éxito};
+        :Agregar a arreglo de resultados;
+        :Agregar fila a tabla HTML;
+        :indiceTarea++;
+    repeat while (indiceTarea < 6) is (sí)
+
+    :Mostrar resumen\n"Estudio completado";
+}
+
+partition "Fase 4: Exportación y Análisis" {
+    :Usuario presiona\n"Exportar CSV";
+    :Generar encabezados CSV\n(tarea,estilo,tiempo_ms,clics,éxito);
+    :Serializar arreglo de resultados\na filas CSV;
+    :Crear Blob con tipo\n"text/csv;charset=utf-8";
+    :Descargar archivo\nresultados_metaforas_semana06.csv;
+
+    note right
+      El CSV se carga en
+      Google Colab con
+      pandas.read_csv()
+      para el análisis
+      estadístico
+    end note
+
+    :Cargar CSV en\nnotebook Python (Colab);
+    :Calcular estadísticas\ndescriptivas por estilo\n(media, mediana, tasa de éxito);
+    :Generar gráficos de barras\n(tiempo y clics por estilo);
+    :Interpretar resultados y\nredactar discusión de usabilidad;
+}
+
+stop
+
+@enduml

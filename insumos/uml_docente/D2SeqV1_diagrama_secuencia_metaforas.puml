@@ -1,0 +1,135 @@
+@startuml
+' =============================================
+' PROTOCOLO DE DIAGRAMA DE SECUENCIA - BATD
+' =============================================
+skinparam actorStyle awesome
+skinparam style strictuml
+skinparam RoundCorner 15
+skinparam BoxPadding 15
+skinparam ParticipantPadding 20
+skinparam defaultFontName "Arial"
+skinparam backgroundColor white
+skinparam Shadowing true
+skinparam dpi 300
+skinparam ArrowThickness 1.5
+skinparam defaultFontStyle bold
+skinparam noteFontStyle bold
+skinparam sequenceGroupHeaderFontStyle bold
+
+skinparam sequence {
+    ArrowColor darkgreen
+    LifeLineBorderColor black
+    LifeLineBorderThickness 2.5
+    LifeLineBackgroundColor #85C1E9
+    GroupBorderColor #5D6D7E
+    GroupBodyBackgroundColor #FBFCFC
+    GroupHeaderFontColor black
+    GroupBackgroundColor #CDCDCD
+}
+skinparam participant {
+    BackgroundColor #85C1E9
+    BorderColor black
+    FontColor black
+    FontStyle bold
+    FontSize 14
+}
+skinparam actor {
+    BackgroundColor #85C1E9
+    BorderColor black
+    FontColor black
+    FontStyle bold
+    FontSize 14
+}
+skinparam database {
+    BackgroundColor #85C1E9
+    BorderColor black
+    FontColor black
+    FontStyle bold
+    FontSize 14
+}
+skinparam noteBackgroundColor #FFFFCC
+skinparam noteBorderColor black
+skinparam noteFontColor #000000
+
+title Diagrama de Secuencia del Flujo de Evaluación de Metáforas
+
+actor "Participante" as USR
+boundary "Interfaz Web\n(Galería / Estudio)" as UI #AED6F1
+control "Motor del\nEstudio" as MOT
+control "Registrador de\nEventos" as REG
+database "Almacén de\nMétricas" as ALM
+
+== Fase 1: Exploración de la Galería ==
+
+USR -> UI : Selecciona categoría de metáfora
+activate UI
+UI -> UI : Filtra tarjetas por tipo
+UI --> USR : Muestra tarjetas filtradas
+deactivate UI
+
+USR -> UI : Hace clic en una tarjeta
+activate UI
+UI -> REG : Registra clic y tarjeta explorada
+activate REG
+REG -> ALM : Acumula evento con marca temporal
+activate ALM
+ALM --> REG : Confirma registro
+deactivate ALM
+deactivate REG
+UI --> USR : Abre modal con detalle de la metáfora
+deactivate UI
+
+== Fase 2: Estudio Controlado ==
+
+USR -> UI : Presiona "Iniciar estudio"
+activate UI
+UI -> MOT : Solicita primera tarea
+activate MOT
+MOT -> MOT : Carga tarea 1 (esqueumórfico)
+MOT --> UI : Renderiza componente interactivo
+deactivate MOT
+UI --> USR : Muestra tarea con cronómetro activo
+deactivate UI
+
+note right of REG
+  performance.now() registra
+  la marca de inicio de cada tarea
+end note
+
+loop Para cada tarea (6 tareas)
+    USR -> UI : Interactúa con el componente
+    activate UI
+    UI -> REG : Registra cada clic dentro del área
+    activate REG
+    REG -> ALM : Incrementa contador de clics
+    deactivate REG
+
+    USR -> UI : Presiona "Completar tarea"
+    UI -> MOT : Solicita registro de tarea completada
+    activate MOT
+    MOT -> REG : Calcula tiempo en tarea
+    activate REG
+    REG -> ALM : Guarda {tarea, estilo, tiempo, clics, éxito}
+    activate ALM
+    ALM --> REG : Registro exitoso
+    deactivate ALM
+    deactivate REG
+    MOT --> UI : Avanza a la siguiente tarea
+    deactivate MOT
+    UI --> USR : Muestra nueva tarea o resumen
+    deactivate UI
+end
+
+== Fase 3: Exportación de Datos ==
+
+USR -> UI : Presiona "Exportar CSV"
+activate UI
+UI -> ALM : Solicita todos los registros
+activate ALM
+ALM --> UI : Retorna arreglo de resultados
+deactivate ALM
+UI -> UI : Genera Blob CSV con encabezados
+UI --> USR : Descarga archivo CSV
+deactivate UI
+
+@enduml

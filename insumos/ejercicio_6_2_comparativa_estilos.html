@@ -1,0 +1,456 @@
+<!-- ========================================================= -->
+<!-- Ejercicio 6.2 -- Comparativa: Esqueumorfismo vs. Plano vs. Neumorfismo -->
+<!-- Curso: IHC — Interacción Hombre-Computador (UNMSM, 2026-2) -->
+<!-- Entorno de ejecución: archivo .html autocontenido             -->
+<!-- ========================================================= -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ejercicio 6.2 — Esqueumorfismo vs. Diseño Plano vs. Neumorfismo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --fondo: #0F172A;
+      --superficie: #1E293B;
+      --superficie-2: #334155;
+      --primario: #3B82F6;
+      --acento: #F59E0B;
+      --verde: #10B981;
+      --purpura: #8B5CF6;
+      --rosa: #EC4899;
+      --texto: #F1F5F9;
+      --texto-sec: #94A3B8;
+      --borde: #475569;
+      --radio: 16px;
+      --trans: 0.3s ease;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Inter',system-ui,sans-serif; background:var(--fondo); color:var(--texto); min-height:100vh; }
+
+    /* Encabezado */
+    .header { text-align:center; padding:2rem 1.5rem; border-bottom:1px solid var(--borde); }
+    .header .badge { display:inline-block; background:var(--superficie-2); color:var(--acento); padding:0.2rem 0.7rem; border-radius:20px; font-size:0.7rem; font-weight:600; border:1px solid var(--acento); margin-bottom:0.75rem; }
+    .header h1 { font-size:1.8rem; font-weight:800; background:linear-gradient(135deg,var(--primario),var(--purpura)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:0.4rem; }
+    .header p { color:var(--texto-sec); font-size:0.9rem; max-width:650px; margin:0 auto; }
+
+    /* Selector de componente a comparar */
+    .selector { display:flex; flex-wrap:wrap; gap:0.5rem; justify-content:center; padding:1.25rem; background:var(--superficie); border-bottom:1px solid var(--borde); position:sticky; top:0; z-index:50; }
+    .btn-comp { background:transparent; color:var(--texto-sec); border:1px solid var(--borde); padding:0.45rem 0.9rem; border-radius:20px; font-family:'Inter',sans-serif; font-size:0.8rem; font-weight:600; cursor:pointer; transition:all var(--trans); }
+    .btn-comp:hover { border-color:var(--primario); color:var(--primario); }
+    .btn-comp.activo { background:var(--primario); color:#fff; border-color:var(--primario); }
+
+    /* Grid de 3 columnas: un estilo por columna */
+    .contenedor { max-width:1200px; margin:0 auto; padding:2rem 1rem; }
+    .grid-estilos { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; }
+
+    .columna-estilo { background:var(--superficie); border-radius:var(--radio); border:1px solid var(--borde); overflow:hidden; transition:all var(--trans); }
+    .columna-estilo:hover { border-color:var(--primario); }
+
+    .col-header { padding:1rem 1.25rem; border-bottom:1px solid var(--borde); text-align:center; }
+    .col-header h2 { font-size:1rem; font-weight:700; }
+    .col-header .epoca { font-size:0.7rem; color:var(--texto-sec); margin-top:0.15rem; }
+
+    .col-body { padding:1.5rem; display:flex; flex-direction:column; align-items:center; gap:1.25rem; min-height:320px; }
+
+    /* ========================================= */
+    /* ESTILOS ESQUEUMÓRFICOS                    */
+    /* ========================================= */
+    .skeu-boton {
+      background: linear-gradient(180deg, #e8e8e8 0%, #c0c0c0 50%, #a0a0a0 100%);
+      border: 1px solid #888;
+      border-radius: 10px;
+      padding: 12px 28px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #333;
+      cursor: pointer;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.5);
+      text-shadow: 0 1px 0 rgba(255,255,255,0.6);
+      transition: all 0.15s;
+    }
+    .skeu-boton:active { box-shadow: inset 0 2px 4px rgba(0,0,0,0.3); transform:translateY(1px); }
+
+    .skeu-toggle {
+      width: 70px; height: 34px;
+      background: linear-gradient(180deg, #999 0%, #bbb 100%);
+      border-radius: 17px;
+      border: 1px solid #777;
+      position: relative;
+      cursor: pointer;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+    }
+    .skeu-toggle .knob {
+      width: 28px; height: 28px;
+      background: linear-gradient(180deg, #f0f0f0, #ccc);
+      border-radius: 50%;
+      position: absolute;
+      top: 2px; left: 2px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.8);
+      transition: left var(--trans);
+    }
+    .skeu-toggle.on { background: linear-gradient(180deg, #4CAF50, #388E3C); }
+    .skeu-toggle.on .knob { left: 38px; }
+
+    .skeu-slider-wrap { width:100%; }
+    .skeu-slider {
+      -webkit-appearance: none; width:100%; height:10px;
+      background: linear-gradient(180deg, #888, #aaa);
+      border-radius: 5px;
+      border: 1px solid #666;
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.4);
+      outline:none;
+    }
+    .skeu-slider::-webkit-slider-thumb {
+      -webkit-appearance:none; width:22px; height:22px;
+      background: linear-gradient(180deg, #eee, #bbb);
+      border-radius:50%; border:1px solid #888;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      cursor:pointer;
+    }
+
+    .skeu-card {
+      background: linear-gradient(180deg, #f5f5f5 0%, #ddd 100%);
+      border: 1px solid #bbb;
+      border-radius: 8px;
+      padding: 1rem;
+      width: 100%;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.6);
+      color: #333;
+    }
+    .skeu-card h4 { font-size:0.8rem; margin-bottom:0.3rem; }
+    .skeu-card p { font-size:0.7rem; color:#555; }
+
+    /* ========================================= */
+    /* ESTILOS DISEÑO PLANO (FLAT)               */
+    /* ========================================= */
+    .flat-boton {
+      background: #2563EB;
+      border: none;
+      border-radius: 6px;
+      padding: 12px 28px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #fff;
+      cursor: pointer;
+      transition: background var(--trans);
+    }
+    .flat-boton:hover { background: #1D4ED8; }
+    .flat-boton:active { background: #1E40AF; }
+
+    .flat-toggle {
+      width: 52px; height: 28px;
+      background: #94A3B8;
+      border-radius: 14px;
+      border: none;
+      position: relative;
+      cursor: pointer;
+      transition: background var(--trans);
+    }
+    .flat-toggle .knob {
+      width: 22px; height: 22px;
+      background: #fff;
+      border-radius: 50%;
+      position: absolute;
+      top: 3px; left: 3px;
+      transition: left var(--trans);
+    }
+    .flat-toggle.on { background: #2563EB; }
+    .flat-toggle.on .knob { left: 27px; }
+
+    .flat-slider-wrap { width:100%; }
+    .flat-slider {
+      -webkit-appearance: none; width:100%; height:4px;
+      background: #475569;
+      border-radius: 2px;
+      outline:none;
+    }
+    .flat-slider::-webkit-slider-thumb {
+      -webkit-appearance:none; width:18px; height:18px;
+      background: #2563EB;
+      border-radius:50%; border:none;
+      cursor:pointer;
+    }
+
+    .flat-card {
+      background: #1E40AF;
+      border: none;
+      border-radius: 8px;
+      padding: 1rem;
+      width: 100%;
+      color: #fff;
+    }
+    .flat-card h4 { font-size:0.8rem; margin-bottom:0.3rem; }
+    .flat-card p { font-size:0.7rem; opacity:0.8; }
+
+    /* ========================================= */
+    /* ESTILOS NEUMORFISMO                       */
+    /* ========================================= */
+    .neu-zona { background: #e0e5ec; border-radius: 12px; padding: 1.5rem; width:100%; display:flex; flex-direction:column; align-items:center; gap:1.25rem; }
+
+    .neu-boton {
+      background: #e0e5ec;
+      border: none;
+      border-radius: 12px;
+      padding: 12px 28px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #555;
+      cursor: pointer;
+      box-shadow: 6px 6px 12px #b8bec7, -6px -6px 12px #ffffff;
+      transition: all 0.15s;
+    }
+    .neu-boton:active { box-shadow: inset 4px 4px 8px #b8bec7, inset -4px -4px 8px #ffffff; }
+
+    .neu-toggle {
+      width: 60px; height: 30px;
+      background: #e0e5ec;
+      border-radius: 15px;
+      border: none;
+      position: relative;
+      cursor: pointer;
+      box-shadow: inset 3px 3px 6px #b8bec7, inset -3px -3px 6px #ffffff;
+    }
+    .neu-toggle .knob {
+      width: 24px; height: 24px;
+      background: #e0e5ec;
+      border-radius: 50%;
+      position: absolute;
+      top: 3px; left: 3px;
+      box-shadow: 3px 3px 6px #b8bec7, -3px -3px 6px #ffffff;
+      transition: left var(--trans);
+    }
+    .neu-toggle.on .knob { left: 33px; background:#6366F1; box-shadow:2px 2px 4px rgba(99,102,241,0.4); }
+
+    .neu-slider-wrap { width:100%; }
+    .neu-slider {
+      -webkit-appearance: none; width:100%; height:8px;
+      background: #e0e5ec;
+      border-radius: 4px;
+      box-shadow: inset 2px 2px 4px #b8bec7, inset -2px -2px 4px #ffffff;
+      outline:none;
+    }
+    .neu-slider::-webkit-slider-thumb {
+      -webkit-appearance:none; width:20px; height:20px;
+      background: #e0e5ec;
+      border-radius:50%; border:none;
+      box-shadow: 3px 3px 6px #b8bec7, -3px -3px 6px #ffffff;
+      cursor:pointer;
+    }
+
+    .neu-card {
+      background: #e0e5ec;
+      border: none;
+      border-radius: 12px;
+      padding: 1rem;
+      width: 100%;
+      box-shadow: 6px 6px 12px #b8bec7, -6px -6px 12px #ffffff;
+      color: #555;
+    }
+    .neu-card h4 { font-size:0.8rem; margin-bottom:0.3rem; color:#333; }
+    .neu-card p { font-size:0.7rem; color:#777; }
+
+    /* ========================================= */
+    /* Tabla comparativa inferior                */
+    /* ========================================= */
+    .tabla-section { margin-top:2rem; background:var(--superficie); border-radius:var(--radio); border:1px solid var(--borde); overflow:hidden; }
+    .tabla-section h3 { padding:1rem 1.25rem; font-size:1rem; border-bottom:1px solid var(--borde); }
+    .tabla-wrap { overflow-x:auto; }
+    table { width:100%; border-collapse:collapse; font-size:0.8rem; }
+    th { background:var(--superficie-2); padding:0.6rem 0.75rem; text-align:left; font-weight:600; color:var(--texto); border-bottom:1px solid var(--borde); }
+    td { padding:0.6rem 0.75rem; border-bottom:1px solid rgba(71,85,105,0.3); color:var(--texto-sec); }
+    tr:last-child td { border-bottom:none; }
+    .tag-alta { color:#34D399; font-weight:600; }
+    .tag-media { color:#FBBF24; font-weight:600; }
+    .tag-baja { color:#F87171; font-weight:600; }
+
+    /* Panel de métricas */
+    .metricas { margin-top:2rem; background:var(--superficie); border-radius:var(--radio); border:1px solid var(--borde); padding:1.25rem; }
+    .metricas h3 { font-size:0.9rem; margin-bottom:0.75rem; }
+    .met-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:0.75rem; }
+    .met-item { background:var(--fondo); border-radius:8px; padding:0.75rem; text-align:center; border:1px solid rgba(71,85,105,0.4); }
+    .met-val { font-size:1.4rem; font-weight:800; color:var(--primario); }
+    .met-lbl { font-size:0.65rem; color:var(--texto-sec); margin-top:0.1rem; }
+
+    .pie { text-align:center; padding:2rem 1.5rem; border-top:1px solid var(--borde); color:var(--texto-sec); font-size:0.75rem; }
+
+    @media (max-width:900px) { .grid-estilos { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <span class="badge">IHC — UNMSM 2026-2 · Semana 06</span>
+    <h1>Esqueumorfismo vs. Diseño Plano vs. Neumorfismo</h1>
+    <p>Compara cómo tres estilos de diseño aplican la metáfora visual a los mismos componentes de interfaz. Interactúa con cada uno para sentir la diferencia.</p>
+  </header>
+
+  <nav class="selector">
+    <button class="btn-comp activo" data-vista="todos">Todos</button>
+    <button class="btn-comp" data-vista="boton">Botón</button>
+    <button class="btn-comp" data-vista="toggle">Toggle</button>
+    <button class="btn-comp" data-vista="slider">Slider</button>
+    <button class="btn-comp" data-vista="tarjeta">Tarjeta</button>
+  </nav>
+
+  <main class="contenedor">
+    <div class="grid-estilos">
+
+      <!-- COLUMNA 1: Esqueumorfismo -->
+      <div class="columna-estilo">
+        <div class="col-header">
+          <h2 style="color:#F59E0B">Esqueumorfismo</h2>
+          <div class="epoca">2007 – 2012 · iOS 1-6, Windows Aero</div>
+        </div>
+        <div class="col-body">
+          <div class="comp-boton"><button class="skeu-boton" id="skeuBtn">Enviar</button></div>
+          <div class="comp-toggle"><div class="skeu-toggle" id="skeuToggle"><div class="knob"></div></div></div>
+          <div class="comp-slider skeu-slider-wrap"><input type="range" class="skeu-slider" min="0" max="100" value="40"></div>
+          <div class="comp-tarjeta" style="width:100%"><div class="skeu-card"><h4>Nota rápida</h4><p>Simula papel con textura y sombra realista, como una nota adhesiva.</p></div></div>
+        </div>
+      </div>
+
+      <!-- COLUMNA 2: Diseño Plano -->
+      <div class="columna-estilo">
+        <div class="col-header">
+          <h2 style="color:#3B82F6">Diseño Plano</h2>
+          <div class="epoca">2013 – presente · iOS 7+, Material Design</div>
+        </div>
+        <div class="col-body">
+          <div class="comp-boton"><button class="flat-boton" id="flatBtn">Enviar</button></div>
+          <div class="comp-toggle"><div class="flat-toggle" id="flatToggle"><div class="knob"></div></div></div>
+          <div class="comp-slider flat-slider-wrap"><input type="range" class="flat-slider" min="0" max="100" value="40"></div>
+          <div class="comp-tarjeta" style="width:100%"><div class="flat-card"><h4>Nota rápida</h4><p>Color sólido sin adornos. Limpio, escalable, moderno.</p></div></div>
+        </div>
+      </div>
+
+      <!-- COLUMNA 3: Neumorfismo -->
+      <div class="columna-estilo">
+        <div class="col-header">
+          <h2 style="color:#8B5CF6">Neumorfismo</h2>
+          <div class="epoca">2019 – 2021 · Tendencia experimental</div>
+        </div>
+        <div class="col-body">
+          <div class="neu-zona">
+            <div class="comp-boton"><button class="neu-boton" id="neuBtn">Enviar</button></div>
+            <div class="comp-toggle"><div class="neu-toggle" id="neuToggle"><div class="knob"></div></div></div>
+            <div class="comp-slider neu-slider-wrap"><input type="range" class="neu-slider" min="0" max="100" value="40"></div>
+            <div class="comp-tarjeta" style="width:100%"><div class="neu-card"><h4>Nota rápida</h4><p>Sombras suaves sobre fondo monocromático. Elegante pero poco accesible.</p></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabla comparativa completa -->
+    <div class="tabla-section">
+      <h3>Tabla Comparativa Completa</h3>
+      <div class="tabla-wrap">
+        <table>
+          <thead>
+            <tr><th>Criterio</th><th>Esqueumorfismo</th><th>Diseño Plano</th><th>Neumorfismo</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Apariencia</strong></td><td>Realista, 3D, texturas</td><td>Minimalista, 2D, colores sólidos</td><td>Semi-3D, sombras suaves internas/externas</td></tr>
+            <tr><td><strong>Affordance visual</strong></td><td class="tag-alta">Alta</td><td class="tag-baja">Baja</td><td class="tag-media">Media</td></tr>
+            <tr><td><strong>Carga cognitiva</strong></td><td>Baja (novatos) / Alta (expertos)</td><td>Baja (expertos) / Media (novatos)</td><td class="tag-media">Media</td></tr>
+            <tr><td><strong>Accesibilidad</strong></td><td class="tag-alta">Buena (alto contraste)</td><td class="tag-media">Variable</td><td class="tag-baja">Problemática (bajo contraste)</td></tr>
+            <tr><td><strong>Rendimiento</strong></td><td class="tag-baja">Pesado (imágenes)</td><td class="tag-alta">Ligero (CSS puro)</td><td class="tag-media">Moderado (sombras CSS)</td></tr>
+            <tr><td><strong>Época dominante</strong></td><td>2007 – 2012</td><td>2013 – presente</td><td>2019 – 2021</td></tr>
+            <tr><td><strong>Representante</strong></td><td>iOS 6, Windows Aero</td><td>iOS 7+, Metro UI, Material Design</td><td>Dribbble trends</td></tr>
+            <tr><td><strong>Metáfora subyacente</strong></td><td>Objeto físico real</td><td>Convención aprendida</td><td>Superficie moldeada</td></tr>
+            <tr><td><strong>Ventaja principal</strong></td><td>Familiaridad inmediata</td><td>Escalabilidad y limpieza</td><td>Elegancia visual</td></tr>
+            <tr><td><strong>Desventaja principal</strong></td><td>Inflexible, pesada, datada</td><td>Puede ser genérica y confusa</td><td>Problemas de accesibilidad</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Panel de métricas de interacción -->
+    <div class="metricas">
+      <h3>Registro de Interacción</h3>
+      <div class="met-grid">
+        <div class="met-item"><div class="met-val" id="mClics">0</div><div class="met-lbl">Clics totales</div></div>
+        <div class="met-item"><div class="met-val" id="mSkeu">0</div><div class="met-lbl">Interacciones esqueumorfismo</div></div>
+        <div class="met-item"><div class="met-val" id="mFlat">0</div><div class="met-lbl">Interacciones diseño plano</div></div>
+        <div class="met-item"><div class="met-val" id="mNeu">0</div><div class="met-lbl">Interacciones neumorfismo</div></div>
+        <div class="met-item"><div class="met-val" id="mTiempo">0s</div><div class="met-lbl">Tiempo en página</div></div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="pie">
+    Prof. E. D. Cancho-Rodríguez, MBA (GWU) — IHC · UNMSM · Semana 06<br>
+    Código generado con asistencia de IA y verificado por el autor
+  </footer>
+
+  <script>
+    // =========================================================
+    // Métricas de interacción — registro con performance.now()
+    // =========================================================
+    const met = { clics:0, skeu:0, flat:0, neu:0, inicio: performance.now() };
+
+    function regEvento(estilo) {
+      met.clics++;
+      met[estilo]++;
+      document.getElementById("mClics").textContent = met.clics;
+      document.getElementById("mSkeu").textContent = met.skeu;
+      document.getElementById("mFlat").textContent = met.flat;
+      document.getElementById("mNeu").textContent = met.neu;
+    }
+
+    // Cronómetro de tiempo en página
+    setInterval(() => {
+      const s = Math.floor((performance.now() - met.inicio) / 1000);
+      document.getElementById("mTiempo").textContent = s >= 60 ? `${Math.floor(s/60)}m ${s%60}s` : `${s}s`;
+    }, 1000);
+
+    // =========================================================
+    // Interactividad de los toggles
+    // =========================================================
+    ["skeuToggle","flatToggle","neuToggle"].forEach(id => {
+      const el = document.getElementById(id);
+      const estilo = id.startsWith("skeu") ? "skeu" : id.startsWith("flat") ? "flat" : "neu";
+      el.addEventListener("click", () => { el.classList.toggle("on"); regEvento(estilo); });
+    });
+
+    // Botones
+    document.getElementById("skeuBtn").addEventListener("click", () => regEvento("skeu"));
+    document.getElementById("flatBtn").addEventListener("click", () => regEvento("flat"));
+    document.getElementById("neuBtn").addEventListener("click", () => regEvento("neu"));
+
+    // Sliders
+    document.querySelectorAll(".skeu-slider").forEach(s => s.addEventListener("input", () => regEvento("skeu")));
+    document.querySelectorAll(".flat-slider").forEach(s => s.addEventListener("input", () => regEvento("flat")));
+    document.querySelectorAll(".neu-slider").forEach(s => s.addEventListener("input", () => regEvento("neu")));
+
+    // =========================================================
+    // Filtro de componentes
+    // =========================================================
+    document.querySelectorAll(".btn-comp").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".btn-comp").forEach(b => b.classList.remove("activo"));
+        btn.classList.add("activo");
+        const vista = btn.dataset.vista;
+        const mapeo = { boton:"comp-boton", toggle:"comp-toggle", slider:"comp-slider", tarjeta:"comp-tarjeta" };
+
+        // Mostrar/ocultar componentes según la selección
+        document.querySelectorAll("[class^='comp-']").forEach(el => {
+          if (vista === "todos") { el.style.display = ""; }
+          else {
+            const esVisible = el.classList.contains(mapeo[vista]);
+            el.style.display = esVisible ? "" : "none";
+          }
+        });
+        // La zona neumórfica siempre visible
+        document.querySelectorAll(".neu-zona").forEach(z => z.style.display = "");
+        met.clics++;
+        document.getElementById("mClics").textContent = met.clics;
+      });
+    });
+  </script>
+</body>
+</html>

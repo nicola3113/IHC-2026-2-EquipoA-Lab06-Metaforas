@@ -1,0 +1,187 @@
+@startuml
+' =============================================
+' PROTOCOLO DE DIAGRAMA DE CLASES - BATD
+' =============================================
+skinparam style strictuml
+skinparam RoundCorner 15
+skinparam Padding 10
+skinparam defaultFontName "Arial"
+skinparam backgroundColor white
+skinparam Shadowing true
+skinparam dpi 300
+skinparam ArrowThickness 1.5
+skinparam defaultFontStyle bold
+skinparam noteFontStyle bold
+skinparam ArrowColor darkgreen
+skinparam ArrowFontStyle bold
+skinparam ArrowFontColor black
+
+skinparam class {
+    BackgroundColor #85C1E9
+    BorderColor black
+    FontColor black
+    FontStyle bold
+    FontSize 14
+    AttributeFontColor black
+    AttributeFontSize 12
+    AttributeFontStyle plain
+    StereotypeFontColor #5D6D7E
+    StereotypeFontSize 11
+    StereotypeFontStyle italic
+    HeaderBackgroundColor #5DADE2
+    BorderThickness 2
+}
+skinparam interface {
+    BackgroundColor #AED6F1
+    BorderColor black
+    FontColor black
+    FontStyle bold
+    FontSize 14
+}
+skinparam enum {
+    BackgroundColor #F7DC6F
+    BorderColor #5D6D7E
+    FontColor black
+    FontStyle bold
+    FontSize 14
+    AttributeFontColor black
+    AttributeFontSize 12
+}
+skinparam package {
+    BackgroundColor #F7DC6F
+    BorderColor #5D6D7E
+    FontColor black
+    FontStyle bold
+    FontSize 14
+    BorderThickness 2
+}
+skinparam noteBackgroundColor #FFFFCC
+skinparam noteBorderColor black
+skinparam noteFontColor #000000
+
+title Diagrama de Clases del Modelo de Dominio — Evaluación de Metáforas
+
+package "Modelo de Metáforas" {
+
+    class Metafora {
+        +String id
+        +String nombre
+        +String descripcion
+        +String fuenteTexto
+        +String destinoTexto
+        +String icono
+        +DetalleMetafora detalle
+        ==
+        +generarDemo() : String
+        +obtenerMapeo() : String[]
+    }
+
+    class DetalleMetafora {
+        +String origen
+        +String[] mapeo
+        +String fortalezas
+        +String debilidades
+        +String referencia
+    }
+
+    enum TipoMetafora <<enumeration>> {
+        ESTRUCTURAL
+        ORIENTACIONAL
+        ONTOLOGICA
+        CONTENEDOR
+        VIAJE
+        CONVERSACIONAL
+    }
+
+    enum EstiloVisual <<enumeration>> {
+        ESQUEUMORFICO
+        PLANO
+        NEUMORFICO
+    }
+}
+
+package "Modelo de Evaluación" {
+
+    class EstudioControlado {
+        +int indiceTarea
+        +Tarea[] tareas
+        +RegistroTarea[] resultados
+        ==
+        +iniciar() : void
+        +cargarTarea(indice: int) : void
+        +completarTarea() : void
+        +finalizarEstudio() : void
+        +exportarCSV() : Blob
+    }
+
+    class Tarea {
+        +int id
+        +String titulo
+        +String descripcion
+        +EstiloVisual estilo
+        ==
+        +render(area: HTMLElement) : void
+    }
+
+    class RegistroTarea {
+        +int tarea
+        +String estilo
+        +String descripcion
+        +float tiempoMs
+        +int clics
+        +boolean exito
+    }
+}
+
+package "Modelo de Métricas" {
+
+    class RegistradorEventos {
+        +int clicsTotales
+        +Set tarjetasExploradas
+        +int filtrosAplicados
+        +float tiempoInicio
+        ==
+        +registrarClic() : void
+        +registrarExploracion(id: String) : void
+        +registrarFiltro() : void
+        +obtenerTiempoEnPagina() : float
+        +actualizarPanel() : void
+    }
+
+    class ExportadorCSV {
+        +String[] encabezados
+        ==
+        +generar(resultados: RegistroTarea[]) : Blob
+        +descargar(blob: Blob, nombre: String) : void
+    }
+}
+
+' Relaciones
+Metafora *-- DetalleMetafora : contiene
+Metafora --> TipoMetafora : "1" clasificada como "1"
+Tarea --> EstiloVisual : "1" aplica "1"
+EstudioControlado *-- "6" Tarea : compuesto por
+EstudioControlado *-- "0..*" RegistroTarea : genera
+EstudioControlado --> RegistradorEventos : usa
+EstudioControlado --> ExportadorCSV : exporta con
+RegistroTarea ..> EstiloVisual : referencia
+
+note right of Metafora
+  12 instancias predefinidas
+  en el arreglo JSON
+  del Ejercicio 6.1
+end note
+
+note bottom of EstudioControlado
+  Controla 6 tareas
+  secuenciales (2 tareas
+  × 3 estilos visuales)
+end note
+
+note right of RegistradorEventos
+  Usa performance.now()
+  para marcas temporales
+  de alta precisión
+end note
+
+@enduml

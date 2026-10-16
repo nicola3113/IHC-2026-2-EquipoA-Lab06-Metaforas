@@ -1,0 +1,133 @@
+@startuml
+' =============================================
+' DIAGRAMA DE CASOS DE USO - BATD
+' =============================================
+skinparam style strictuml
+skinparam RoundCorner 15
+skinparam defaultFontName "Arial"
+skinparam backgroundColor white
+skinparam Shadowing true
+skinparam dpi 300
+skinparam ArrowThickness 1.5
+skinparam defaultFontStyle bold
+skinparam noteFontStyle bold
+skinparam ArrowColor darkgreen
+
+skinparam actor {
+    BackgroundColor #85C1E9
+    BorderColor black
+    FontColor black
+    FontStyle bold
+    FontSize 14
+}
+
+skinparam usecase {
+    BackgroundColor #85C1E9
+    BorderColor black
+    FontColor black
+    FontStyle bold
+    FontSize 12
+}
+
+skinparam rectangle {
+    BackgroundColor #FBFCFC
+    BorderColor #5D6D7E
+    FontColor black
+    FontStyle bold
+    FontSize 14
+    RoundCorner 10
+}
+
+skinparam package {
+    BackgroundColor #F7DC6F
+    BorderColor #5D6D7E
+    FontColor black
+    FontStyle bold
+    FontSize 14
+    BorderThickness 2
+}
+
+skinparam noteBackgroundColor #FFFFCC
+skinparam noteBorderColor black
+skinparam noteFontColor #000000
+
+title Diagrama de Casos de Uso del Sistema de Galería y Evaluación de Metáforas
+
+actor "Participante\n(Estudiante)" as EST
+actor "Docente\n(Evaluador)" as DOC
+
+rectangle "Sistema de Galería y Evaluación de Metáforas" {
+
+    package "Módulo de Exploración" {
+        usecase "Explorar galería\nde metáforas" as UC1
+        usecase "Filtrar por tipo\nde metáfora" as UC2
+        usecase "Ver detalle de\nuna metáfora" as UC3
+        usecase "Interactuar con\ndemo visual" as UC4
+    }
+
+    package "Módulo de Comparación" {
+        usecase "Comparar estilos\nvisuales" as UC5
+        usecase "Interactuar con\ncomponente de cada estilo" as UC6
+        usecase "Consultar tabla\ncomparativa" as UC7
+    }
+
+    package "Módulo de Estudio" {
+        usecase "Realizar estudio\ncontrolado" as UC8
+        usecase "Completar tarea\nde interacción" as UC9
+        usecase "Registrar métricas\nde interacción" as UC10
+        usecase "Exportar resultados\ncomo CSV" as UC11
+    }
+
+    package "Módulo de Análisis" {
+        usecase "Cargar CSV en\nGoogle Colab" as UC12
+        usecase "Calcular estadísticas\ndescriptivas" as UC13
+        usecase "Generar gráficos\ncomparativos" as UC14
+        usecase "Interpretar\nresultados" as UC15
+    }
+}
+
+' Relaciones del Participante
+EST --> UC1
+EST --> UC5
+EST --> UC8
+
+' Relaciones del Docente
+DOC --> UC12
+DOC --> UC15
+DOC --> UC1
+
+' Relaciones include (obligatorias)
+UC1 ..> UC2 : <<include>>
+UC1 ..> UC3 : <<include>>
+UC8 ..> UC9 : <<include>>
+UC8 ..> UC10 : <<include>>
+UC12 ..> UC13 : <<include>>
+
+' Relaciones extend (opcionales)
+UC3 ..> UC4 : <<extend>>
+UC5 ..> UC6 : <<extend>>
+UC5 ..> UC7 : <<extend>>
+UC8 ..> UC11 : <<extend>>
+UC13 ..> UC14 : <<extend>>
+UC13 ..> UC15 : <<extend>>
+
+note right of UC10
+  Registra con performance.now():
+  - Tiempo en tarea (ms)
+  - Número de clics
+  - Éxito de la tarea (0/1)
+end note
+
+note bottom of UC11
+  Genera archivo CSV compatible
+  con pandas.read_csv()
+end note
+
+note left of DOC
+  Analiza los datos
+  recopilados por
+  los participantes
+  en Google Colab
+end note
+
+@enduml

@@ -1,0 +1,111 @@
+@startuml
+' =============================================
+' PROTOCOLO DE DIAGRAMA DE COMPONENTES - BATD
+' =============================================
+skinparam style strictuml
+skinparam RoundCorner 15
+skinparam Padding 10
+skinparam defaultFontName "Arial"
+skinparam backgroundColor white
+skinparam Shadowing true
+skinparam dpi 300
+skinparam ArrowThickness 1.5
+skinparam defaultFontStyle bold
+skinparam noteFontStyle bold
+skinparam ArrowColor darkgreen
+skinparam ArrowFontStyle bold
+
+skinparam component {
+    BackgroundColor #85C1E9
+    BorderColor black
+    FontColor black
+    FontStyle bold
+    FontSize 14
+    BorderThickness 2
+}
+skinparam interface {
+    BackgroundColor #AED6F1
+    BorderColor black
+    FontColor black
+    FontStyle bold
+    FontSize 12
+}
+skinparam package {
+    BackgroundColor #F7DC6F
+    BorderColor #5D6D7E
+    FontColor black
+    FontStyle bold
+    FontSize 14
+    BorderThickness 2
+}
+skinparam database {
+    BackgroundColor #82E0AA
+    BorderColor black
+    FontColor black
+    FontStyle bold
+    FontSize 14
+}
+skinparam noteBackgroundColor #FFFFCC
+skinparam noteBorderColor black
+skinparam noteFontColor #000000
+
+title Diagrama de Componentes del Sistema de Galería y Evaluación de Metáforas
+
+package "Capa de Presentación" {
+    component [Galería Interactiva\nde Metáforas\n(Ejercicio 6.1)] as GAL
+    component [Comparativa de Estilos\nVisuales\n(Ejercicio 6.2)] as COMP
+    component [Estudio de Medición\nde Interacción\n(Ejercicio 6.3)] as MED
+    component [Panel de Métricas\nen Tiempo Real] as PANEL
+}
+
+package "Capa de Lógica de Interacción" {
+    component [Motor de Filtrado\npor Categoría] as FILT
+    component [Gestor de Modal\nde Detalle] as MODAL
+    component [Motor del Estudio\nControlado] as MOTOR
+    component [Registrador de\nEventos de Interacción] as REG
+    interface "API de Eventos\n(addEventListener)" as API_EV
+}
+
+package "Capa de Datos y Exportación" {
+    component [Base de Datos\nde Metáforas\n(arreglo JSON)] as BD_MET
+    component [Almacén de\nMétricas\n(arreglo en memoria)] as ALM
+    component [Exportador CSV\n(Blob + URL)] as CSV
+    database "Archivo CSV\nResultados" as ARCHIVO
+}
+
+package "Capa de Análisis (Python)" {
+    component [Notebook Colab\n(Ejercicio 6.3b)] as COLAB
+    component [Módulo de\nEstadísticas\n(pandas)] as STATS
+    component [Módulo de\nVisualización\n(matplotlib)] as VIS
+}
+
+' Relaciones entre componentes
+GAL --> FILT : filtra tarjetas
+GAL --> MODAL : abre detalle
+GAL --> BD_MET : consulta metáforas
+COMP --> REG : registra interacciones
+MED --> MOTOR : controla tareas
+MOTOR --> REG : registra eventos
+REG ..> API_EV : captura con\nperformance.now()
+REG --> ALM : acumula datos
+ALM --> PANEL : actualiza en tiempo real
+ALM --> CSV : genera exportación
+CSV --> ARCHIVO : descarga
+ARCHIVO --> COLAB : carga con\npandas.read_csv()
+COLAB --> STATS : calcula métricas
+COLAB --> VIS : genera gráficos
+
+note right of REG
+  Registra tres métricas:
+  - Tiempo en tarea (ms)
+  - Número de clics
+  - Tasa de éxito (0/1)
+end note
+
+note bottom of BD_MET
+  12 metáforas clasificadas
+  en 6 tipos según Lakoff
+  y Johnson (1980)
+end note
+
+@enduml

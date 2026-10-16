@@ -1,0 +1,1257 @@
+<!-- ========================================================= -->
+<!-- Ejercicio 6.1 -- Galería Interactiva de Metáforas de Interfaz -->
+<!-- Curso: IHC — Interacción Hombre-Computador (UNMSM, 2026-2) -->
+<!-- Entorno de ejecución: archivo .html autocontenido             -->
+<!-- ========================================================= -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ejercicio 6.1 — Galería Interactiva de Metáforas de Interfaz</title>
+  <!-- Tipografía moderna desde Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <!-- Iconos Lucide desde CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* ============================================= */
+    /* Paleta cromática del ejercicio                */
+    /* ============================================= */
+    :root {
+      --color-fondo: #0F172A;
+      --color-superficie: #1E293B;
+      --color-superficie-2: #334155;
+      --color-primario: #3B82F6;
+      --color-primario-hover: #2563EB;
+      --color-acento: #F59E0B;
+      --color-acento-2: #10B981;
+      --color-acento-3: #8B5CF6;
+      --color-acento-4: #EC4899;
+      --color-acento-5: #06B6D4;
+      --color-texto: #F1F5F9;
+      --color-texto-sec: #94A3B8;
+      --color-borde: #475569;
+      --radio: 16px;
+      --radio-sm: 8px;
+      --sombra: 0 4px 6px -1px rgba(0,0,0,0.3), 0 2px 4px -2px rgba(0,0,0,0.2);
+      --sombra-lg: 0 10px 25px -5px rgba(0,0,0,0.4);
+      --transicion: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--color-fondo);
+      color: var(--color-texto);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* ============================================= */
+    /* Encabezado principal                          */
+    /* ============================================= */
+    .encabezado {
+      background: linear-gradient(135deg, #1E293B 0%, #0F172A 50%, #1a1a2e 100%);
+      border-bottom: 1px solid var(--color-borde);
+      padding: 2rem 1.5rem;
+      text-align: center;
+    }
+
+    .encabezado h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--color-primario), var(--color-acento-3));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.5rem;
+    }
+
+    .encabezado p {
+      color: var(--color-texto-sec);
+      font-size: 0.95rem;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .badge-curso {
+      display: inline-block;
+      background: var(--color-superficie-2);
+      color: var(--color-acento);
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      border: 1px solid var(--color-acento);
+    }
+
+    /* ============================================= */
+    /* Navegación por pestañas de categoría           */
+    /* ============================================= */
+    .nav-categorias {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: center;
+      padding: 1.25rem 1.5rem;
+      background: var(--color-superficie);
+      border-bottom: 1px solid var(--color-borde);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .btn-categoria {
+      background: transparent;
+      color: var(--color-texto-sec);
+      border: 1px solid var(--color-borde);
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transicion);
+    }
+
+    .btn-categoria:hover {
+      border-color: var(--color-primario);
+      color: var(--color-primario);
+      background: rgba(59, 130, 246, 0.1);
+    }
+
+    .btn-categoria.activo {
+      background: var(--color-primario);
+      color: white;
+      border-color: var(--color-primario);
+    }
+
+    /* ============================================= */
+    /* Contenedor principal y grid de tarjetas       */
+    /* ============================================= */
+    .contenedor {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+
+    .grid-metaforas {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 1.5rem;
+    }
+
+    /* ============================================= */
+    /* Tarjeta de metáfora                           */
+    /* ============================================= */
+    .tarjeta-metafora {
+      background: var(--color-superficie);
+      border-radius: var(--radio);
+      border: 1px solid var(--color-borde);
+      overflow: hidden;
+      transition: all var(--transicion);
+      cursor: pointer;
+    }
+
+    .tarjeta-metafora:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--sombra-lg);
+      border-color: var(--color-primario);
+    }
+
+    .tarjeta-header {
+      padding: 1.25rem 1.25rem 0.75rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+
+    .tarjeta-icono {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .tarjeta-icono svg {
+      width: 24px;
+      height: 24px;
+      color: white;
+    }
+
+    .tarjeta-titulo {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 0.15rem;
+    }
+
+    .tarjeta-tipo {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      display: inline-block;
+    }
+
+    .tarjeta-cuerpo {
+      padding: 0 1.25rem 1rem;
+    }
+
+    .tarjeta-descripcion {
+      font-size: 0.85rem;
+      color: var(--color-texto-sec);
+      line-height: 1.5;
+      margin-bottom: 0.75rem;
+    }
+
+    /* Zona de demostración visual dentro de la tarjeta */
+    .tarjeta-demo {
+      background: var(--color-fondo);
+      border-radius: var(--radio-sm);
+      padding: 1rem;
+      margin-bottom: 0.75rem;
+      border: 1px solid rgba(71, 85, 105, 0.5);
+      min-height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Etiquetas de dominio fuente/destino */
+    .dominios {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .dominio-tag {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+
+    .dominio-fuente {
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--color-acento);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+
+    .dominio-destino {
+      background: rgba(59, 130, 246, 0.15);
+      color: var(--color-primario);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+    }
+
+    /* ============================================= */
+    /* Colores por tipo de metáfora                  */
+    /* ============================================= */
+    .tipo-estructural { background: rgba(59, 130, 246, 0.2); color: #60A5FA; }
+    .tipo-orientacional { background: rgba(16, 185, 129, 0.2); color: #34D399; }
+    .tipo-ontologica { background: rgba(139, 92, 246, 0.2); color: #A78BFA; }
+    .tipo-contenedor { background: rgba(245, 158, 11, 0.2); color: #FBBF24; }
+    .tipo-viaje { background: rgba(236, 72, 153, 0.2); color: #F472B6; }
+    .tipo-conversacional { background: rgba(6, 182, 212, 0.2); color: #22D3EE; }
+
+    .icono-estructural { background: linear-gradient(135deg, #3B82F6, #1D4ED8); }
+    .icono-orientacional { background: linear-gradient(135deg, #10B981, #059669); }
+    .icono-ontologica { background: linear-gradient(135deg, #8B5CF6, #6D28D9); }
+    .icono-contenedor { background: linear-gradient(135deg, #F59E0B, #D97706); }
+    .icono-viaje { background: linear-gradient(135deg, #EC4899, #BE185D); }
+    .icono-conversacional { background: linear-gradient(135deg, #06B6D4, #0891B2); }
+
+    /* ============================================= */
+    /* Panel de detalle (modal)                      */
+    /* ============================================= */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 200;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+    }
+
+    .modal-overlay.visible {
+      display: flex;
+    }
+
+    .modal-contenido {
+      background: var(--color-superficie);
+      border-radius: var(--radio);
+      border: 1px solid var(--color-borde);
+      max-width: 700px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 2rem;
+      box-shadow: var(--sombra-lg);
+      position: relative;
+    }
+
+    .modal-cerrar {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: var(--color-superficie-2);
+      border: 1px solid var(--color-borde);
+      color: var(--color-texto);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      transition: all var(--transicion);
+    }
+
+    .modal-cerrar:hover {
+      background: var(--color-primario);
+      border-color: var(--color-primario);
+    }
+
+    .modal-contenido h2 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      padding-right: 2.5rem;
+    }
+
+    .modal-contenido h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--color-acento);
+      margin: 1.25rem 0 0.5rem;
+    }
+
+    .modal-contenido p {
+      font-size: 0.9rem;
+      color: var(--color-texto-sec);
+      line-height: 1.6;
+      margin-bottom: 0.75rem;
+    }
+
+    .modal-contenido ul {
+      padding-left: 1.25rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .modal-contenido li {
+      font-size: 0.85rem;
+      color: var(--color-texto-sec);
+      margin-bottom: 0.35rem;
+      line-height: 1.5;
+    }
+
+    .ejemplo-visual {
+      background: var(--color-fondo);
+      border: 1px solid var(--color-borde);
+      border-radius: var(--radio-sm);
+      padding: 1.5rem;
+      margin: 1rem 0;
+      text-align: center;
+    }
+
+    /* ============================================= */
+    /* Demos interactivas dentro de tarjetas         */
+    /* ============================================= */
+
+    /* Demo: Escritorio */
+    .demo-escritorio {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
+      width: 100%;
+    }
+
+    .demo-icono-escritorio {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.5rem;
+      border-radius: 6px;
+      transition: background var(--transicion);
+      cursor: pointer;
+    }
+
+    .demo-icono-escritorio:hover {
+      background: rgba(59, 130, 246, 0.15);
+    }
+
+    .demo-icono-escritorio span {
+      font-size: 0.65rem;
+      color: var(--color-texto-sec);
+    }
+
+    /* Demo: Barra de progreso */
+    .demo-progreso {
+      width: 100%;
+    }
+
+    .barra-progreso-fondo {
+      width: 100%;
+      height: 12px;
+      background: var(--color-superficie-2);
+      border-radius: 6px;
+      overflow: hidden;
+      margin-bottom: 0.5rem;
+    }
+
+    .barra-progreso-relleno {
+      height: 100%;
+      background: linear-gradient(90deg, var(--color-acento-2), var(--color-primario));
+      border-radius: 6px;
+      transition: width 1s ease;
+    }
+
+    .progreso-texto {
+      font-size: 0.75rem;
+      color: var(--color-texto-sec);
+      text-align: center;
+    }
+
+    /* Demo: Arrastrar y soltar */
+    .demo-drag {
+      display: flex;
+      gap: 0.75rem;
+      width: 100%;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .drag-item {
+      width: 50px;
+      height: 50px;
+      background: var(--color-superficie);
+      border: 2px dashed var(--color-primario);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      cursor: grab;
+      transition: all var(--transicion);
+    }
+
+    .drag-item:hover {
+      transform: scale(1.1);
+      border-style: solid;
+      background: rgba(59, 130, 246, 0.15);
+    }
+
+    .drag-flecha {
+      color: var(--color-texto-sec);
+      font-size: 1.5rem;
+    }
+
+    .drag-zona {
+      width: 60px;
+      height: 60px;
+      border: 2px dashed var(--color-borde);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.6rem;
+      color: var(--color-texto-sec);
+    }
+
+    /* Demo: Carrito */
+    .demo-carrito {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .carrito-badge {
+      position: relative;
+    }
+
+    .carrito-badge .badge-num {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: var(--color-acento-4);
+      color: white;
+      font-size: 0.6rem;
+      font-weight: 700;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-agregar {
+      background: linear-gradient(135deg, var(--color-acento-2), #059669);
+      color: white;
+      border: none;
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: all var(--transicion);
+    }
+
+    .btn-agregar:hover { opacity: 0.85; transform: scale(1.05); }
+
+    /* Demo: Breadcrumbs */
+    .demo-breadcrumbs {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .breadcrumb-item {
+      color: var(--color-primario);
+      cursor: pointer;
+      transition: color var(--transicion);
+    }
+
+    .breadcrumb-item:hover { color: var(--color-acento); }
+
+    .breadcrumb-separador { color: var(--color-texto-sec); }
+
+    .breadcrumb-actual {
+      color: var(--color-texto);
+      font-weight: 600;
+    }
+
+    /* Demo: Chat */
+    .demo-chat {
+      width: 100%;
+    }
+
+    .chat-burbuja {
+      padding: 0.5rem 0.75rem;
+      border-radius: 12px;
+      font-size: 0.7rem;
+      margin-bottom: 0.4rem;
+      max-width: 85%;
+      line-height: 1.4;
+    }
+
+    .chat-bot {
+      background: var(--color-superficie-2);
+      color: var(--color-texto);
+      border-bottom-left-radius: 4px;
+    }
+
+    .chat-usuario {
+      background: var(--color-primario);
+      color: white;
+      margin-left: auto;
+      border-bottom-right-radius: 4px;
+      text-align: right;
+    }
+
+    /* ============================================= */
+    /* Contador de interacción (registro de eventos) */
+    /* ============================================= */
+    .panel-metricas {
+      background: var(--color-superficie);
+      border: 1px solid var(--color-borde);
+      border-radius: var(--radio);
+      padding: 1.25rem;
+      margin-top: 2rem;
+    }
+
+    .panel-metricas h3 {
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .metricas-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 0.75rem;
+    }
+
+    .metrica-item {
+      background: var(--color-fondo);
+      border-radius: var(--radio-sm);
+      padding: 0.75rem;
+      text-align: center;
+      border: 1px solid rgba(71, 85, 105, 0.5);
+    }
+
+    .metrica-valor {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--color-primario);
+    }
+
+    .metrica-etiqueta {
+      font-size: 0.7rem;
+      color: var(--color-texto-sec);
+      margin-top: 0.15rem;
+    }
+
+    /* ============================================= */
+    /* Pie de página                                 */
+    /* ============================================= */
+    .pie-pagina {
+      text-align: center;
+      padding: 2rem 1.5rem;
+      border-top: 1px solid var(--color-borde);
+      color: var(--color-texto-sec);
+      font-size: 0.75rem;
+    }
+
+    /* ============================================= */
+    /* Responsive                                    */
+    /* ============================================= */
+    @media (max-width: 768px) {
+      .grid-metaforas {
+        grid-template-columns: 1fr;
+      }
+      .encabezado h1 { font-size: 1.5rem; }
+      .nav-categorias { gap: 0.35rem; }
+      .btn-categoria { font-size: 0.7rem; padding: 0.4rem 0.75rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================= -->
+  <!-- Encabezado con título y descripción           -->
+  <!-- ============================================= -->
+  <header class="encabezado">
+    <span class="badge-curso">IHC — UNMSM 2026-2 · Semana 06</span>
+    <h1>Galería Interactiva de Metáforas de Interfaz</h1>
+    <p>Explora los seis tipos de metáforas según la taxonomía de <strong>Lakoff y Johnson</strong> (1980), adaptada al diseño de interfaces. Haz clic en cada tarjeta para ver el detalle completo.</p>
+  </header>
+
+  <!-- ============================================= -->
+  <!-- Navegación por categorías (filtro)            -->
+  <!-- ============================================= -->
+  <nav class="nav-categorias" role="navigation" aria-label="Filtro por tipo de metáfora">
+    <button class="btn-categoria activo" data-filtro="todas">Todas</button>
+    <button class="btn-categoria" data-filtro="estructural">Estructural</button>
+    <button class="btn-categoria" data-filtro="orientacional">Orientacional</button>
+    <button class="btn-categoria" data-filtro="ontologica">Ontológica</button>
+    <button class="btn-categoria" data-filtro="contenedor">De contenedor</button>
+    <button class="btn-categoria" data-filtro="viaje">De viaje</button>
+    <button class="btn-categoria" data-filtro="conversacional">Conversacional</button>
+  </nav>
+
+  <!-- ============================================= -->
+  <!-- Grid principal de tarjetas de metáforas       -->
+  <!-- ============================================= -->
+  <main class="contenedor">
+    <div class="grid-metaforas" id="gridMetaforas">
+      <!-- Las tarjetas se generan dinámicamente con JavaScript -->
+    </div>
+
+    <!-- ============================================= -->
+    <!-- Panel de métricas de interacción              -->
+    <!-- ============================================= -->
+    <div class="panel-metricas">
+      <h3>
+        <i data-lucide="bar-chart-3"></i>
+        Registro de Interacción del Usuario
+      </h3>
+      <div class="metricas-grid">
+        <div class="metrica-item">
+          <div class="metrica-valor" id="metClics">0</div>
+          <div class="metrica-etiqueta">Clics totales</div>
+        </div>
+        <div class="metrica-item">
+          <div class="metrica-valor" id="metTarjetas">0</div>
+          <div class="metrica-etiqueta">Tarjetas exploradas</div>
+        </div>
+        <div class="metrica-item">
+          <div class="metrica-valor" id="metFiltros">0</div>
+          <div class="metrica-etiqueta">Filtros aplicados</div>
+        </div>
+        <div class="metrica-item">
+          <div class="metrica-valor" id="metTiempo">0s</div>
+          <div class="metrica-etiqueta">Tiempo en página</div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ============================================= -->
+  <!-- Modal de detalle                              -->
+  <!-- ============================================= -->
+  <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true">
+    <div class="modal-contenido" id="modalContenido">
+      <button class="modal-cerrar" id="modalCerrar" aria-label="Cerrar detalle">&times;</button>
+      <div id="modalCuerpo"></div>
+    </div>
+  </div>
+
+  <!-- ============================================= -->
+  <!-- Pie de página                                 -->
+  <!-- ============================================= -->
+  <footer class="pie-pagina">
+    Prof. E. D. Cancho-Rodríguez, MBA (GWU) — IHC · UNMSM · Semana 06<br>
+    Código generado con asistencia de IA y verificado por el autor
+  </footer>
+
+  <script>
+    // =========================================================
+    // Base de datos de metáforas de interfaz
+    // Cada entrada contiene: tipo, nombre, descripción, dominio
+    // fuente, dominio destino, ejemplos, y contenido del modal
+    // =========================================================
+
+    const metaforas = [
+      {
+        id: "escritorio",
+        tipo: "estructural",
+        nombre: "Metáfora del Escritorio",
+        descripcion: "El sistema operativo se organiza como un escritorio físico con carpetas, archivos y una papelera de reciclaje.",
+        fuenteTexto: "Escritorio físico",
+        destinoTexto: "Sistema operativo",
+        icono: "monitor",
+        detalle: {
+          origen: "Desarrollada por Xerox PARC en los años 70, popularizada por Apple Macintosh (1984) y luego por Microsoft Windows.",
+          mapeo: [
+            "Escritorio físico → fondo de pantalla con iconos",
+            "Carpeta manila → directorio de archivos",
+            "Papelera → eliminación recuperable",
+            "Ventana → vista parcial de un documento",
+            "Portapapeles → área de transferencia temporal"
+          ],
+          fortalezas: "Muy intuitiva para usuarios novatos. Reduce la curva de aprendizaje al aprovechar conocimiento previo del mundo físico.",
+          debilidades: "Limita las posibilidades del medio digital (ej.: un archivo solo puede estar en una carpeta, a diferencia de las etiquetas). La metáfora se 'rompe' con conceptos sin equivalente físico (ej.: hipervínculos, búsqueda global).",
+          referencia: "Smith, D., Irby, C., Kimball, R., Verplank, B., & Harslem, E. (1982). Designing the Star user interface."
+        }
+      },
+      {
+        id: "carrito",
+        tipo: "contenedor",
+        nombre: "Metáfora del Carrito de Compras",
+        descripcion: "Los productos seleccionados se acumulan en un 'carrito' virtual antes de proceder al 'pago', como en un supermercado.",
+        fuenteTexto: "Supermercado",
+        destinoTexto: "Comercio electrónico",
+        icono: "shopping-cart",
+        detalle: {
+          origen: "Introducida por las primeras tiendas de comercio electrónico en los años 90. El icono del carrito es hoy un estándar universal.",
+          mapeo: [
+            "Carrito de supermercado → lista temporal de productos",
+            "Agregar al carrito → seleccionar un producto",
+            "Pasar por caja → proceso de pago (checkout)",
+            "Recibo → confirmación de pedido",
+            "Devolver producto → cancelar o solicitar reembolso"
+          ],
+          fortalezas: "Universalmente reconocida. Permite exploración sin compromiso (se puede agregar y quitar libremente).",
+          debilidades: "No tiene equivalente para la 'lista de deseos' (wish list). La metáfora no cubre bien las suscripciones ni los productos digitales de descarga instantánea.",
+          referencia: "Nielsen, J. (2000). Designing Web Usability. New Riders."
+        }
+      },
+      {
+        id: "progreso",
+        tipo: "orientacional",
+        nombre: "Metáfora de Progreso Ascendente",
+        descripcion: "La dirección 'hacia arriba' o 'hacia la derecha' indica avance, progreso o incremento; 'abajo' o 'izquierda' indica retroceso.",
+        fuenteTexto: "Orientación espacial",
+        destinoTexto: "Barras, indicadores",
+        icono: "trending-up",
+        detalle: {
+          origen: "Lakoff y Johnson (1980) identificaron que 'arriba es más' y 'abajo es menos' son metáforas profundamente arraigadas en la cognición humana.",
+          mapeo: [
+            "Subir → más, mejor, progreso",
+            "Bajar → menos, peor, retroceso",
+            "Barra que se llena de izquierda a derecha → tarea que avanza",
+            "Nivel superior → categoría más general",
+            "Profundidad → detalle más específico"
+          ],
+          fortalezas: "Intuitiva y transcultural en muchos contextos. Aprovecha esquemas cognitivos innatos del ser humano.",
+          debilidades: "Varía entre culturas: en idiomas con escritura de derecha a izquierda, la dirección de progreso puede invertirse. El 'scroll' hacia abajo para ver más contenido contradice la metáfora 'abajo = menos'.",
+          referencia: "Lakoff, G. & Johnson, M. (1980). Metaphors We Live By. University of Chicago Press."
+        }
+      },
+      {
+        id: "arrastrar",
+        tipo: "ontologica",
+        nombre: "Metáfora de Arrastrar y Soltar",
+        descripcion: "Los elementos digitales se tratan como objetos físicos que se pueden 'agarrar', 'mover' y 'soltar' en una ubicación destino.",
+        fuenteTexto: "Manipulación física",
+        destinoTexto: "Organización de elementos",
+        icono: "move",
+        detalle: {
+          origen: "Derivada del paradigma de manipulación directa (Shneiderman, 1983). Trata procesos abstractos como si fueran acciones sobre objetos tangibles.",
+          mapeo: [
+            "Agarrar un objeto → hacer clic y mantener presionado",
+            "Mover el objeto → arrastrar con el cursor",
+            "Soltar en destino → liberar el botón del ratón",
+            "Peso del objeto → retroalimentación visual de arrastre",
+            "Lugar de destino → zona resaltada que acepta el elemento"
+          ],
+          fortalezas: "Altamente intuitiva. Reduce la necesidad de menús y comandos. El usuario siente control directo sobre los elementos.",
+          debilidades: "Requiere precisión motriz (problema en dispositivos táctiles pequeños y para usuarios con discapacidades motrices). No es descubrible: el usuario debe saber que puede arrastrar.",
+          referencia: "Shneiderman, B. (1983). Direct manipulation: A step beyond programming languages. IEEE Computer, 16(8), 57–69."
+        }
+      },
+      {
+        id: "breadcrumbs",
+        tipo: "viaje",
+        nombre: "Metáfora de Migas de Pan",
+        descripcion: "La navegación muestra el camino recorrido como 'migas de pan' que permiten al usuario regresar a cualquier punto previo del recorrido.",
+        fuenteTexto: "Cuento de Hansel y Gretel",
+        destinoTexto: "Navegación jerárquica",
+        icono: "navigation",
+        detalle: {
+          origen: "Inspirada en el cuento de los Hermanos Grimm. Las 'migas de pan' (breadcrumbs) trazan el camino de vuelta a través de la jerarquía del sitio.",
+          mapeo: [
+            "Migas de pan en el bosque → eslabones de navegación",
+            "Camino de regreso → jerarquía de páginas padre",
+            "Bosque desconocido → sitio web grande y profundo",
+            "Casa (inicio) → página principal del sitio",
+            "Cada miga → nivel de la jerarquía de información"
+          ],
+          fortalezas: "Ocupa poco espacio. Da al usuario visibilidad de su ubicación dentro del sistema (heurística n.° 1 de Nielsen). Facilita la navegación vertical.",
+          debilidades: "Solo funciona en estructuras jerárquicas. No es útil en sitios con navegación plana o en aplicaciones de una sola página (SPA) sin jerarquía clara.",
+          referencia: "Lida, B., Hull, S., & Pilcher, K. (2003). Breadcrumb navigation: An exploratory study of usage. Usability News, 5(1)."
+        }
+      },
+      {
+        id: "chatbot",
+        tipo: "conversacional",
+        nombre: "Metáfora Conversacional",
+        descripcion: "La interacción con el sistema se modela como un diálogo humano: preguntas, respuestas, turnos y contexto compartido.",
+        fuenteTexto: "Conversación humana",
+        destinoTexto: "Chatbots, asistentes",
+        icono: "message-circle",
+        detalle: {
+          origen: "Desde ELIZA (1966) hasta los asistentes modernos (Siri, Alexa, ChatGPT). La interfaz imita los patrones de la conversación verbal.",
+          mapeo: [
+            "Saludo → mensaje de bienvenida del bot",
+            "Pregunta → consulta del usuario",
+            "Respuesta → output del sistema",
+            "Turno de habla → alternancia usuario-sistema",
+            "Contexto compartido → historial de la conversación",
+            "Malentendido → error de interpretación del NLP"
+          ],
+          fortalezas: "Accesible para usuarios sin experiencia digital. Permite expresar intenciones complejas en lenguaje natural. Reduce la necesidad de aprender una interfaz gráfica.",
+          debilidades: "El usuario puede sobreestimar la 'inteligencia' del sistema (metáfora rota). Genera frustración cuando el bot no entiende el contexto. Difícil de escalar a tareas complejas con múltiples pasos.",
+          referencia: "Desai, S., Dubiel, M., & Leiva, L. A. (2024). Examining humanness as a metaphor to design voice user interfaces."
+        }
+      },
+      {
+        id: "ventana",
+        tipo: "estructural",
+        nombre: "Metáfora de Ventanas",
+        descripcion: "Cada aplicación o documento se muestra en una 'ventana' que puede abrirse, cerrarse, moverse, redimensionarse y superponerse.",
+        fuenteTexto: "Ventana de edificio",
+        destinoTexto: "Área de aplicación",
+        icono: "app-window",
+        detalle: {
+          origen: "Desarrollada en Xerox PARC como parte del entorno Smalltalk (años 70). Cada ventana ofrece una vista parcial hacia el contenido, como una ventana física ofrece una vista parcial del exterior.",
+          mapeo: [
+            "Ventana de edificio → marco de la aplicación",
+            "Abrir/cerrar ventana → iniciar/terminar aplicación",
+            "Mover la ventana → reubicar con arrastre de barra de título",
+            "Redimensionar → cambiar el área visible",
+            "Ventana al frente → aplicación activa (foco)"
+          ],
+          fortalezas: "Permite trabajo multitarea visible. El usuario puede comparar documentos lado a lado. Modelo mental sólido y ampliamente aceptado.",
+          debilidades: "La superposición de ventanas puede generar 'pérdida' de ventanas ocultas. No escala bien a pantallas pequeñas (móviles usan otra metáfora: pantalla completa con pila de navegación).",
+          referencia: "Myers, B. A. (1988). A taxonomy of window manager user interfaces. IEEE Computer Graphics and Applications."
+        }
+      },
+      {
+        id: "dashboard",
+        tipo: "estructural",
+        nombre: "Metáfora del Panel de Control",
+        descripcion: "La interfaz presenta indicadores, gráficos y controles organizados como el tablero de instrumentos de un vehículo o sala de control.",
+        fuenteTexto: "Tablero de vehículo",
+        destinoTexto: "Panel de monitoreo",
+        icono: "gauge",
+        detalle: {
+          origen: "De los tableros de instrumentos de aviones y automóviles. Un 'dashboard' digital agrupa los indicadores clave de rendimiento (KPI) en una sola vista.",
+          mapeo: [
+            "Velocímetro → indicador numérico en tiempo real",
+            "Nivel de combustible → gráfico de barra de capacidad",
+            "Luz de advertencia → alerta o notificación",
+            "Volante → controles de acción",
+            "Retrovisor → datos históricos"
+          ],
+          fortalezas: "Permite visión de conjunto (situational awareness). El usuario identifica anomalías rápidamente. Ideal para roles de supervisión y toma de decisiones.",
+          debilidades: "Puede generar sobrecarga de información si incluye demasiados indicadores. Los usuarios novatos pueden no saber qué indicadores son importantes.",
+          referencia: "Few, S. (2006). Information Dashboard Design: The Effective Visual Communication of Data. Analytics Press."
+        }
+      },
+      {
+        id: "zoom",
+        tipo: "orientacional",
+        nombre: "Metáfora del Zoom Espacial",
+        descripcion: "Acercarse ('zoom in') revela detalle; alejarse ('zoom out') muestra contexto. El usuario navega entre niveles de abstracción.",
+        fuenteTexto: "Lente de aumento",
+        destinoTexto: "Navegación por niveles",
+        icono: "zoom-in",
+        detalle: {
+          origen: "Inspirada en la experiencia de usar una lupa o un microscopio. Bederson y Hollan (1994) formalizaron la 'interfaz zoomable' (ZUI) como paradigma de navegación.",
+          mapeo: [
+            "Acercarse con lupa → zoom in (más detalle)",
+            "Alejarse → zoom out (más contexto)",
+            "Enfocar → centrar la vista en un área",
+            "Campo de visión → viewport actual",
+            "Resolución → nivel de detalle visible"
+          ],
+          fortalezas: "Aprovecha la intuición espacial humana. Útil para mapas, imágenes médicas, planos arquitectónicos. El gesto de pellizcar (pinch) en móviles es universalmente comprendido.",
+          debilidades: "El usuario puede 'perderse' en niveles profundos de zoom. Sin indicadores de nivel, no sabe cuánto puede acercarse o alejarse. Costoso computacionalmente para renderizar en tiempo real.",
+          referencia: "Bederson, B. B. & Hollan, J. D. (1994). Pad++: A zooming graphical interface for exploring alternate interface physics."
+        }
+      },
+      {
+        id: "wizard",
+        tipo: "viaje",
+        nombre: "Metáfora del Asistente Paso a Paso",
+        descripcion: "Un proceso complejo se divide en pasos secuenciales que el usuario recorre como si siguiera un camino guiado, con indicación clara de posición y avance.",
+        fuenteTexto: "Guía turístico",
+        destinoTexto: "Formulario multipaso",
+        icono: "footprints",
+        detalle: {
+          origen: "Popularizada por los 'wizards' de instalación de software en los años 90 (Windows). El sistema actúa como un guía que lleva al usuario paso a paso.",
+          mapeo: [
+            "Guía que acompaña → indicador de pasos",
+            "Siguiente parada → botón 'Siguiente'",
+            "Parada anterior → botón 'Anterior'",
+            "Mapa del recorrido → barra de progreso con etapas",
+            "Llegada al destino → confirmación de completado"
+          ],
+          fortalezas: "Reduce la carga cognitiva al dividir la tarea. El usuario sabe cuántos pasos faltan. Ideal para procesos de registro, configuración y checkout.",
+          debilidades: "Puede frustrar a usuarios expertos que quieren completar todo de una vez. Si un paso falla, regresar puede perder datos. La linealidad impide exploración libre.",
+          referencia: "Tidwell, J. (2010). Designing Interfaces: Patterns for Effective Interaction Design. O'Reilly."
+        }
+      },
+      {
+        id: "papelera",
+        tipo: "contenedor",
+        nombre: "Metáfora de la Papelera de Reciclaje",
+        descripcion: "Los archivos eliminados van a un contenedor temporal ('papelera') de donde pueden recuperarse antes de ser borrados definitivamente.",
+        fuenteTexto: "Papelera de oficina",
+        destinoTexto: "Eliminación reversible",
+        icono: "trash-2",
+        detalle: {
+          origen: "Parte integral de la metáfora del escritorio desde el Macintosh original (1984). La 'Trash' de Apple y la 'Recycle Bin' de Windows implementan el mismo concepto.",
+          mapeo: [
+            "Papelera de oficina → carpeta de eliminados",
+            "Arrojar papel → arrastrar a la papelera",
+            "Buscar en la papelera → revisar archivos eliminados",
+            "Vaciar la papelera → borrado definitivo",
+            "Papelera llena → indicador visual de elementos pendientes"
+          ],
+          fortalezas: "Implementa el principio de 'deshacer' (undo). Da confianza al usuario para eliminar sin miedo. La metáfora es universalmente comprendida.",
+          debilidades: "Ocupa espacio de almacenamiento. Los usuarios olvidan vaciarla. En algunos sistemas (ej.: correo electrónico), la papelera se vacía automáticamente, rompiendo la expectativa del usuario.",
+          referencia: "Norman, D. A. (2013). The Design of Everyday Things. Basic Books."
+        }
+      },
+      {
+        id: "nube",
+        tipo: "ontologica",
+        nombre: "Metáfora de la Nube",
+        descripcion: "Los datos y servicios residen en 'la nube': un lugar abstracto, ubicuo e intangible, accesible desde cualquier dispositivo.",
+        fuenteTexto: "Nube atmosférica",
+        destinoTexto: "Almacenamiento remoto",
+        icono: "cloud",
+        detalle: {
+          origen: "El ícono de nube se usa en diagramas de red desde los años 90 para representar infraestructura que no se necesita detallar. Se convirtió en metáfora de marketing con servicios como Dropbox (2007) y iCloud (2011).",
+          mapeo: [
+            "Nube en el cielo → servidores remotos en centros de datos",
+            "Lluvia → descarga de datos",
+            "Subir al cielo → carga (upload) de archivos",
+            "Ubicuidad de la nube → acceso desde cualquier dispositivo",
+            "Intangibilidad → el usuario no sabe dónde están sus datos físicamente"
+          ],
+          fortalezas: "Simplifica un concepto técnico complejo. El usuario no necesita entender la infraestructura subyacente. Genera confianza en la disponibilidad.",
+          debilidades: "Oculta riesgos reales (privacidad, latencia, dependencia de conexión). El usuario puede creer que los datos son 'inmateriales' cuando en realidad están en servidores físicos con jurisdicción legal.",
+          referencia: "Lakoff, G. & Johnson, M. (1980). Metaphors We Live By. University of Chicago Press."
+        }
+      }
+    ];
+
+    // =========================================================
+    // Métricas de interacción del usuario
+    // Se registran con performance.now() para medir tiempos reales
+    // =========================================================
+    const metricas = {
+      clics: 0,
+      tarjetasExploradas: new Set(),
+      filtrosAplicados: 0,
+      tiempoInicio: performance.now()
+    };
+
+    // =========================================================
+    // Función que genera el HTML de la demo visual en la tarjeta
+    // según el tipo de metáfora
+    // =========================================================
+    function generarDemo(metafora) {
+      switch (metafora.id) {
+        case "escritorio":
+          return `<div class="demo-escritorio">
+            <div class="demo-icono-escritorio"><i data-lucide="folder" style="width:20px;height:20px;color:#FBBF24"></i><span>Documentos</span></div>
+            <div class="demo-icono-escritorio"><i data-lucide="image" style="width:20px;height:20px;color:#60A5FA"></i><span>Imágenes</span></div>
+            <div class="demo-icono-escritorio"><i data-lucide="trash-2" style="width:20px;height:20px;color:#94A3B8"></i><span>Papelera</span></div>
+          </div>`;
+
+        case "progreso":
+          return `<div class="demo-progreso">
+            <div class="barra-progreso-fondo"><div class="barra-progreso-relleno" id="barraProgreso" style="width:15%"></div></div>
+            <div class="progreso-texto" id="textoProgreso">15% completado — arriba = más</div>
+          </div>`;
+
+        case "arrastrar":
+          return `<div class="demo-drag">
+            <div class="drag-item">📄</div>
+            <div class="drag-flecha">→</div>
+            <div class="drag-zona">Soltar aquí</div>
+          </div>`;
+
+        case "carrito":
+          return `<div class="demo-carrito">
+            <div class="carrito-badge">
+              <i data-lucide="shopping-cart" style="width:28px;height:28px;color:#94A3B8"></i>
+              <span class="badge-num" id="carritoNum">0</span>
+            </div>
+            <button class="btn-agregar" id="btnAgregar">+ Agregar</button>
+          </div>`;
+
+        case "breadcrumbs":
+          return `<div class="demo-breadcrumbs">
+            <span class="breadcrumb-item">Inicio</span>
+            <span class="breadcrumb-separador">/</span>
+            <span class="breadcrumb-item">Productos</span>
+            <span class="breadcrumb-separador">/</span>
+            <span class="breadcrumb-item">Electrónica</span>
+            <span class="breadcrumb-separador">/</span>
+            <span class="breadcrumb-actual">Auriculares</span>
+          </div>`;
+
+        case "chatbot":
+          return `<div class="demo-chat">
+            <div class="chat-burbuja chat-bot">¡Hola! ¿En qué puedo ayudarte hoy?</div>
+            <div class="chat-burbuja chat-usuario">Quiero devolver un producto</div>
+            <div class="chat-burbuja chat-bot">Claro, ¿tienes el número de pedido?</div>
+          </div>`;
+
+        case "zoom":
+          return `<div style="text-align:center">
+            <div style="font-size:0.65rem;color:var(--color-texto-sec);margin-bottom:0.3rem">🔍 Nivel de detalle</div>
+            <div style="display:flex;align-items:center;justify-content:center;gap:0.5rem">
+              <span style="font-size:0.6rem;color:var(--color-texto-sec)">Contexto</span>
+              <div style="flex:1;height:4px;background:linear-gradient(90deg,#3B82F6,#F59E0B);border-radius:2px;max-width:120px"></div>
+              <span style="font-size:0.6rem;color:var(--color-texto-sec)">Detalle</span>
+            </div>
+          </div>`;
+
+        case "wizard":
+          return `<div style="display:flex;align-items:center;gap:0.4rem;justify-content:center">
+            <div style="width:24px;height:24px;border-radius:50%;background:var(--color-acento-2);display:flex;align-items:center;justify-content:center;font-size:0.6rem;font-weight:700;color:white">✓</div>
+            <div style="width:30px;height:2px;background:var(--color-acento-2)"></div>
+            <div style="width:24px;height:24px;border-radius:50%;background:var(--color-primario);display:flex;align-items:center;justify-content:center;font-size:0.6rem;font-weight:700;color:white">2</div>
+            <div style="width:30px;height:2px;background:var(--color-borde)"></div>
+            <div style="width:24px;height:24px;border-radius:50%;background:var(--color-superficie-2);display:flex;align-items:center;justify-content:center;font-size:0.6rem;color:var(--color-texto-sec)">3</div>
+            <div style="width:30px;height:2px;background:var(--color-borde)"></div>
+            <div style="width:24px;height:24px;border-radius:50%;background:var(--color-superficie-2);display:flex;align-items:center;justify-content:center;font-size:0.6rem;color:var(--color-texto-sec)">4</div>
+          </div>`;
+
+        default:
+          return `<div style="color:var(--color-texto-sec);font-size:0.75rem;text-align:center">
+            <i data-lucide="${metafora.icono}" style="width:32px;height:32px;opacity:0.5"></i>
+          </div>`;
+      }
+    }
+
+    // =========================================================
+    // Función que renderiza las tarjetas en el grid
+    // Recibe un filtro de tipo (o "todas")
+    // =========================================================
+    function renderizarTarjetas(filtro = "todas") {
+      const grid = document.getElementById("gridMetaforas");
+      const filtradas = filtro === "todas"
+        ? metaforas
+        : metaforas.filter(m => m.tipo === filtro);
+
+      grid.innerHTML = filtradas.map(m => `
+        <article class="tarjeta-metafora" data-id="${m.id}" tabindex="0" role="button"
+                 aria-label="Ver detalle de la metáfora: ${m.nombre}">
+          <div class="tarjeta-header">
+            <div class="tarjeta-icono icono-${m.tipo}">
+              <i data-lucide="${m.icono}"></i>
+            </div>
+            <div>
+              <div class="tarjeta-titulo">${m.nombre}</div>
+              <span class="tarjeta-tipo tipo-${m.tipo}">${m.tipo}</span>
+            </div>
+          </div>
+          <div class="tarjeta-cuerpo">
+            <p class="tarjeta-descripcion">${m.descripcion}</p>
+            <div class="tarjeta-demo">${generarDemo(m)}</div>
+            <div class="dominios">
+              <span class="dominio-tag dominio-fuente">Fuente: ${m.fuenteTexto}</span>
+              <span class="dominio-tag dominio-destino">Destino: ${m.destinoTexto}</span>
+            </div>
+          </div>
+        </article>
+      `).join("");
+
+      // Re-inicializar iconos de Lucide en los nuevos elementos
+      if (typeof lucide !== "undefined") lucide.createIcons();
+
+      // Agregar eventos de clic a las tarjetas
+      document.querySelectorAll(".tarjeta-metafora").forEach(tarjeta => {
+        tarjeta.addEventListener("click", () => {
+          const id = tarjeta.dataset.id;
+          metricas.clics++;
+          metricas.tarjetasExploradas.add(id);
+          actualizarMetricas();
+          abrirModal(id);
+        });
+        // Soporte de teclado (Enter y Espacio)
+        tarjeta.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            tarjeta.click();
+          }
+        });
+      });
+
+      // Evento especial: botón "Agregar" del carrito
+      const btnAgregar = document.getElementById("btnAgregar");
+      if (btnAgregar) {
+        btnAgregar.addEventListener("click", (e) => {
+          e.stopPropagation();
+          const num = document.getElementById("carritoNum");
+          num.textContent = parseInt(num.textContent) + 1;
+          metricas.clics++;
+          actualizarMetricas();
+        });
+      }
+
+      // Evento especial: animar barra de progreso
+      const barra = document.getElementById("barraProgreso");
+      if (barra) {
+        let porcentaje = 15;
+        barra.parentElement.style.cursor = "pointer";
+        barra.parentElement.addEventListener("click", (e) => {
+          e.stopPropagation();
+          porcentaje = Math.min(100, porcentaje + 15);
+          barra.style.width = porcentaje + "%";
+          document.getElementById("textoProgreso").textContent =
+            `${porcentaje}% completado — arriba = más`;
+          metricas.clics++;
+          actualizarMetricas();
+        });
+      }
+    }
+
+    // =========================================================
+    // Función que abre el modal con el detalle de una metáfora
+    // =========================================================
+    function abrirModal(id) {
+      const m = metaforas.find(x => x.id === id);
+      if (!m) return;
+
+      const cuerpo = document.getElementById("modalCuerpo");
+      cuerpo.innerHTML = `
+        <span class="tarjeta-tipo tipo-${m.tipo}" style="margin-bottom:0.5rem;display:inline-block">${m.tipo.toUpperCase()}</span>
+        <h2>${m.nombre}</h2>
+        <p>${m.descripcion}</p>
+
+        <h3>Origen histórico</h3>
+        <p>${m.detalle.origen}</p>
+
+        <h3>Mapeo conceptual (dominio fuente → dominio destino)</h3>
+        <ul>
+          ${m.detalle.mapeo.map(item => `<li>${item}</li>`).join("")}
+        </ul>
+
+        <h3>Fortalezas</h3>
+        <p>${m.detalle.fortalezas}</p>
+
+        <h3>Debilidades y rupturas de la metáfora</h3>
+        <p>${m.detalle.debilidades}</p>
+
+        <h3>Referencia</h3>
+        <p style="font-style:italic;font-size:0.8rem">${m.detalle.referencia}</p>
+      `;
+
+      document.getElementById("modalOverlay").classList.add("visible");
+      document.getElementById("modalCerrar").focus();
+    }
+
+    // =========================================================
+    // Función que cierra el modal
+    // =========================================================
+    function cerrarModal() {
+      document.getElementById("modalOverlay").classList.remove("visible");
+    }
+
+    document.getElementById("modalCerrar").addEventListener("click", cerrarModal);
+    document.getElementById("modalOverlay").addEventListener("click", (e) => {
+      if (e.target === e.currentTarget) cerrarModal();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") cerrarModal();
+    });
+
+    // =========================================================
+    // Función que actualiza el panel de métricas de interacción
+    // =========================================================
+    function actualizarMetricas() {
+      document.getElementById("metClics").textContent = metricas.clics;
+      document.getElementById("metTarjetas").textContent = metricas.tarjetasExploradas.size;
+      document.getElementById("metFiltros").textContent = metricas.filtrosAplicados;
+    }
+
+    // Actualizar el tiempo en página cada segundo
+    setInterval(() => {
+      const segundos = Math.floor((performance.now() - metricas.tiempoInicio) / 1000);
+      const minutos = Math.floor(segundos / 60);
+      const segs = segundos % 60;
+      document.getElementById("metTiempo").textContent =
+        minutos > 0 ? `${minutos}m ${segs}s` : `${segs}s`;
+    }, 1000);
+
+    // =========================================================
+    // Eventos de los botones de filtro por categoría
+    // =========================================================
+    document.querySelectorAll(".btn-categoria").forEach(btn => {
+      btn.addEventListener("click", () => {
+        // Actualizar estado visual del botón activo
+        document.querySelectorAll(".btn-categoria").forEach(b => b.classList.remove("activo"));
+        btn.classList.add("activo");
+
+        // Registrar la interacción de filtro
+        metricas.filtrosAplicados++;
+        metricas.clics++;
+        actualizarMetricas();
+
+        // Renderizar las tarjetas filtradas
+        renderizarTarjetas(btn.dataset.filtro);
+      });
+    });
+
+    // =========================================================
+    // Inicialización: renderizar todas las tarjetas al cargar
+    // =========================================================
+    renderizarTarjetas();
+  </script>
+</body>
+</html>
