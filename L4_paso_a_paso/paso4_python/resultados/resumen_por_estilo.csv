@@ -1,0 +1,4 @@
+﻿estilo,n,tiempo_medio_ms,tiempo_mediana_ms,tiempo_de_ms,tiempo_min_ms,tiempo_max_ms,clics_medio,tasa_exito,cv_pct,ic95_inf_ms,ic95_sup_ms,tasa_exito_pct
+Esqueumórfico,10,649.4,537.0,321.5,380,1432,1.0,1.0,49.5,419.4,879.4,100.0
+Plano,10,827.9,606.5,627.4,329,2323,1.0,1.0,75.8,379.1,1276.7,100.0
+Neumórfico,10,683.5,483.5,472.1,364,1905,1.0,1.0,69.1,345.8,1021.2,100.0

@@ -1,0 +1,4 @@
+﻿análisis,bloques,chi2,gl,p,W_Kendall,rango_medio
+Participante (media de 2 tareas),5,0.0,2,1.0,0.0,"{'Esqueumórfico': 2.0, 'Plano': 2.0, 'Neumórfico': 2.0}"
+Participante × tipo de tarea,10,2.6,2,0.2725,0.13,"{'Esqueumórfico': 1.7, 'Plano': 2.4, 'Neumórfico': 1.9}"
+"Participante × tarea, sin p1 (sensibilidad)",8,1.0,2,0.6065,0.062,"{'Esqueumórfico': 1.75, 'Plano': 2.25, 'Neumórfico': 2.0}"
