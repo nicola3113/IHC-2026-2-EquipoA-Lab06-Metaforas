@@ -17,7 +17,7 @@ metáfora propia para el proyecto del equipo, *Ernesto Investing AI* (L.5).
 | 1 | Paso 1 — Galería interactiva (6.1) mejorada | ✅ [análisis](L4_paso_a_paso/paso1_galeria/ANALISIS_PASO1.md) · 12/12 en Chrome, Edge y Firefox |
 | 2 | Paso 2 — Comparativa de estilos (6.2) | ✅ [análisis](L4_paso_a_paso/paso2_estilos/ANALISIS_PASO2.md) · contraste WCAG, axe-core y teclado |
 | 3 | Paso 3 — Medición (6.3), CSV → Excel | ✅ [análisis](L4_paso_a_paso/paso3_medicion/ANALISIS_PASO3.md) · 30 registros reales · [Excel](L4_paso_a_paso/paso3_medicion/resultados_6_3_EquipoA.xlsx) |
-| 4 | Paso 4 — Notebook de análisis (6.3b) | ⏳ |
+| 4 | Paso 4 — Notebook de análisis (6.3b) | ✅ [análisis](L4_paso_a_paso/paso4_python/ANALISIS_PASO4.md) · [notebook ejecutado en Colab](L4_paso_a_paso/paso4_python/Lab06_ejercicio_6_3b_analisis_EquipoA.ipynb) · Friedman p = 0,27 |
 | 5 | Paso 5 — Diagramas UML (SVG + `.puml`) | ⏳ |
 | 6 | L.5 — Metáfora propia «El portafolio como huerto» | ⏳ |
 | 7 | Informes Word en APA 7 | ⏳ |
