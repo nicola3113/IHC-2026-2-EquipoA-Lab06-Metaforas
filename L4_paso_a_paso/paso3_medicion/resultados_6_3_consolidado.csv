@@ -1,0 +1,31 @@
+﻿participante,tarea,estilo,tipo_tarea,descripcion,tiempo_ms,tiempo_s,clics,exito,fecha_lima,archivo
+p1,1,Esqueumórfico,Interruptor (toggle),Activar interruptor,1432,1.432,1,1,2026-10-16 16:32:02,resultados_metaforas_p1.csv
+p1,2,Plano,Interruptor (toggle),Activar interruptor,2323,2.323,1,1,2026-10-16 16:32:05,resultados_metaforas_p1.csv
+p1,3,Neumórfico,Interruptor (toggle),Activar interruptor,1905,1.905,1,1,2026-10-16 16:32:08,resultados_metaforas_p1.csv
+p1,4,Esqueumórfico,Botón Enviar,Presionar botón Enviar,872,0.872,1,1,2026-10-16 16:32:10,resultados_metaforas_p1.csv
+p1,5,Plano,Botón Enviar,Presionar botón Enviar,1427,1.427,1,1,2026-10-16 16:32:12,resultados_metaforas_p1.csv
+p1,6,Neumórfico,Botón Enviar,Presionar botón Enviar,666,0.666,1,1,2026-10-16 16:32:14,resultados_metaforas_p1.csv
+p2,1,Esqueumórfico,Interruptor (toggle),Activar interruptor,552,0.552,1,1,2026-10-16 16:33:33,resultados_metaforas_p2.csv
+p2,2,Plano,Interruptor (toggle),Activar interruptor,420,0.42,1,1,2026-10-16 16:33:34,resultados_metaforas_p2.csv
+p2,3,Neumórfico,Interruptor (toggle),Activar interruptor,364,0.364,1,1,2026-10-16 16:33:35,resultados_metaforas_p2.csv
+p2,4,Esqueumórfico,Botón Enviar,Presionar botón Enviar,414,0.414,1,1,2026-10-16 16:33:36,resultados_metaforas_p2.csv
+p2,5,Plano,Botón Enviar,Presionar botón Enviar,329,0.329,1,1,2026-10-16 16:33:37,resultados_metaforas_p2.csv
+p2,6,Neumórfico,Botón Enviar,Presionar botón Enviar,472,0.472,1,1,2026-10-16 16:33:38,resultados_metaforas_p2.csv
+p3,1,Esqueumórfico,Interruptor (toggle),Activar interruptor,522,0.522,1,1,2026-10-16 16:34:11,resultados_metaforas_p3.csv
+p3,2,Plano,Interruptor (toggle),Activar interruptor,531,0.531,1,1,2026-10-16 16:34:12,resultados_metaforas_p3.csv
+p3,3,Neumórfico,Interruptor (toggle),Activar interruptor,1021,1.021,1,1,2026-10-16 16:34:14,resultados_metaforas_p3.csv
+p3,4,Esqueumórfico,Botón Enviar,Presionar botón Enviar,470,0.47,1,1,2026-10-16 16:34:15,resultados_metaforas_p3.csv
+p3,5,Plano,Botón Enviar,Presionar botón Enviar,779,0.779,1,1,2026-10-16 16:34:16,resultados_metaforas_p3.csv
+p3,6,Neumórfico,Botón Enviar,Presionar botón Enviar,495,0.495,1,1,2026-10-16 16:34:17,resultados_metaforas_p3.csv
+p4,1,Esqueumórfico,Interruptor (toggle),Activar interruptor,426,0.426,1,1,2026-10-16 16:34:40,resultados_metaforas_p4.csv
+p4,2,Plano,Interruptor (toggle),Activar interruptor,682,0.682,1,1,2026-10-16 16:34:42,resultados_metaforas_p4.csv
+p4,3,Neumórfico,Interruptor (toggle),Activar interruptor,472,0.472,1,1,2026-10-16 16:34:42,resultados_metaforas_p4.csv
+p4,4,Esqueumórfico,Botón Enviar,Presionar botón Enviar,824,0.824,1,1,2026-10-16 16:34:44,resultados_metaforas_p4.csv
+p4,5,Plano,Botón Enviar,Presionar botón Enviar,1012,1.012,1,1,2026-10-16 16:34:45,resultados_metaforas_p4.csv
+p4,6,Neumórfico,Botón Enviar,Presionar botón Enviar,659,0.659,1,1,2026-10-16 16:34:47,resultados_metaforas_p4.csv
+p5,1,Esqueumórfico,Interruptor (toggle),Activar interruptor,602,0.602,1,1,2026-10-16 16:35:09,resultados_metaforas_p5.csv
+p5,2,Plano,Interruptor (toggle),Activar interruptor,388,0.388,1,1,2026-10-16 16:35:10,resultados_metaforas_p5.csv
+p5,3,Neumórfico,Interruptor (toggle),Activar interruptor,375,0.375,1,1,2026-10-16 16:35:11,resultados_metaforas_p5.csv
+p5,4,Esqueumórfico,Botón Enviar,Presionar botón Enviar,380,0.38,1,1,2026-10-16 16:35:11,resultados_metaforas_p5.csv
+p5,5,Plano,Botón Enviar,Presionar botón Enviar,388,0.388,1,1,2026-10-16 16:35:12,resultados_metaforas_p5.csv
+p5,6,Neumórfico,Botón Enviar,Presionar botón Enviar,406,0.406,1,1,2026-10-16 16:35:13,resultados_metaforas_p5.csv

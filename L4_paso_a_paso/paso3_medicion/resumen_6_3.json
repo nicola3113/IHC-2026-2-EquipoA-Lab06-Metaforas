@@ -1,0 +1,221 @@
+{
+  "n_filas": 30,
+  "participantes": [
+    "p1",
+    "p2",
+    "p3",
+    "p4",
+    "p5"
+  ],
+  "por_estilo": [
+    {
+      "estilo": "Esqueumórfico",
+      "n": 10,
+      "tiempo_media_ms": 649.4,
+      "tiempo_mediana_ms": 537.0,
+      "tiempo_de_ms": 321.5,
+      "tiempo_min_ms": 380,
+      "tiempo_max_ms": 1432,
+      "clics_media": 1.0,
+      "tasa_exito": 1.0
+    },
+    {
+      "estilo": "Plano",
+      "n": 10,
+      "tiempo_media_ms": 827.9,
+      "tiempo_mediana_ms": 606.5,
+      "tiempo_de_ms": 627.4,
+      "tiempo_min_ms": 329,
+      "tiempo_max_ms": 2323,
+      "clics_media": 1.0,
+      "tasa_exito": 1.0
+    },
+    {
+      "estilo": "Neumórfico",
+      "n": 10,
+      "tiempo_media_ms": 683.5,
+      "tiempo_mediana_ms": 483.5,
+      "tiempo_de_ms": 472.1,
+      "tiempo_min_ms": 364,
+      "tiempo_max_ms": 1905,
+      "clics_media": 1.0,
+      "tasa_exito": 1.0
+    }
+  ],
+  "por_tipo_tarea_y_estilo": [
+    {
+      "tipo_tarea": "Botón Enviar",
+      "estilo": "Esqueumórfico",
+      "n": 5,
+      "tiempo_media_ms": 592.0,
+      "tiempo_mediana_ms": 470.0,
+      "tiempo_de_ms": 236.5,
+      "tiempo_min_ms": 380,
+      "tiempo_max_ms": 872,
+      "clics_media": 1.0,
+      "tasa_exito": 1.0
+    },
+    {
+      "tipo_tarea": "Botón Enviar",
+      "estilo": "Neumórfico",
+      "n": 5,
+      "tiempo_media_ms": 539.6,
+      "tiempo_mediana_ms": 495.0,
+      "tiempo_de_ms": 116.9,
+      "tiempo_min_ms": 406,
+      "tiempo_max_ms": 666,
+      "clics_media": 1.0,
+      "tasa_exito": 1.0
+    },
+    {
+      "tipo_tarea": "Botón Enviar",
+      "estilo": "Plano",
+      "n": 5,
+      "tiempo_media_ms": 787.0,
+      "tiempo_mediana_ms": 779.0,
+      "tiempo_de_ms": 455.3,
+      "tiempo_min_ms": 329,
+      "tiempo_max_ms": 1427,
+      "clics_media": 1.0,
+      "tasa_exito": 1.0
+    },
+    {
+      "tipo_tarea": "Interruptor (toggle)",
+      "estilo": "Esqueumórfico",
+      "n": 5,
+      "tiempo_media_ms": 706.8,
+      "tiempo_mediana_ms": 552.0,
+      "tiempo_de_ms": 410.4,
+      "tiempo_min_ms": 426,
+      "tiempo_max_ms": 1432,
+      "clics_media": 1.0,
+      "tasa_exito": 1.0
+    },
+    {
+      "tipo_tarea": "Interruptor (toggle)",
+      "estilo": "Neumórfico",
+      "n": 5,
+      "tiempo_media_ms": 827.4,
+      "tiempo_mediana_ms": 472.0,
+      "tiempo_de_ms": 660.4,
+      "tiempo_min_ms": 364,
+      "tiempo_max_ms": 1905,
+      "clics_media": 1.0,
+      "tasa_exito": 1.0
+    },
+    {
+      "tipo_tarea": "Interruptor (toggle)",
+      "estilo": "Plano",
+      "n": 5,
+      "tiempo_media_ms": 868.8,
+      "tiempo_mediana_ms": 531.0,
+      "tiempo_de_ms": 821.0,
+      "tiempo_min_ms": 388,
+      "tiempo_max_ms": 2323,
+      "clics_media": 1.0,
+      "tasa_exito": 1.0
+    }
+  ],
+  "por_participante": [
+    {
+      "participante": "p1",
+      "n": 6,
+      "tiempo_media_ms": 1437.5,
+      "tiempo_mediana_ms": 1429.5,
+      "tiempo_de_ms": 619.3,
+      "tiempo_min_ms": 666,
+      "tiempo_max_ms": 2323,
+      "clics_media": 1.0,
+      "tasa_exito": 1.0
+    },
+    {
+      "participante": "p2",
+      "n": 6,
+      "tiempo_media_ms": 425.2,
+      "tiempo_mediana_ms": 417.0,
+      "tiempo_de_ms": 79.3,
+      "tiempo_min_ms": 329,
+      "tiempo_max_ms": 552,
+      "clics_media": 1.0,
+      "tasa_exito": 1.0
+    },
+    {
+      "participante": "p3",
+      "n": 6,
+      "tiempo_media_ms": 636.3,
+      "tiempo_mediana_ms": 526.5,
+      "tiempo_de_ms": 219.1,
+      "tiempo_min_ms": 470,
+      "tiempo_max_ms": 1021,
+      "clics_media": 1.0,
+      "tasa_exito": 1.0
+    },
+    {
+      "participante": "p4",
+      "n": 6,
+      "tiempo_media_ms": 679.2,
+      "tiempo_mediana_ms": 670.5,
+      "tiempo_de_ms": 218.7,
+      "tiempo_min_ms": 426,
+      "tiempo_max_ms": 1012,
+      "clics_media": 1.0,
+      "tasa_exito": 1.0
+    },
+    {
+      "participante": "p5",
+      "n": 6,
+      "tiempo_media_ms": 423.2,
+      "tiempo_mediana_ms": 388.0,
+      "tiempo_de_ms": 88.2,
+      "tiempo_min_ms": 375,
+      "tiempo_max_ms": 602,
+      "clics_media": 1.0,
+      "tasa_exito": 1.0
+    }
+  ],
+  "rango_medio_por_estilo": {
+    "Esqueumórfico": 1.7,
+    "Plano": 2.4,
+    "Neumórfico": 1.9
+  },
+  "media_por_estilo_sin_p1": {
+    "Esqueumórfico": 523.8,
+    "Plano": 566.1,
+    "Neumórfico": 533.0
+  },
+  "sesiones": [
+    {
+      "participante": "p1",
+      "min": "2026-10-16 16:32:02",
+      "max": "2026-10-16 16:32:14"
+    },
+    {
+      "participante": "p2",
+      "min": "2026-10-16 16:33:33",
+      "max": "2026-10-16 16:33:38"
+    },
+    {
+      "participante": "p3",
+      "min": "2026-10-16 16:34:11",
+      "max": "2026-10-16 16:34:17"
+    },
+    {
+      "participante": "p4",
+      "min": "2026-10-16 16:34:40",
+      "max": "2026-10-16 16:34:47"
+    },
+    {
+      "participante": "p5",
+      "min": "2026-10-16 16:35:09",
+      "max": "2026-10-16 16:35:13"
+    }
+  ],
+  "efecto_techo": {
+    "clics_unicos": [
+      1
+    ],
+    "exito_unico": [
+      1
+    ]
+  }
+}
