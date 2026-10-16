@@ -19,7 +19,7 @@ metáfora propia para el proyecto del equipo, *Ernesto Investing AI* (L.5).
 | 3 | Paso 3 — Medición (6.3), CSV → Excel | ✅ [análisis](L4_paso_a_paso/paso3_medicion/ANALISIS_PASO3.md) · 30 registros reales · [Excel](L4_paso_a_paso/paso3_medicion/resultados_6_3_EquipoA.xlsx) |
 | 4 | Paso 4 — Notebook de análisis (6.3b) | ✅ [análisis](L4_paso_a_paso/paso4_python/ANALISIS_PASO4.md) · [notebook ejecutado en Colab](L4_paso_a_paso/paso4_python/Lab06_ejercicio_6_3b_analisis_EquipoA.ipynb) · Friedman p = 0,27 |
 | 5 | Paso 5 — Diagramas UML (SVG + `.puml`) | ✅ [análisis](L4_paso_a_paso/paso5_uml/ANALISIS_PASO5.md) · 5 diagramas corregidos (V2) + originales renderizados |
-| 6 | L.5 — Metáfora propia «El portafolio como huerto» | ⏳ |
+| 6 | L.5 — Metáfora propia «El portafolio como huerto» | 🟡 prototipo verificado y publicado · UML · análisis listo — **faltan los CSV de la evaluación** ([instrucciones](L5_metafora_propia/INSTRUCCIONES_EVALUACION.md)) |
 | 7 | Informes Word en APA 7 | ⏳ |
 | 8 | Empaquetado `.zip` | ⏳ |
 
@@ -29,6 +29,7 @@ metáfora propia para el proyecto del equipo, *Ernesto Investing AI* (L.5).
 |---|---|
 | **Galería 6.1 v2 del Equipo A** (versión propia) | https://nicola3113.github.io/IHC-2026-2-EquipoA-Lab06-Metaforas/L4_paso_a_paso/paso1_galeria/03_version_mejorada/ejercicio_6_1_galeria_metaforas_v2_EquipoA.html |
 | Galería 6.1 regenerada desde el prompt | https://nicola3113.github.io/IHC-2026-2-EquipoA-Lab06-Metaforas/L4_paso_a_paso/paso1_galeria/02_regenerado_desde_prompt/ejercicio_6_1_regenerado.html |
+| **Prototipo L.5 «Huerto de inversiones»** | https://nicola3113.github.io/IHC-2026-2-EquipoA-Lab06-Metaforas/L5_metafora_propia/prototipo/L5_huerto_inversiones_EquipoA.html |
 | Ejercicio 6.1 publicado por el docente | https://spiffy-creponne-8c534b.netlify.app/ |
 | Ejercicio 6.3 publicado por el docente | https://stately-croquembouche-93dd68.netlify.app/ |
 

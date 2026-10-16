@@ -1,0 +1,122 @@
+@startuml
+' L.5 · D3 — Clases del dominio: metáfora del huerto y estudio
+skinparam defaultFontName "Arial"
+skinparam defaultFontSize 12
+skinparam backgroundColor white
+skinparam Shadowing false
+skinparam dpi 150
+skinparam style strictuml
+skinparam ArrowColor #333333
+skinparam class {
+  BackgroundColor #FFFFFF
+  BorderColor #333333
+  HeaderBackgroundColor #EEEEEE
+}
+skinparam package {
+  BackgroundColor #F7F7F7
+  BorderColor #555555
+  FontStyle bold
+}
+skinparam note {
+  BackgroundColor #FAFAFA
+  BorderColor #888888
+}
+hide empty members
+
+title L.5 · D3 — Modelo de dominio del prototipo «El portafolio como huerto»
+
+package "Dominio destino: portafolio" {
+  class Cartera {
+    + id : String
+    + nombre : String
+    --
+    + valorTotal() : float
+    + pesoSector(s : Sector) : float
+  }
+  class Sector {
+    + id : String
+    + nombre : String
+  }
+  class Activo {
+    + id : String
+    + nombre : String
+    + valor : float
+    + rendimiento : float
+    + pagaDividendos : boolean
+  }
+}
+
+package "Dominio fuente: huerto (representación)" {
+  class Huerto {
+    + clima() : String
+  }
+  class Parcela {
+    + area : float
+  }
+  class Planta {
+    + altura : float
+    + colorFollaje : Color
+    + caidaHojas : float
+    + frondosidad : float
+    + frutos : boolean
+    --
+    + tooltip() : String
+  }
+  class Correspondencia {
+    + elementoFuente : String
+    + elementoDestino : String
+  }
+}
+
+package "Estudio" {
+  class Participante {
+    + id : String
+    --
+    + esquema() : Bloque[2]
+  }
+  class Bloque {
+    + condicion : Condicion
+    + cartera : Cartera
+  }
+  class Tarea {
+    + n : int
+    + clave : String
+    + objetivo : String
+    + accion : String [0..1]
+  }
+  class Registro {
+    + ensayo : int
+    + tiempoMs : int
+    + clics : int
+    + errores : int
+    + exito : boolean
+    + seq : int [1..7]
+    + modo : String
+  }
+  enum Condicion {
+    HUERTO
+    TABLA
+  }
+}
+
+Cartera "1" *-- "4" Sector
+Cartera "1" *-- "8" Activo
+Activo "0..*" --> "1" Sector
+Huerto "1" *-- "4" Parcela
+Parcela "1" *-- "1..*" Planta
+Huerto ..> Cartera : representa
+Parcela ..> Sector : representa
+Planta ..> Activo : representa
+Huerto "1" o-- "9" Correspondencia : mapeo
+Participante "1" *-- "2" Bloque
+Bloque "1" *-- "5" Tarea
+Bloque ..> Condicion
+Tarea "1" -- "0..1" Registro : produce
+Registro "0..*" --> "1" Participante
+
+note right of Planta
+  altura ∝ valor
+  color, caída y frondosidad ∝ rendimiento
+  frutos = paga dividendos
+end note
+@enduml

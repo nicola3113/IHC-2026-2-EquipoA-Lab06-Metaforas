@@ -1,0 +1,65 @@
+@startuml
+' L.5 · D5 — Casos de uso del huerto en Ernesto Investing AI (producto) y del estudio
+skinparam defaultFontName "Arial"
+skinparam defaultFontSize 12
+skinparam backgroundColor white
+skinparam Shadowing false
+skinparam dpi 150
+skinparam ArrowColor #333333
+skinparam actorStyle awesome
+skinparam usecase {
+  BackgroundColor #FFFFFF
+  BorderColor #333333
+}
+skinparam rectangle {
+  BackgroundColor #FAFAFA
+  BorderColor #333333
+}
+skinparam package {
+  BackgroundColor #F2F2F2
+  BorderColor #666666
+  FontStyle bold
+}
+left to right direction
+
+title L.5 · D5 — Casos de uso de la metáfora del huerto
+
+actor "Inversor principiante\n(participante)" as INV
+actor "Evaluador\n(Equipo A)" as EVA
+
+rectangle "Ernesto Investing AI — vista huerto" {
+  package "Revisar el portafolio" {
+    usecase "Revisar el estado\ndel portafolio" as U1
+    usecase "Identificar el sector\ncon mayor peso" as U2
+    usecase "Detectar el activo\ncon peor rendimiento" as U3
+    usecase "Consultar cifras exactas\n(tooltip)" as U4
+  }
+  package "Actuar sobre el portafolio" {
+    usecase "Regar: aportar capital" as U5
+    usecase "Podar: tomar ganancias" as U6
+    usecase "Seleccionar planta" as U7
+  }
+  package "Estudio de evaluación" {
+    usecase "Completar el estudio\n(10 ensayos)" as U8
+    usecase "Calificar la facilidad\n(SEQ)" as U9
+    usecase "Exportar CSV" as U10
+    usecase "Analizar resultados" as U11
+  }
+}
+
+INV --> U1
+INV --> U5
+INV --> U6
+INV --> U8
+EVA --> U11
+EVA --> U10
+
+U2 ..> U1 : <<extend>>
+U3 ..> U1 : <<extend>>
+U4 ..> U1 : <<extend>>\n(degradación elegante)
+U5 ..> U7 : <<include>>
+U6 ..> U7 : <<include>>
+U8 ..> U9 : <<include>>
+U10 ..> U8 : <<extend>>
+U11 ..> U10 : <<include>>
+@enduml

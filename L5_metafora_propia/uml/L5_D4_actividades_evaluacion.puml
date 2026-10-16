@@ -1,0 +1,57 @@
+@startuml
+' L.5 · D4 — Actividades de la evaluación (de la sesión al análisis)
+skinparam defaultFontName "Arial"
+skinparam defaultFontSize 12
+skinparam backgroundColor white
+skinparam Shadowing false
+skinparam dpi 150
+skinparam ArrowColor #333333
+skinparam activity {
+  BackgroundColor #FFFFFF
+  BorderColor #333333
+  DiamondBackgroundColor #F2F2F2
+  DiamondBorderColor #333333
+}
+skinparam swimlane {
+  BorderColor #555555
+  TitleFontStyle bold
+}
+
+title L.5 · D4 — Flujo de la evaluación de la metáfora del huerto
+
+|Evaluador|
+start
+:Abrir el prototipo e ingresar pN;
+|Prototipo|
+:Asignar esquema (orden de vistas y cartera)\nsegún N mod 4;
+repeat :Mostrar instrucciones de la vista;
+  repeat :Mostrar tarea k y arrancar el cronómetro;
+    |Participante|
+    repeat :Seleccionar parcela/planta o fila\n(y acción si la tarea lo pide);
+      |Prototipo|
+      if (¿Respuesta correcta?) then (sí)
+        :éxito = 1;
+      else (no)
+        :errores++ y aviso;
+      endif
+    repeat while (¿Sin acierto, sin rendirse y < 60 s?) is (sí) not (no)
+    :Guardar tiempo, clics, errores y éxito;
+    |Participante|
+    :Calificar la facilidad (SEQ 1–7);
+    |Prototipo|
+  repeat while (¿k < 5?) is (sí) not (no)
+repeat while (¿Falta la segunda vista?) is (sí) not (no)
+:Mostrar resumen y exportar L5_huerto_pN.csv;
+|Evaluador|
+if (¿Hay ≥ 3 participantes y ≥ 30 registros?) then (no)
+  :Evaluar al siguiente participante;
+  stop
+else (sí)
+endif
+|Equipo (Python)|
+:Validar y consolidar (descartar PRUEBA\ny sesiones incompletas);
+:Generar Excel con tablas con formato;
+:Notebook: descriptivos, gráficos,\nWilcoxon (tiempo, errores, SEQ), McNemar (éxito)\ny efecto de orden;
+:Interpretar contra los 5 criterios de la metáfora;
+stop
+@enduml

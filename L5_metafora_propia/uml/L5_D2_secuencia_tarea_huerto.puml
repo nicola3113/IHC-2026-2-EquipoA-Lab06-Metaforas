@@ -1,0 +1,77 @@
+@startuml
+' L.5 · D2 — Secuencia de una tarea instrumentada («Riega VidaLab») en la vista huerto
+skinparam defaultFontName "Arial"
+skinparam defaultFontSize 12
+skinparam backgroundColor white
+skinparam Shadowing false
+skinparam dpi 150
+skinparam style strictuml
+skinparam sequence {
+  ArrowColor #333333
+  LifeLineBorderColor #555555
+  LifeLineBackgroundColor #E6E6E6
+  ParticipantBackgroundColor #FFFFFF
+  ParticipantBorderColor #333333
+  ActorBackgroundColor #FFFFFF
+  ActorBorderColor #333333
+  GroupBorderColor #555555
+  GroupBackgroundColor #EEEEEE
+}
+skinparam boundary {
+  BackgroundColor #FFFFFF
+  BorderColor #333333
+}
+skinparam control {
+  BackgroundColor #FFFFFF
+  BorderColor #333333
+}
+skinparam entity {
+  BackgroundColor #FFFFFF
+  BorderColor #333333
+}
+skinparam note {
+  BackgroundColor #FAFAFA
+  BorderColor #888888
+}
+autonumber "<b>0."
+
+title L.5 · D2 — Secuencia de la tarea 4 («Riega VidaLab») en la vista huerto
+
+actor "Participante" as U
+boundary "Vista huerto" as VH
+boundary "Panel de acciones" as ACC
+control "Controlador\nde tarea" as C
+entity "Registros\nde la sesión" as R
+
+C -> VH : pintar parcelas y plantas (cartera A)
+C -> C : inicio = performance.now()\n(siguiente cuadro), clics = 0, errores = 0
+VH --> U : consigna «Riega VidaLab: aporta S/ 500»
+
+U -> VH : pasa el cursor sobre una planta
+VH --> U : tooltip «VidaLab · S/ 3,000 · +11.0 %»
+
+U -> VH : clic en la planta VidaLab
+VH -> C : seleccionar("activo:vida")
+C -> C : clics++
+C --> ACC : habilitar «Regar» y «Podar»
+
+alt el participante pulsa «Podar» por error
+  U -> ACC : clic en «✂️ Podar · vender 20 %»
+  ACC -> C : accion("vender")
+  C -> C : errores++
+  C --> U : «Esa acción no corresponde a la tarea»
+end
+
+U -> ACC : clic en «💧 Regar · aportar S/ 500»
+ACC -> C : accion("aportar")
+C -> C : tiempo_ms = performance.now() − inicio\néxito = 1
+C -> R : guardar {participante, ensayo, condición = huerto,\ncartera = A, tarea = 4, tiempo_ms, clics, errores, éxito}
+C --> U : escala SEQ (1–7)
+U -> C : elige 6
+C -> R : seq = 6
+C -> VH : siguiente tarea
+
+note over U, R
+  Si a los 60 s no hay respuesta correcta, o si el participante pulsa «No lo encuentro», la tarea se guarda con éxito = 0.
+end note
+@enduml

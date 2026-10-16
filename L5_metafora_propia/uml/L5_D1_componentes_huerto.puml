@@ -1,0 +1,91 @@
+@startuml
+' L.5 · D1 — Componentes del prototipo «El portafolio como huerto» (Equipo A)
+skinparam defaultFontName "Arial"
+skinparam defaultFontSize 12
+skinparam backgroundColor white
+skinparam Shadowing false
+skinparam dpi 150
+skinparam RoundCorner 8
+skinparam componentStyle uml2
+skinparam linetype ortho
+skinparam ArrowColor #333333
+skinparam component {
+  BackgroundColor #FFFFFF
+  BorderColor #333333
+}
+skinparam interface {
+  BackgroundColor #FFFFFF
+  BorderColor #333333
+}
+skinparam package {
+  BackgroundColor #F4F4F4
+  BorderColor #555555
+  FontStyle bold
+}
+skinparam artifact {
+  BackgroundColor #FFFFFF
+  BorderColor #555555
+}
+skinparam note {
+  BackgroundColor #FAFAFA
+  BorderColor #888888
+}
+
+title L.5 · D1 — Componentes del prototipo «El portafolio como huerto»
+
+package "Presentación" {
+  component "Pantallas del estudio\n(inicio, instrucciones,\ntarea, SEQ, fin)" as PANT
+  component "Vista huerto\n(parcelas y plantas SVG)" as VH
+  component "Vista tabla\n(activos y sectores)" as VT
+  component "Panel de acciones\n(regar/aportar, podar/vender)" as ACC
+}
+
+package "Lógica del estudio" {
+  component "Asignador de esquema\n(contrabalanceo p1–p4)" as ESQ
+  component "Generador de tareas\n(5 por vista)" as GEN
+  component "Controlador de tarea\n(selección, éxito, errores,\nlímite de 60 s)" as CTRL
+  component "Verificador automático\n(?autotest=1)" as VER
+  interface "IReloj\n(performance.now)" as IR
+  interface "IEventos\n(addEventListener)" as IE
+}
+
+package "Datos" {
+  component "Carteras A y B\n(datos ficticios equivalentes)" as CART
+  component "Mapeo de la metáfora\n(9 correspondencias)" as MAP
+  component "Registros de la sesión" as REGS
+  component "Exportador CSV" as EXP
+  artifact "L5_huerto_pN.csv" as CSV
+}
+
+package "Análisis (Python)" {
+  component "analizar_L5.py\n(validación y consolidación)" as AN
+  artifact "L5_huerto_EquipoA.xlsx" as XL
+  component "Notebook L.5\n(Wilcoxon, McNemar)" as NB
+}
+
+PANT --> ESQ : id del participante
+ESQ --> GEN : vista y cartera
+GEN --> CART : objetivos de cada tarea
+PANT --> VH
+PANT --> VT
+VH --> MAP : codificación visual
+VH --> CTRL : selección
+VT --> CTRL : selección
+ACC --> CTRL : acción
+CTRL ..> IR : <<use>>
+CTRL ..> IE : <<use>>
+CTRL --> REGS : tiempo, clics, errores,\néxito, SEQ
+REGS --> EXP
+EXP --> CSV
+VER --> CTRL : simula una sesión
+CSV --> AN
+AN --> XL
+AN --> NB
+
+note right of VH
+  Área de la parcela ∝ peso del sector
+  Altura de la planta ∝ valor
+  Color, caída y frondosidad ∝ rendimiento
+  Tooltip con cifras exactas (degradación elegante)
+end note
+@enduml
