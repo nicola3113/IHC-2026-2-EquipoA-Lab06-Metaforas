@@ -15,7 +15,7 @@ metáfora propia para el proyecto del equipo, *Ernesto Investing AI* (L.5).
 |---|---|---|
 | 0 | Plan y estructura | ✅ [`PLAN.md`](PLAN.md) |
 | 1 | Paso 1 — Galería interactiva (6.1) mejorada | ✅ [análisis](L4_paso_a_paso/paso1_galeria/ANALISIS_PASO1.md) · 12/12 en Chrome, Edge y Firefox |
-| 2 | Paso 2 — Comparativa de estilos (6.2) | ⏳ |
+| 2 | Paso 2 — Comparativa de estilos (6.2) | ✅ [análisis](L4_paso_a_paso/paso2_estilos/ANALISIS_PASO2.md) · contraste WCAG, axe-core y teclado |
 | 3 | Paso 3 — Medición (6.3), CSV → Excel | ⏳ CSV reales recibidos (30 filas) — ver [insumos/LEEME_datos.md](insumos/LEEME_datos.md) |
 | 4 | Paso 4 — Notebook de análisis (6.3b) | ⏳ |
 | 5 | Paso 5 — Diagramas UML (SVG + `.puml`) | ⏳ |

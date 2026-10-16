@@ -1,0 +1,341 @@
+{
+  "metricas_panel": {
+    "mClics": "17",
+    "mSkeu": "4",
+    "mFlat": "4",
+    "mNeu": "4"
+  },
+  "orden_tabulacion": [
+    "btn-comp activo",
+    "btn-comp",
+    "btn-comp",
+    "btn-comp",
+    "btn-comp",
+    "skeuBtn",
+    "skeu-slider",
+    "flatBtn",
+    "flat-slider",
+    "neuBtn",
+    "neu-slider",
+    "BODY",
+    "btn-comp activo",
+    "btn-comp",
+    "btn-comp",
+    "btn-comp"
+  ],
+  "toggles_alcanzables_con_tab": false,
+  "axe": {
+    "Esqueumórfico": [
+      {
+        "id": "label",
+        "impacto": "critical",
+        "descripcion": "Form elements must have labels",
+        "nodos": 1,
+        "objetivos": [
+          ".skeu-slider"
+        ]
+      }
+    ],
+    "Plano": [
+      {
+        "id": "color-contrast",
+        "impacto": "serious",
+        "descripcion": "Elements must meet minimum color contrast ratio thresholds",
+        "nodos": 1,
+        "objetivos": [
+          ".columna-estilo:nth-child(2) > .col-header > h2"
+        ]
+      },
+      {
+        "id": "label",
+        "impacto": "critical",
+        "descripcion": "Form elements must have labels",
+        "nodos": 1,
+        "objetivos": [
+          ".flat-slider"
+        ]
+      }
+    ],
+    "Neumórfico": [
+      {
+        "id": "color-contrast",
+        "impacto": "serious",
+        "descripcion": "Elements must meet minimum color contrast ratio thresholds",
+        "nodos": 2,
+        "objetivos": [
+          ".columna-estilo:nth-child(3) > .col-header > h2",
+          ".neu-card > p"
+        ]
+      },
+      {
+        "id": "label",
+        "impacto": "critical",
+        "descripcion": "Form elements must have labels",
+        "nodos": 1,
+        "objetivos": [
+          ".neu-slider"
+        ]
+      }
+    ],
+    "Página completa": [
+      {
+        "id": "color-contrast",
+        "impacto": "serious",
+        "descripcion": "Elements must meet minimum color contrast ratio thresholds",
+        "nodos": 4,
+        "objetivos": [
+          ".activo",
+          ".columna-estilo:nth-child(2) > .col-header > h2",
+          ".columna-estilo:nth-child(3) > .col-header > h2",
+          ".neu-card > p"
+        ]
+      },
+      {
+        "id": "label",
+        "impacto": "critical",
+        "descripcion": "Form elements must have labels",
+        "nodos": 3,
+        "objetivos": [
+          ".skeu-slider",
+          ".flat-slider",
+          ".neu-slider"
+        ]
+      }
+    ],
+    "version_axe": "4.10.2"
+  },
+  "navegador": "Google Chrome 155.0.8059.84",
+  "errores_consola": [],
+  "contraste": [
+    {
+      "estilo": "Esqueumórfico",
+      "componente": "Botón",
+      "elemento": "Texto «Enviar»",
+      "primer_plano": "#333333",
+      "fondo": "#A0A0A0",
+      "requisito": "1.4.3 texto (4,5:1)",
+      "razon": 4.83,
+      "cumple": "sí"
+    },
+    {
+      "estilo": "Esqueumórfico",
+      "componente": "Botón",
+      "elemento": "Borde del botón frente a la columna",
+      "primer_plano": "#888888",
+      "fondo": "#1E293B",
+      "requisito": "1.4.11 no textual (3:1)",
+      "razon": 4.13,
+      "cumple": "sí"
+    },
+    {
+      "estilo": "Esqueumórfico",
+      "componente": "Toggle",
+      "elemento": "Pista apagada frente a la columna",
+      "primer_plano": "#999999",
+      "fondo": "#1E293B",
+      "requisito": "1.4.11 no textual (3:1)",
+      "razon": 5.13,
+      "cumple": "sí"
+    },
+    {
+      "estilo": "Esqueumórfico",
+      "componente": "Toggle",
+      "elemento": "Perilla frente a la pista apagada",
+      "primer_plano": "#F0F0F0",
+      "fondo": "#999999",
+      "requisito": "1.4.11 no textual (3:1)",
+      "razon": 2.5,
+      "cumple": "no"
+    },
+    {
+      "estilo": "Esqueumórfico",
+      "componente": "Slider",
+      "elemento": "Pista frente a la columna",
+      "primer_plano": "#888888",
+      "fondo": "#1E293B",
+      "requisito": "1.4.11 no textual (3:1)",
+      "razon": 4.13,
+      "cumple": "sí"
+    },
+    {
+      "estilo": "Esqueumórfico",
+      "componente": "Tarjeta",
+      "elemento": "Título",
+      "primer_plano": "#333333",
+      "fondo": "#DDDDDD",
+      "requisito": "1.4.3 texto (4,5:1)",
+      "razon": 9.3,
+      "cumple": "sí"
+    },
+    {
+      "estilo": "Esqueumórfico",
+      "componente": "Tarjeta",
+      "elemento": "Párrafo",
+      "primer_plano": "#555555",
+      "fondo": "#DDDDDD",
+      "requisito": "1.4.3 texto (4,5:1)",
+      "razon": 5.49,
+      "cumple": "sí"
+    },
+    {
+      "estilo": "Plano",
+      "componente": "Botón",
+      "elemento": "Texto «Enviar»",
+      "primer_plano": "#FFFFFF",
+      "fondo": "#2563EB",
+      "requisito": "1.4.3 texto (4,5:1)",
+      "razon": 5.17,
+      "cumple": "sí"
+    },
+    {
+      "estilo": "Plano",
+      "componente": "Botón",
+      "elemento": "Botón frente a la columna",
+      "primer_plano": "#2563EB",
+      "fondo": "#1E293B",
+      "requisito": "1.4.11 no textual (3:1)",
+      "razon": 2.83,
+      "cumple": "no"
+    },
+    {
+      "estilo": "Plano",
+      "componente": "Toggle",
+      "elemento": "Pista apagada frente a la columna",
+      "primer_plano": "#94A3B8",
+      "fondo": "#1E293B",
+      "requisito": "1.4.11 no textual (3:1)",
+      "razon": 5.71,
+      "cumple": "sí"
+    },
+    {
+      "estilo": "Plano",
+      "componente": "Toggle",
+      "elemento": "Perilla frente a la pista apagada",
+      "primer_plano": "#FFFFFF",
+      "fondo": "#94A3B8",
+      "requisito": "1.4.11 no textual (3:1)",
+      "razon": 2.56,
+      "cumple": "no"
+    },
+    {
+      "estilo": "Plano",
+      "componente": "Slider",
+      "elemento": "Pista frente a la columna",
+      "primer_plano": "#475569",
+      "fondo": "#1E293B",
+      "requisito": "1.4.11 no textual (3:1)",
+      "razon": 1.93,
+      "cumple": "no"
+    },
+    {
+      "estilo": "Plano",
+      "componente": "Tarjeta",
+      "elemento": "Título",
+      "primer_plano": "#FFFFFF",
+      "fondo": "#1E40AF",
+      "requisito": "1.4.3 texto (4,5:1)",
+      "razon": 8.72,
+      "cumple": "sí"
+    },
+    {
+      "estilo": "Plano",
+      "componente": "Tarjeta",
+      "elemento": "Párrafo (opacidad 0,8 ≈ #D2D9EF)",
+      "primer_plano": "#D2D9EF",
+      "fondo": "#1E40AF",
+      "requisito": "1.4.3 texto (4,5:1)",
+      "razon": 6.19,
+      "cumple": "sí"
+    },
+    {
+      "estilo": "Neumórfico",
+      "componente": "Botón",
+      "elemento": "Texto «Enviar»",
+      "primer_plano": "#555555",
+      "fondo": "#E0E5EC",
+      "requisito": "1.4.3 texto (4,5:1)",
+      "razon": 5.89,
+      "cumple": "sí"
+    },
+    {
+      "estilo": "Neumórfico",
+      "componente": "Botón",
+      "elemento": "Botón frente a su fondo (mismo color)",
+      "primer_plano": "#E0E5EC",
+      "fondo": "#E0E5EC",
+      "requisito": "1.4.11 no textual (3:1)",
+      "razon": 1.0,
+      "cumple": "no"
+    },
+    {
+      "estilo": "Neumórfico",
+      "componente": "Botón",
+      "elemento": "Sombra oscura frente al fondo",
+      "primer_plano": "#B8BEC7",
+      "fondo": "#E0E5EC",
+      "requisito": "1.4.11 no textual (3:1)",
+      "razon": 1.48,
+      "cumple": "no"
+    },
+    {
+      "estilo": "Neumórfico",
+      "componente": "Toggle",
+      "elemento": "Perilla apagada frente a la pista",
+      "primer_plano": "#E0E5EC",
+      "fondo": "#E0E5EC",
+      "requisito": "1.4.11 no textual (3:1)",
+      "razon": 1.0,
+      "cumple": "no"
+    },
+    {
+      "estilo": "Neumórfico",
+      "componente": "Toggle",
+      "elemento": "Perilla encendida frente a la pista",
+      "primer_plano": "#6366F1",
+      "fondo": "#E0E5EC",
+      "requisito": "1.4.11 no textual (3:1)",
+      "razon": 3.53,
+      "cumple": "sí"
+    },
+    {
+      "estilo": "Neumórfico",
+      "componente": "Slider",
+      "elemento": "Pista frente a la zona (solo sombra interna)",
+      "primer_plano": "#B8BEC7",
+      "fondo": "#E0E5EC",
+      "requisito": "1.4.11 no textual (3:1)",
+      "razon": 1.48,
+      "cumple": "no"
+    },
+    {
+      "estilo": "Neumórfico",
+      "componente": "Tarjeta",
+      "elemento": "Título",
+      "primer_plano": "#333333",
+      "fondo": "#E0E5EC",
+      "requisito": "1.4.3 texto (4,5:1)",
+      "razon": 9.98,
+      "cumple": "sí"
+    },
+    {
+      "estilo": "Neumórfico",
+      "componente": "Tarjeta",
+      "elemento": "Párrafo",
+      "primer_plano": "#777777",
+      "fondo": "#E0E5EC",
+      "requisito": "1.4.3 texto (4,5:1)",
+      "razon": 3.54,
+      "cumple": "no"
+    },
+    {
+      "estilo": "Neumórfico (simulado en modo oscuro)",
+      "componente": "Botón",
+      "elemento": "Sombra clara #2B3A52 frente a fondo #1E293B",
+      "primer_plano": "#2B3A52",
+      "fondo": "#1E293B",
+      "requisito": "1.4.11 no textual (3:1)",
+      "razon": 1.27,
+      "cumple": "no"
+    }
+  ]
+}

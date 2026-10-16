@@ -1,0 +1,24 @@
+﻿estilo,componente,elemento,primer_plano,fondo,requisito,razon,cumple
+Esqueumórfico,Botón,Texto «Enviar»,#333333,#A0A0A0,"1.4.3 texto (4,5:1)",4.83,sí
+Esqueumórfico,Botón,Borde del botón frente a la columna,#888888,#1E293B,1.4.11 no textual (3:1),4.13,sí
+Esqueumórfico,Toggle,Pista apagada frente a la columna,#999999,#1E293B,1.4.11 no textual (3:1),5.13,sí
+Esqueumórfico,Toggle,Perilla frente a la pista apagada,#F0F0F0,#999999,1.4.11 no textual (3:1),2.5,no
+Esqueumórfico,Slider,Pista frente a la columna,#888888,#1E293B,1.4.11 no textual (3:1),4.13,sí
+Esqueumórfico,Tarjeta,Título,#333333,#DDDDDD,"1.4.3 texto (4,5:1)",9.3,sí
+Esqueumórfico,Tarjeta,Párrafo,#555555,#DDDDDD,"1.4.3 texto (4,5:1)",5.49,sí
+Plano,Botón,Texto «Enviar»,#FFFFFF,#2563EB,"1.4.3 texto (4,5:1)",5.17,sí
+Plano,Botón,Botón frente a la columna,#2563EB,#1E293B,1.4.11 no textual (3:1),2.83,no
+Plano,Toggle,Pista apagada frente a la columna,#94A3B8,#1E293B,1.4.11 no textual (3:1),5.71,sí
+Plano,Toggle,Perilla frente a la pista apagada,#FFFFFF,#94A3B8,1.4.11 no textual (3:1),2.56,no
+Plano,Slider,Pista frente a la columna,#475569,#1E293B,1.4.11 no textual (3:1),1.93,no
+Plano,Tarjeta,Título,#FFFFFF,#1E40AF,"1.4.3 texto (4,5:1)",8.72,sí
+Plano,Tarjeta,"Párrafo (opacidad 0,8 ≈ #D2D9EF)",#D2D9EF,#1E40AF,"1.4.3 texto (4,5:1)",6.19,sí
+Neumórfico,Botón,Texto «Enviar»,#555555,#E0E5EC,"1.4.3 texto (4,5:1)",5.89,sí
+Neumórfico,Botón,Botón frente a su fondo (mismo color),#E0E5EC,#E0E5EC,1.4.11 no textual (3:1),1.0,no
+Neumórfico,Botón,Sombra oscura frente al fondo,#B8BEC7,#E0E5EC,1.4.11 no textual (3:1),1.48,no
+Neumórfico,Toggle,Perilla apagada frente a la pista,#E0E5EC,#E0E5EC,1.4.11 no textual (3:1),1.0,no
+Neumórfico,Toggle,Perilla encendida frente a la pista,#6366F1,#E0E5EC,1.4.11 no textual (3:1),3.53,sí
+Neumórfico,Slider,Pista frente a la zona (solo sombra interna),#B8BEC7,#E0E5EC,1.4.11 no textual (3:1),1.48,no
+Neumórfico,Tarjeta,Título,#333333,#E0E5EC,"1.4.3 texto (4,5:1)",9.98,sí
+Neumórfico,Tarjeta,Párrafo,#777777,#E0E5EC,"1.4.3 texto (4,5:1)",3.54,no
+Neumórfico (simulado en modo oscuro),Botón,Sombra clara #2B3A52 frente a fondo #1E293B,#2B3A52,#1E293B,1.4.11 no textual (3:1),1.27,no
