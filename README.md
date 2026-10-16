@@ -14,9 +14,9 @@ metáfora propia para el proyecto del equipo, *Ernesto Investing AI* (L.5).
 | Fase | Contenido | Estado |
 |---|---|---|
 | 0 | Plan y estructura | ✅ [`PLAN.md`](PLAN.md) |
-| 1 | Paso 1 — Galería interactiva (6.1) mejorada | ⏳ |
+| 1 | Paso 1 — Galería interactiva (6.1) mejorada | ✅ [análisis](L4_paso_a_paso/paso1_galeria/ANALISIS_PASO1.md) · 12/12 en Chrome, Edge y Firefox |
 | 2 | Paso 2 — Comparativa de estilos (6.2) | ⏳ |
-| 3 | Paso 3 — Medición (6.3), CSV → Excel | ⏳ esperando CSV reales |
+| 3 | Paso 3 — Medición (6.3), CSV → Excel | ⏳ CSV reales recibidos (30 filas) — ver [insumos/LEEME_datos.md](insumos/LEEME_datos.md) |
 | 4 | Paso 4 — Notebook de análisis (6.3b) | ⏳ |
 | 5 | Paso 5 — Diagramas UML (SVG + `.puml`) | ⏳ |
 | 6 | L.5 — Metáfora propia «El portafolio como huerto» | ⏳ |
@@ -27,6 +27,8 @@ metáfora propia para el proyecto del equipo, *Ernesto Investing AI* (L.5).
 
 | Recurso | Enlace |
 |---|---|
+| **Galería 6.1 v2 del Equipo A** (versión propia) | https://nicola3113.github.io/IHC-2026-2-EquipoA-Lab06-Metaforas/L4_paso_a_paso/paso1_galeria/03_version_mejorada/ejercicio_6_1_galeria_metaforas_v2_EquipoA.html |
+| Galería 6.1 regenerada desde el prompt | https://nicola3113.github.io/IHC-2026-2-EquipoA-Lab06-Metaforas/L4_paso_a_paso/paso1_galeria/02_regenerado_desde_prompt/ejercicio_6_1_regenerado.html |
 | Ejercicio 6.1 publicado por el docente | https://spiffy-creponne-8c534b.netlify.app/ |
 | Ejercicio 6.3 publicado por el docente | https://stately-croquembouche-93dd68.netlify.app/ |
 

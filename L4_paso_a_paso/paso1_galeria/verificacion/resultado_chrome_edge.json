@@ -1,0 +1,202 @@
+{
+  "chrome": {
+    "version_navegador": "155.0.8059.84",
+    "verificacion_automatica": {
+      "navegador": "Google Chrome 155.0.0.0",
+      "superadas": 12,
+      "total": 12,
+      "resultados": [
+        {
+          "nombre": "Se renderizan las 12 tarjetas",
+          "ok": true,
+          "detalle": "12 tarjetas en el DOM",
+          "ms": 0
+        },
+        {
+          "nombre": "Cada tarjeta tiene demo, dominios y botón de detalle",
+          "ok": true,
+          "detalle": "12 tarjetas completas",
+          "ms": 0
+        },
+        {
+          "nombre": "Los 6 filtros por tipo funcionan",
+          "ok": true,
+          "detalle": "Estructural 3/3 · Orientacional 2/2 · Ontológica 2/2 · De contenedor 2/2 · De viaje 2/2 · Conversacional 1/1 · Todas 12/12",
+          "ms": 1
+        },
+        {
+          "nombre": "La búsqueda se combina con los filtros",
+          "ok": true,
+          "detalle": "«papelera»: 2 resultado(s); con «De contenedor»: 1; con «De viaje»: 0",
+          "ms": 0.30000000074505806
+        },
+        {
+          "nombre": "El modal abre, se cierra con Escape y devuelve el foco",
+          "ok": true,
+          "detalle": "abre «Zoom espacial», foco en cerrar: true, cierra: true, foco devuelto: true",
+          "ms": 69
+        },
+        {
+          "nombre": "El modal se cierra con el botón y con clic en el fondo",
+          "ok": true,
+          "detalle": "botón: true, fondo: true",
+          "ms": 3.800000000745058
+        },
+        {
+          "nombre": "Las 12 demos responden a eventos",
+          "ok": true,
+          "detalle": "12 de 12 cambiaron su estado",
+          "ms": 1.0999999977648258
+        },
+        {
+          "nombre": "Las 4 metáforas rotas muestran su ruptura",
+          "ok": true,
+          "detalle": "4 de 4 reveladas",
+          "ms": 0.10000000149011612
+        },
+        {
+          "nombre": "El panel de métricas se actualiza (performance.now())",
+          "ok": true,
+          "detalle": "contador de demos pasó de 0 a 1 con un evento de prueba y volvió a su valor",
+          "ms": 0.30000000074505806
+        },
+        {
+          "nombre": "Iconos incrustados (funciona sin conexión)",
+          "ok": true,
+          "detalle": "46 iconos SVG en línea; scripts externos: ninguno",
+          "ms": 0.09999999776482582
+        },
+        {
+          "nombre": "El tema alterna entre claro y oscuro",
+          "ok": true,
+          "detalle": "oscuro (#0B1120) → claro (#F4F6FB) → oscuro",
+          "ms": 10.699999999254942
+        },
+        {
+          "nombre": "Exportación a CSV y JSON disponible",
+          "ok": true,
+          "detalle": "Blob + URL.createObjectURL disponibles; resumen con 12 campos",
+          "ms": 0.5
+        }
+      ]
+    },
+    "lista_guia_eventos_reales": {
+      "tarjetas": 12,
+      "filtros": {
+        "estructural": 3,
+        "orientacional": 2,
+        "ontologica": 2,
+        "contenedor": 2,
+        "viaje": 2,
+        "conversacional": 1
+      },
+      "modal_abre": true,
+      "modal_cierra_escape": true,
+      "demo_carrito": "1",
+      "demo_arrastre_real": true,
+      "panel_demos": "2",
+      "panel_clics": "10"
+    },
+    "errores_consola": []
+  },
+  "edge": {
+    "version_navegador": "155.0.4283.45",
+    "verificacion_automatica": {
+      "navegador": "Microsoft Edge 155.0.0.0",
+      "superadas": 12,
+      "total": 12,
+      "resultados": [
+        {
+          "nombre": "Se renderizan las 12 tarjetas",
+          "ok": true,
+          "detalle": "12 tarjetas en el DOM",
+          "ms": 0.10000000149011612
+        },
+        {
+          "nombre": "Cada tarjeta tiene demo, dominios y botón de detalle",
+          "ok": true,
+          "detalle": "12 tarjetas completas",
+          "ms": 0
+        },
+        {
+          "nombre": "Los 6 filtros por tipo funcionan",
+          "ok": true,
+          "detalle": "Estructural 3/3 · Orientacional 2/2 · Ontológica 2/2 · De contenedor 2/2 · De viaje 2/2 · Conversacional 1/1 · Todas 12/12",
+          "ms": 0.8999999985098839
+        },
+        {
+          "nombre": "La búsqueda se combina con los filtros",
+          "ok": true,
+          "detalle": "«papelera»: 2 resultado(s); con «De contenedor»: 1; con «De viaje»: 0",
+          "ms": 0.6000000014901161
+        },
+        {
+          "nombre": "El modal abre, se cierra con Escape y devuelve el foco",
+          "ok": true,
+          "detalle": "abre «Zoom espacial», foco en cerrar: true, cierra: true, foco devuelto: true",
+          "ms": 62.099999997764826
+        },
+        {
+          "nombre": "El modal se cierra con el botón y con clic en el fondo",
+          "ok": true,
+          "detalle": "botón: true, fondo: true",
+          "ms": 3.900000002235174
+        },
+        {
+          "nombre": "Las 12 demos responden a eventos",
+          "ok": true,
+          "detalle": "12 de 12 cambiaron su estado",
+          "ms": 1
+        },
+        {
+          "nombre": "Las 4 metáforas rotas muestran su ruptura",
+          "ok": true,
+          "detalle": "4 de 4 reveladas",
+          "ms": 0.19999999925494194
+        },
+        {
+          "nombre": "El panel de métricas se actualiza (performance.now())",
+          "ok": true,
+          "detalle": "contador de demos pasó de 0 a 1 con un evento de prueba y volvió a su valor",
+          "ms": 0.30000000074505806
+        },
+        {
+          "nombre": "Iconos incrustados (funciona sin conexión)",
+          "ok": true,
+          "detalle": "46 iconos SVG en línea; scripts externos: ninguno",
+          "ms": 0
+        },
+        {
+          "nombre": "El tema alterna entre claro y oscuro",
+          "ok": true,
+          "detalle": "oscuro (#0B1120) → claro (#F4F6FB) → oscuro",
+          "ms": 7.800000000745058
+        },
+        {
+          "nombre": "Exportación a CSV y JSON disponible",
+          "ok": true,
+          "detalle": "Blob + URL.createObjectURL disponibles; resumen con 12 campos",
+          "ms": 0.19999999925494194
+        }
+      ]
+    },
+    "lista_guia_eventos_reales": {
+      "tarjetas": 12,
+      "filtros": {
+        "estructural": 3,
+        "orientacional": 2,
+        "ontologica": 2,
+        "contenedor": 2,
+        "viaje": 2,
+        "conversacional": 1
+      },
+      "modal_abre": true,
+      "modal_cierra_escape": true,
+      "demo_carrito": "1",
+      "demo_arrastre_real": true,
+      "panel_demos": "2",
+      "panel_clics": "10"
+    },
+    "errores_consola": []
+  }
+}

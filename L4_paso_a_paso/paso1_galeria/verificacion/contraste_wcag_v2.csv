@@ -1,0 +1,30 @@
+tema,primer_plano,fondo,razon,AA_texto_normal
+oscuro,texto,fondo,16.04,sí
+oscuro,texto,superficie,14.16,sí
+oscuro,texto_sec,fondo,9.22,sí
+oscuro,texto_sec,superficie,8.13,sí
+oscuro,primario,superficie,5.13,sí
+oscuro,estructural,superficie,5.62,sí
+oscuro,orientacional,superficie,7.33,sí
+oscuro,ontologica,superficie,6.02,sí
+oscuro,contenedor,superficie,9.16,sí
+oscuro,viaje,superficie,6.44,sí
+oscuro,conversacional,superficie,7.87,sí
+claro,texto,fondo,16.41,sí
+claro,texto,superficie,17.74,sí
+claro,texto_sec,fondo,8.12,sí
+claro,texto_sec,superficie,8.78,sí
+claro,primario,superficie,5.93,sí
+claro,estructural,superficie,5.93,sí
+claro,orientacional,superficie,5.34,sí
+claro,ontologica,superficie,6.40,sí
+claro,contenedor,superficie,5.43,sí
+claro,viaje,superficie,6.21,sí
+claro,conversacional,superficie,5.91,sí
+blanco_sobre_primario_oscuro,#FFFFFF,#4F8DF7,3.24
+blanco_sobre_primario_claro,#FFFFFF,#1D5BD8,5.93
+v2_oscuro,sobre_primario #0B1120,primario #4F8DF7,5.82
+original_docente,texto_sec #94A3B8,superficie #1E293B,5.71
+original_docente,blanco filtro activo,primario #3B82F6,3.68
+original_docente,primario #3B82F6 (enlaces migas),fondo #0F172A,4.85
+original_docente,texto_sec #94A3B8 en demos,fondo #0F172A,6.96
