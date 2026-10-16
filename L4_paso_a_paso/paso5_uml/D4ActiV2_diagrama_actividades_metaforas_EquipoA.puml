@@ -1,0 +1,86 @@
+@startuml
+' =====================================================================
+' D4 v2 — Diagrama de actividades (Equipo A, IHC 2026-2)
+' Mejora del D4ActiV1 del docente: carriles por responsable, el filtro
+' ya no regenera la rejilla, el interruptor puede volver a éxito = false,
+' encabezados CSV correctos (con participante) y el análisis incluye
+' consolidación, validación y elección de pruebas según la normalidad.
+' Conserva el flujo de datos en 4 fases.
+' =====================================================================
+skinparam defaultFontName "Arial"
+skinparam defaultFontSize 12
+skinparam backgroundColor white
+skinparam Shadowing false
+skinparam dpi 150
+skinparam ArrowColor #333333
+skinparam activity {
+  BackgroundColor #FFFFFF
+  BorderColor #333333
+  DiamondBackgroundColor #F2F2F2
+  DiamondBorderColor #333333
+}
+skinparam swimlane {
+  BorderColor #555555
+  TitleFontStyle bold
+}
+skinparam note {
+  BackgroundColor #FAFAFA
+  BorderColor #888888
+}
+
+title D4 v2 — Evolución de los datos en el sistema de evaluación
+
+|Participante|
+start
+|Navegador (HTML/JS)|
+:Fase 1 · Cargar catálogo JSON (12 metáforas)\ne incrustar iconos SVG;
+:Renderizar 12 tarjetas con su demo;
+:Iniciar métricas: t0 = performance.now();
+
+|Participante|
+repeat :Fase 2 · Filtrar, buscar, usar una demo o abrir un detalle;
+  |Navegador (HTML/JS)|
+  if (¿Filtro o búsqueda?) then (sí)
+    :Ocultar tarjetas que no coinciden\n(sin regenerar: se conserva el estado);
+  else (no)
+    :Abrir modal, medir latencia\ny registrar la metáfora explorada;
+  endif
+  :Agregar evento a la bitácora\ny actualizar el panel;
+|Participante|
+repeat while (¿Sigue explorando?) is (sí) not (no)
+
+:Fase 3 · Presionar «Iniciar estudio»;
+|Navegador (HTML/JS)|
+repeat :Cargar tarea i;
+  :inicio = performance.now()\nclics = 0, éxito = false;
+  |Participante|
+  repeat :Interactuar con el control;
+    |Navegador (HTML/JS)|
+    :clics++;
+    if (¿Estado correcto?) then (sí)
+      :éxito = true;
+    else (no)
+      :éxito = false;
+    endif
+  |Participante|
+  repeat while (¿Presiona «Completar tarea»?) is (no) not (sí)
+  |Navegador (HTML/JS)|
+  :tiempo_ms = performance.now() − inicio;
+  :Guardar {participante, tarea, estilo,\ntiempo_ms, clics, éxito, fecha};
+repeat while (¿i < 6?) is (sí) not (no)
+:Exportar resultados_metaforas_pN.csv;
+
+|Equipo (Python / Colab)|
+:Fase 4 · Consolidar 5 CSV (30 registros);
+:Validar columnas, rangos y diseño completo;
+:Generar Excel con tablas con formato;
+:Estadística descriptiva (media, mediana, DE, IC 95 %);
+if (¿El tiempo es normal? (Shapiro-Wilk)) then (sí)
+  :ANOVA de medidas repetidas;
+else (no)
+  :Friedman + Wilcoxon con Holm\n(y ANOVA sobre log-tiempo);
+endif
+:Gráficos, interpretación y análisis de sensibilidad;
+stop
+
+@enduml

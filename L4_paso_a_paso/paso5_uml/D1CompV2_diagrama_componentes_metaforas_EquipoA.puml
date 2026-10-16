@@ -1,0 +1,126 @@
+@startuml
+' =====================================================================
+' D1 v2 — Diagrama de componentes (Equipo A, IHC 2026-2)
+' Mejora del D1CompV1 del docente: interfaces provistas/requeridas,
+' artefactos reales (archivos), conexiones faltantes corregidas y
+' componentes nuevos de la versión propia (búsqueda, verificador,
+' iconos incrustados, consolidación y pruebas estadísticas).
+' Estilo sobrio en escala de grises para impresión.
+' =====================================================================
+skinparam defaultFontName "Arial"
+skinparam defaultFontSize 12
+skinparam backgroundColor white
+skinparam Shadowing false
+skinparam dpi 150
+skinparam RoundCorner 8
+skinparam componentStyle uml2
+skinparam ArrowColor #333333
+skinparam ArrowThickness 1.1
+skinparam ArrowFontSize 10
+skinparam linetype ortho
+skinparam nodesep 40
+skinparam ranksep 55
+skinparam component {
+  BackgroundColor #FFFFFF
+  BorderColor #333333
+}
+skinparam interface {
+  BackgroundColor #FFFFFF
+  BorderColor #333333
+}
+skinparam package {
+  BackgroundColor #F4F4F4
+  BorderColor #555555
+  FontStyle bold
+}
+skinparam artifact {
+  BackgroundColor #FFFFFF
+  BorderColor #555555
+}
+skinparam note {
+  BackgroundColor #FAFAFA
+  BorderColor #888888
+}
+
+title D1 v2 — Componentes del sistema de galería y evaluación de metáforas
+
+package "Capa de presentación (HTML + CSS)" as P1 {
+  component "Galería 6.1 v2" as GAL
+  component "Comparativa 6.2" as COMP
+  component "Estudio 6.3" as MED
+  component "Panel de métricas" as PANEL
+  component "Verificador automático\n(?autotest=1)" as VERIF
+}
+
+package "Capa de lógica de interacción (JavaScript)" as P2 {
+  component "Filtro y búsqueda" as FILT
+  component "Modal accesible\n(trampa y retorno de foco)" as MODAL
+  component "Motor del estudio" as MOTOR
+  component "Registrador de eventos" as REG
+  interface "IEventos\n(addEventListener)" as IEV
+  interface "IReloj\n(performance.now)" as IRELOJ
+}
+
+package "Capa de datos y exportación" as P3 {
+  component "Catálogo de metáforas\n(12 objetos JSON:\nmapeo + 5 criterios)" as CAT
+  component "Iconos Lucide\nincrustados (SVG)" as ICO
+  component "Almacén de métricas\n(memoria)" as ALM
+  component "Exportador\nCSV / JSON (Blob)" as EXP
+  interface "IExportación" as IEXP
+  artifact "resultados_metaforas_pN.csv" as CSV63
+  artifact "galeria61_eventos.csv\ngaleria61_resumen.json" as CSV61
+}
+
+package "Capa de análisis (Python)" as P4 {
+  component "Consolidador\n(consolidar_6_3.py)" as CONS
+  artifact "resultados_6_3_EquipoA.xlsx\n(tablas con formato)" as XLSX
+  component "Notebook Colab 6.3b" as NB
+  component "Validación y\nestadística descriptiva\n(pandas)" as DESC
+  component "Pruebas de medidas repetidas\n(SciPy, statsmodels)" as INF
+  component "Visualización\n(matplotlib)" as VIS
+}
+
+' --- presentación → lógica
+GAL --> FILT : filtra y busca
+GAL --> MODAL : abre detalle
+GAL --> CAT : lee metáforas
+GAL --> ICO : pinta iconos
+GAL --> REG : registra interacción
+COMP --> REG : registra interacción
+MED --> MOTOR : controla 6 tareas
+VERIF --> GAL : ejecuta 12 comprobaciones
+PANEL ..> ALM : lee métricas
+
+' --- interfaces requeridas y provistas
+REG ..> IEV : <<use>>
+REG ..> IRELOJ : <<use>>
+MOTOR ..> IRELOJ : <<use>>
+MOTOR --> REG : clics y éxito
+REG --> ALM : acumula eventos
+EXP -- IEXP
+ALM ..> IEXP : <<use>>
+EXP --> CSV63 : descarga (6.3)
+EXP --> CSV61 : descarga (6.1)
+
+' --- análisis
+CSV63 --> CONS : 5 archivos
+CONS --> XLSX : genera
+CONS --> NB : CSV consolidado
+NB --> DESC
+NB --> INF
+NB --> VIS
+
+note right of REG
+  Registra tiempo en tarea (ms),
+  clics, éxito (0/1) y, en la
+  galería v2, latencia del modal
+  y tiempo de lectura.
+end note
+
+note bottom of INF
+  Shapiro-Wilk, Friedman + W de Kendall,
+  Wilcoxon con Holm y ANOVA de medidas
+  repetidas sobre log(tiempo).
+end note
+
+@enduml

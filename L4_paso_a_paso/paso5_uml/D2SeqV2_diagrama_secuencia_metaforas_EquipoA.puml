@@ -1,0 +1,128 @@
+@startuml
+' =====================================================================
+' D2 v2 — Diagrama de secuencia (Equipo A, IHC 2026-2)
+' Mejora del D2SeqV1 del docente: mensajes numerados, marca de inicio
+' con performance.now() al cargar cada tarea, cálculo del tiempo en el
+' motor (como hace el código), fragmento alt para éxito/fracaso,
+' identificador de participante y medición de latencia del modal.
+' Conserva las 3 fases del original.
+' =====================================================================
+skinparam defaultFontName "Arial"
+skinparam defaultFontSize 12
+skinparam backgroundColor white
+skinparam Shadowing false
+skinparam dpi 150
+skinparam style strictuml
+skinparam BoxPadding 10
+skinparam sequence {
+  ArrowColor #333333
+  LifeLineBorderColor #555555
+  LifeLineBackgroundColor #E6E6E6
+  ParticipantBackgroundColor #FFFFFF
+  ParticipantBorderColor #333333
+  ActorBackgroundColor #FFFFFF
+  ActorBorderColor #333333
+  GroupBorderColor #555555
+  GroupBackgroundColor #EEEEEE
+  DividerBackgroundColor #F4F4F4
+  DividerBorderColor #555555
+}
+skinparam boundary {
+  BackgroundColor #FFFFFF
+  BorderColor #333333
+}
+skinparam control {
+  BackgroundColor #FFFFFF
+  BorderColor #333333
+}
+skinparam entity {
+  BackgroundColor #FFFFFF
+  BorderColor #333333
+}
+skinparam note {
+  BackgroundColor #FAFAFA
+  BorderColor #888888
+}
+autonumber "<b>0."
+
+title D2 v2 — Secuencia del flujo de evaluación de metáforas
+
+actor "Participante" as USR
+boundary "Interfaz web\n(galería / estudio)" as UI
+control "Motor del\nestudio" as MOT
+control "Registrador\nde eventos" as REG
+entity "Almacén de\nmétricas" as ALM
+
+== Fase 1: exploración de la galería ==
+
+USR -> UI : elige un tipo o escribe una búsqueda
+activate UI
+UI -> UI : oculta las tarjetas que no coinciden\n(conserva el estado de las demos)
+UI -> REG : registrar("filtro", tipo)
+activate REG
+REG -> ALM : guarda {t = performance.now(), evento}
+deactivate REG
+UI --> USR : «Mostrando N de 12 metáforas» (aria-live)
+deactivate UI
+
+USR -> UI : «Ver detalle»
+activate UI
+UI -> UI : t0 = performance.now()\ngenera el modal y mueve el foco
+UI -> REG : latencia = performance.now() − t0\n(en el siguiente cuadro)
+activate REG
+REG -> ALM : guarda latencia y metáfora explorada
+deactivate REG
+UI --> USR : modal con mapeo y 5 criterios
+deactivate UI
+
+== Fase 2: estudio controlado (Ejercicio 6.3) ==
+
+USR -> UI : «Iniciar estudio»
+activate UI
+UI -> MOT : iniciar()
+activate MOT
+
+loop 6 tareas (2 tipos × 3 estilos, orden fijo)
+  MOT -> MOT : cargarTarea(i)\ninicio = performance.now(), clics = 0, éxito = false
+  MOT --> UI : renderiza el control del estilo i
+  UI --> USR : muestra la tarea
+
+  USR -> UI : clic en el área de la tarea
+  UI -> MOT : clics++
+  alt acción correcta (encender interruptor / «Enviar formulario»)
+    MOT -> MOT : éxito = true
+    UI --> USR : «Estado: encendido ✓» / «Formulario enviado ✓»
+  else acción incorrecta o se apaga el interruptor
+    MOT -> MOT : éxito = false
+  end
+
+  USR -> UI : «Completar tarea»
+  UI -> MOT : completarTarea()
+  MOT -> MOT : tiempo_ms = performance.now() − inicio
+  MOT -> ALM : guarda {participante, tarea, estilo,\ntiempo_ms, clics, éxito}
+  MOT --> UI : añade fila a la tabla de resultados
+end
+
+MOT --> UI : estudio completado
+deactivate MOT
+UI --> USR : habilita «Exportar CSV»
+deactivate UI
+
+== Fase 3: exportación de datos ==
+
+USR -> UI : «Exportar CSV»
+activate UI
+UI -> ALM : obtener resultados
+activate ALM
+ALM --> UI : 6 registros
+deactivate ALM
+UI -> UI : serializa CSV y crea Blob\n(text/csv; charset=utf-8)
+UI --> USR : descarga resultados_metaforas_pN.csv
+deactivate UI
+
+note over USR, ALM
+  El tiempo incluye llevar el cursor hasta «Completar tarea» (fuera del área de la tarea);
+  esta limitación se discute en el Paso 3.
+end note
+
+@enduml

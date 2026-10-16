@@ -1,0 +1,171 @@
+@startuml
+' =====================================================================
+' D3 v2 — Diagrama de clases (Equipo A, IHC 2026-2)
+' Mejora del D3ClassV1 del docente: atributos tipados, Metafora.tipo
+' explícito, mapeo como clase Correspondencia (mín. 5), evaluación por
+' los 5 criterios, demo interactiva, participante y evento registrado;
+' RegistroTarea.estilo pasa de String a EstiloVisual y se corrigen las
+' multiplicidades. Conserva los 3 paquetes del original.
+' =====================================================================
+skinparam defaultFontName "Arial"
+skinparam defaultFontSize 12
+skinparam backgroundColor white
+skinparam Shadowing false
+skinparam dpi 150
+skinparam style strictuml
+skinparam ArrowColor #333333
+skinparam class {
+  BackgroundColor #FFFFFF
+  BorderColor #333333
+  HeaderBackgroundColor #EEEEEE
+}
+skinparam package {
+  BackgroundColor #F7F7F7
+  BorderColor #555555
+  FontStyle bold
+}
+skinparam note {
+  BackgroundColor #FAFAFA
+  BorderColor #888888
+}
+hide empty members
+
+title D3 v2 — Modelo de dominio de la evaluación de metáforas
+
+package "Modelo de metáforas" {
+  class Metafora {
+    + id : String
+    + nombre : String
+    + tipo : TipoMetafora
+    + resumen : String
+    + fuente : String
+    + destino : String
+    + origen : String
+    + fortalezas : String
+    + debilidades : String
+    + referencia : String
+    --
+    + promedioCriterios() : float
+  }
+  class Correspondencia {
+    + elementoFuente : String
+    + elementoDestino : String
+  }
+  class EvaluacionCriterios {
+    + familiaridad : int [1..5]
+    + consistencia : int [1..5]
+    + extensibilidad : int [1..5]
+    + descubribilidad : int [1..5]
+    + degradacionElegante : int [1..5]
+    + nota : String
+  }
+  class DemoInteractiva {
+    + html : String
+    --
+    + activar(contenedor : HTMLElement) : void
+  }
+  class MetaforaRota {
+    + titulo : String
+    + efecto : String
+    + criterioViolado : String
+    + leccion : String
+  }
+  enum TipoMetafora {
+    ESTRUCTURAL
+    ORIENTACIONAL
+    ONTOLOGICA
+    CONTENEDOR
+    VIAJE
+    CONVERSACIONAL
+  }
+  enum EstiloVisual {
+    ESQUEUMORFICO
+    PLANO
+    NEUMORFICO
+  }
+}
+
+package "Modelo de evaluación" {
+  class Participante {
+    + id : String
+  }
+  class EstudioControlado {
+    - indiceTarea : int
+    --
+    + iniciar() : void
+    + cargarTarea(i : int) : void
+    + completarTarea() : void
+    + exportarCSV() : Blob
+  }
+  class Tarea {
+    + id : int
+    + titulo : String
+    + tipo : String
+    + estilo : EstiloVisual
+    --
+    + render(area : HTMLElement) : void
+  }
+  class RegistroTarea {
+    + tarea : int
+    + estilo : EstiloVisual
+    + descripcion : String
+    + tiempoMs : int
+    + clics : int
+    + exito : boolean
+    + fecha : DateTime
+  }
+}
+
+package "Modelo de métricas" {
+  class RegistradorEventos {
+    - t0 : float
+    - pausado : boolean
+    --
+    + registrar(evento : String, detalle : String) : void
+    + latenciaMediaModal() : float
+    + tiempoPrimeraInteraccion() : float
+  }
+  class Evento {
+    + tMs : float
+    + evento : String
+    + detalle : String
+  }
+  class ExportadorCSV {
+    + encabezados : String[]
+    --
+    + generar(filas : Object[]) : Blob
+    + descargar(blob : Blob, nombre : String) : void
+  }
+  class VerificadorAutomatico {
+    --
+    + verificar() : ResultadoVerificacion[]
+  }
+}
+
+Metafora "1" *-- "5..*" Correspondencia : mapeo
+Metafora "1" *-- "1" EvaluacionCriterios
+Metafora "1" *-- "1" DemoInteractiva
+Metafora ..> TipoMetafora
+MetaforaRota "0..*" --> "1" Metafora : rompe
+Participante "1" -- "1..*" EstudioControlado : realiza >
+EstudioControlado "1" *-- "6" Tarea
+EstudioControlado "1" *-- "0..6" RegistroTarea : genera
+RegistroTarea "0..*" --> "1" Participante
+Tarea ..> EstiloVisual
+RegistroTarea ..> EstiloVisual
+EstudioControlado --> RegistradorEventos : usa
+RegistradorEventos "1" *-- "0..*" Evento
+EstudioControlado --> ExportadorCSV : exporta con
+VerificadorAutomatico ..> Metafora : comprueba tarjetas
+
+note right of EvaluacionCriterios
+  Criterios L.3.4 de la guía.
+  Valoración del equipo (1–5).
+end note
+note bottom of EstudioControlado
+  6 tareas = 2 tipos × 3 estilos.
+  performance.now() marca el inicio
+  de cada tarea.
+end note
+
+@enduml

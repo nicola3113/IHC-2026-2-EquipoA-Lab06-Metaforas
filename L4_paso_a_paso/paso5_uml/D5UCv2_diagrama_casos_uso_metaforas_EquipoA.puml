@@ -1,0 +1,94 @@
+@startuml
+' =====================================================================
+' D5 v2 — Diagrama de casos de uso (Equipo A, IHC 2026-2)
+' Mejora del D5UCv1 del docente: las flechas <<extend>> van del caso
+' que extiende al caso base (en el original estaban invertidas), las
+' acciones opcionales pasan a <<extend>> y las obligatorias a <<include>>,
+' y el actor que analiza es el evaluador (equipo o docente).
+' Conserva los 15 casos de uso del original.
+' =====================================================================
+skinparam defaultFontName "Arial"
+skinparam defaultFontSize 12
+skinparam backgroundColor white
+skinparam Shadowing false
+skinparam dpi 150
+skinparam ArrowColor #333333
+skinparam actorStyle awesome
+skinparam usecase {
+  BackgroundColor #FFFFFF
+  BorderColor #333333
+}
+skinparam rectangle {
+  BackgroundColor #FAFAFA
+  BorderColor #333333
+}
+skinparam package {
+  BackgroundColor #F2F2F2
+  BorderColor #666666
+  FontStyle bold
+}
+skinparam note {
+  BackgroundColor #FAFAFA
+  BorderColor #888888
+}
+left to right direction
+
+title D5 v2 — Casos de uso del sistema de galería y evaluación de metáforas
+
+actor "Participante" as EST
+actor "Evaluador\n(equipo / docente)" as EVA
+
+rectangle "Sistema de galería y evaluación de metáforas" {
+  package "Exploración" {
+    usecase "UC1 Explorar galería\nde metáforas" as UC1
+    usecase "UC2 Filtrar o buscar\nmetáforas" as UC2
+    usecase "UC3 Ver detalle\n(mapeo y criterios)" as UC3
+    usecase "UC4 Interactuar con\nla demo visual" as UC4
+  }
+  package "Comparación" {
+    usecase "UC5 Comparar estilos\nvisuales" as UC5
+    usecase "UC6 Interactuar con los\ncomponentes de cada estilo" as UC6
+    usecase "UC7 Consultar la tabla\nde 10 criterios" as UC7
+  }
+  package "Estudio" {
+    usecase "UC8 Realizar el estudio\ncontrolado" as UC8
+    usecase "UC9 Completar una tarea\nde interacción" as UC9
+    usecase "UC10 Registrar métricas\n(performance.now)" as UC10
+    usecase "UC11 Exportar resultados\ncomo CSV" as UC11
+  }
+  package "Análisis" {
+    usecase "UC12 Cargar el CSV\nen Google Colab" as UC12
+    usecase "UC13 Calcular estadísticas\ny pruebas" as UC13
+    usecase "UC14 Generar gráficos\ncomparativos" as UC14
+    usecase "UC15 Interpretar\nresultados" as UC15
+  }
+}
+
+EST --> UC1
+EST --> UC5
+EST --> UC8
+EVA --> UC13
+EVA --> UC15
+EVA --> UC1
+
+' <<include>>: comportamiento obligatorio del caso base
+UC5 ..> UC6 : <<include>>
+UC8 ..> UC9 : <<include>>
+UC9 ..> UC10 : <<include>>
+UC13 ..> UC12 : <<include>>
+UC15 ..> UC13 : <<include>>
+
+' <<extend>>: comportamiento opcional; la flecha va del extensor al caso base
+UC2 ..> UC1 : <<extend>>
+UC3 ..> UC1 : <<extend>>
+UC4 ..> UC1 : <<extend>>
+UC7 ..> UC5 : <<extend>>
+UC11 ..> UC8 : <<extend>>\n(al terminar las 6 tareas)
+UC14 ..> UC13 : <<extend>>
+
+note right of UC10
+  Tiempo en tarea (ms), clics
+  y éxito (0/1) por tarea.
+end note
+
+@enduml
