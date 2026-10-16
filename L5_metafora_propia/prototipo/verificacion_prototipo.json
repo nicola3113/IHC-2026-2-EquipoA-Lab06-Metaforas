@@ -1,0 +1,128 @@
+{
+  "chrome": {
+    "version": "155.0.8059.84",
+    "pasan": 11,
+    "total": 11,
+    "pruebas": [
+      {
+        "nombre": "Contrabalanceo de 4 esquemas (p1–p4)",
+        "cond": true,
+        "det": "p1: huerto-A → tabla-B · p2: tabla-A → huerto-B · p3: huerto-B → tabla-A · p4: tabla-B → huerto-A"
+      },
+      {
+        "nombre": "Objetivos únicos en ambas carteras",
+        "cond": true,
+        "det": ""
+      },
+      {
+        "nombre": "Se registran 10 ensayos por participante (5 tareas × 2 vistas)",
+        "cond": true,
+        "det": "10 registros"
+      },
+      {
+        "nombre": "Ambas vistas se renderizan",
+        "cond": true,
+        "det": ""
+      },
+      {
+        "nombre": "Detección de éxito",
+        "cond": true,
+        "det": "9 éxitos de 10 (1 abandono deliberado)"
+      },
+      {
+        "nombre": "Conteo de errores",
+        "cond": true,
+        "det": "1 error registrado"
+      },
+      {
+        "nombre": "Tiempo medido con performance.now()",
+        "cond": true,
+        "det": ""
+      },
+      {
+        "nombre": "Clics contados en el área de estudio",
+        "cond": true,
+        "det": "clics por ensayo: 1, 2, 1, 2, 2, 1, 1, 1, 2, 1"
+      },
+      {
+        "nombre": "Escala SEQ registrada",
+        "cond": true,
+        "det": ""
+      },
+      {
+        "nombre": "CSV con encabezado y 10 filas",
+        "cond": true,
+        "det": "10 filas · 18 columnas"
+      },
+      {
+        "nombre": "Datos de verificación marcados como PRUEBA",
+        "cond": true,
+        "det": ""
+      }
+    ],
+    "errores_consola": []
+  },
+  "msedge": {
+    "version": "155.0.4283.45",
+    "pasan": 11,
+    "total": 11,
+    "pruebas": [
+      {
+        "nombre": "Contrabalanceo de 4 esquemas (p1–p4)",
+        "cond": true,
+        "det": "p1: huerto-A → tabla-B · p2: tabla-A → huerto-B · p3: huerto-B → tabla-A · p4: tabla-B → huerto-A"
+      },
+      {
+        "nombre": "Objetivos únicos en ambas carteras",
+        "cond": true,
+        "det": ""
+      },
+      {
+        "nombre": "Se registran 10 ensayos por participante (5 tareas × 2 vistas)",
+        "cond": true,
+        "det": "10 registros"
+      },
+      {
+        "nombre": "Ambas vistas se renderizan",
+        "cond": true,
+        "det": ""
+      },
+      {
+        "nombre": "Detección de éxito",
+        "cond": true,
+        "det": "9 éxitos de 10 (1 abandono deliberado)"
+      },
+      {
+        "nombre": "Conteo de errores",
+        "cond": true,
+        "det": "1 error registrado"
+      },
+      {
+        "nombre": "Tiempo medido con performance.now()",
+        "cond": true,
+        "det": ""
+      },
+      {
+        "nombre": "Clics contados en el área de estudio",
+        "cond": true,
+        "det": "clics por ensayo: 1, 2, 1, 2, 2, 1, 1, 1, 2, 1"
+      },
+      {
+        "nombre": "Escala SEQ registrada",
+        "cond": true,
+        "det": ""
+      },
+      {
+        "nombre": "CSV con encabezado y 10 filas",
+        "cond": true,
+        "det": "10 filas · 18 columnas"
+      },
+      {
+        "nombre": "Datos de verificación marcados como PRUEBA",
+        "cond": true,
+        "det": ""
+      }
+    ],
+    "errores_consola": []
+  }
+}

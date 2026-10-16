@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<!-- ================================================================== -->
+<!-- L.5 · Prototipo de la metáfora propia «El portafolio como huerto»  -->
+<!-- Proyecto: Ernesto Investing AI · Equipo A · IHC 2026-2 · UNMSM     -->
+<!-- Estudio intra-sujeto: vista metafórica (huerto) vs. vista          -->
+<!-- convencional (tabla), 5 tareas por vista, orden y cartera          -->
+<!-- contrabalanceados. Instrumentado con performance.now() y           -->
+<!-- addEventListener; exporta un CSV por participante.                 -->
+<!-- Archivo autocontenido: no usa scripts externos.                    -->
+<!-- ================================================================== -->
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Huerto de inversiones — Prototipo L.5 · Ernesto Investing AI</title>
+  <style>
+    :root {
+      --fondo: #F0F2F6; --tarjeta: #FFFFFF; --azul: #1F3864; --azul-2: #2E5597; --dorado: #C5961A;
+      --verde: #1B7E34; --rojo: #C62828; --texto: #1A1F2B; --texto-sec: #4A5468; --borde: #CBD2DE;
+      --tierra: #8A6A4A; --tierra-clara: #EFE6DA; --cesped: #E5F0DF; --foco: #B45309;
+      --radio: 12px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Inter, 'Segoe UI', system-ui, sans-serif; background: var(--fondo); color: var(--texto); line-height: 1.5; }
+    button, input { font-family: inherit; font-size: inherit; color: inherit; }
+    :focus-visible { outline: 3px solid var(--foco); outline-offset: 2px; }
+    .num { font-family: Consolas, 'Cascadia Mono', monospace; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+    @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+
+    header.app { background: var(--azul); color: #fff; padding: .8rem 1.25rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+    .marca { display: flex; align-items: center; gap: .6rem; font-weight: 700; }
+    .marca .logo { width: 30px; height: 30px; border-radius: 8px; background: var(--dorado); display: grid; place-items: center; color: var(--azul); font-weight: 800; }
+    .marca small { display: block; font-weight: 400; opacity: .85; font-size: .75rem; }
+    .estado-estudio { font-size: .8rem; opacity: .95; }
+
+    main { max-width: 1200px; margin: 0 auto; padding: 1.25rem; }
+    .tarjeta { background: var(--tarjeta); border: 1px solid var(--borde); border-radius: var(--radio); padding: 1.25rem; }
+    h1 { font-size: 1.45rem; color: var(--azul); margin-bottom: .4rem; }
+    h2 { font-size: 1.1rem; color: var(--azul); margin-bottom: .5rem; }
+    p.sec { color: var(--texto-sec); font-size: .9rem; }
+    .btn { display: inline-flex; align-items: center; gap: .4rem; border: 1px solid var(--borde); background: #fff; border-radius: 8px; padding: .55rem 1rem; font-weight: 600; cursor: pointer; }
+    .btn:hover { border-color: var(--azul-2); }
+    .btn.primario { background: var(--azul); border-color: var(--azul); color: #fff; }
+    .btn.primario:hover { background: var(--azul-2); }
+    .btn.accion { background: var(--verde); border-color: var(--verde); color: #fff; }
+    .btn:disabled { opacity: .45; cursor: not-allowed; }
+    .pantalla { display: none; }
+    .pantalla.activa { display: block; }
+
+    /* Inicio */
+    .inicio-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 1.25rem; }
+    .campo { display: flex; flex-direction: column; gap: .3rem; margin: 1rem 0; max-width: 260px; }
+    .campo input { border: 1px solid var(--borde); border-radius: 8px; padding: .5rem .7rem; }
+    .orden { font-size: .85rem; background: var(--fondo); border-radius: 8px; padding: .6rem .8rem; margin-bottom: 1rem; }
+    .lista { padding-left: 1.2rem; font-size: .9rem; color: var(--texto-sec); }
+    .lista li { margin-bottom: .25rem; }
+    table.mapeo { width: 100%; border-collapse: collapse; font-size: .82rem; }
+    table.mapeo th, table.mapeo td { border-bottom: 1px solid var(--borde); padding: .35rem .4rem; text-align: left; }
+    table.mapeo th { color: var(--azul); }
+
+    /* Barra de tarea */
+    .barra-tarea { display: grid; grid-template-columns: 1fr auto; gap: 1rem; align-items: center; margin-bottom: 1rem; }
+    .consigna { font-size: 1.05rem; font-weight: 700; color: var(--azul); }
+    .meta-tarea { font-size: .8rem; color: var(--texto-sec); }
+    .progreso { height: 6px; background: #DDE3EC; border-radius: 3px; overflow: hidden; margin-top: .4rem; }
+    .progreso i { display: block; height: 100%; background: var(--dorado); transition: width .3s; }
+    .aviso { min-height: 1.4rem; font-size: .85rem; color: var(--rojo); margin-top: .3rem; }
+    .zona-estudio { display: grid; grid-template-columns: 1fr 240px; gap: 1rem; }
+    .panel-acciones { display: flex; flex-direction: column; gap: .6rem; }
+    .seleccion { font-size: .85rem; background: var(--fondo); border-radius: 8px; padding: .6rem; min-height: 64px; }
+    .ayuda-vista { font-size: .78rem; color: var(--texto-sec); }
+
+    /* Vista huerto */
+    .huerto { display: grid; grid-template-columns: repeat(2, 1fr); gap: .8rem; align-items: start; }
+    .clima { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; font-size: .85rem; color: var(--texto-sec); background: linear-gradient(90deg, #E9F2FB, #FFF8E7); border-radius: 10px; padding: .5rem .8rem; }
+    .parcela { position: relative; background: var(--cesped); border: 2px solid #B9D3AD; border-radius: 12px; padding: .5rem .6rem .6rem; display: flex; flex-direction: column; }
+    .parcela.sel { border-color: var(--azul); box-shadow: 0 0 0 3px rgba(31,56,100,.25); }
+    .parcela-cab { display: flex; justify-content: space-between; align-items: center; background: none; border: none; cursor: pointer; padding: .2rem .3rem; border-radius: 6px; font-weight: 700; color: #33502A; text-align: left; }
+    .parcela-cab:hover { background: rgba(255,255,255,.6); }
+    .surco { flex: 1; display: flex; align-items: flex-end; justify-content: space-around; gap: .4rem; background: linear-gradient(180deg, transparent 72%, var(--tierra-clara) 72%); border-radius: 8px; padding: .3rem .3rem 0; }
+    .planta { position: relative; background: none; border: 2px solid transparent; border-radius: 10px; cursor: pointer; padding: .2rem .2rem 0; display: flex; flex-direction: column; align-items: center; }
+    .planta:hover, .planta:focus-visible { background: rgba(255,255,255,.55); }
+    .planta.sel { border-color: var(--azul); background: rgba(255,255,255,.75); }
+    .planta svg { display: block; }
+    .planta .rotulo { font-size: .7rem; font-weight: 600; color: #2D3A26; padding-bottom: .2rem; white-space: nowrap; }
+    .tooltip { position: absolute; bottom: calc(100% + 4px); left: 50%; transform: translateX(-50%); background: var(--azul); color: #fff; font-size: .72rem; padding: .35rem .5rem; border-radius: 6px; white-space: nowrap; pointer-events: none; opacity: 0; transition: opacity .15s; z-index: 5; }
+    .planta:hover .tooltip, .planta:focus-visible .tooltip { opacity: 1; }
+
+    /* Vista tabla */
+    .tabla-vista table { width: 100%; border-collapse: collapse; font-size: .88rem; }
+    .tabla-vista th, .tabla-vista td { border-bottom: 1px solid var(--borde); padding: .45rem .55rem; text-align: left; }
+    .tabla-vista th { background: #E7ECF4; color: var(--azul); }
+    .tabla-vista th button { background: none; border: none; font-weight: 700; color: inherit; cursor: pointer; }
+    .tabla-vista td.n, .tabla-vista th.n { text-align: right; }
+    .tabla-vista tbody tr { cursor: pointer; }
+    .tabla-vista tbody tr:hover { background: #F4F7FB; }
+    .tabla-vista tbody tr.sel { background: #DCE6F5; outline: 2px solid var(--azul); }
+    .pos { color: var(--verde); } .neg { color: var(--rojo); }
+    .tablas { display: grid; grid-template-columns: 2fr 1fr; gap: 1rem; align-items: start; }
+
+    /* SEQ y fin */
+    .seq { display: flex; gap: .4rem; flex-wrap: wrap; margin: .8rem 0; }
+    .seq button { width: 46px; height: 46px; border-radius: 10px; border: 1px solid var(--borde); background: #fff; font-weight: 700; cursor: pointer; }
+    .seq button:hover { background: var(--azul); color: #fff; }
+    .seq-etq { display: flex; justify-content: space-between; max-width: 360px; font-size: .75rem; color: var(--texto-sec); }
+    table.resultados { width: 100%; border-collapse: collapse; font-size: .8rem; margin-top: .8rem; }
+    table.resultados th, table.resultados td { border-bottom: 1px solid var(--borde); padding: .3rem .4rem; text-align: left; }
+    .resumen-cond { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 1rem; }
+    .resumen-cond div { background: var(--fondo); border-radius: 10px; padding: .8rem; }
+    .resumen-cond strong { font-size: 1.3rem; color: var(--azul); }
+    .verif { margin-top: 1rem; border: 2px solid var(--azul); border-radius: 10px; padding: .8rem 1rem; display: none; }
+    .verif.visible { display: block; }
+    .verif li { font-size: .85rem; list-style: none; }
+    footer { text-align: center; font-size: .75rem; color: var(--texto-sec); padding: 1.5rem; }
+    @media (max-width: 860px) { .inicio-grid, .zona-estudio, .tablas, .huerto { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <header class="app">
+    <div class="marca"><span class="logo" aria-hidden="true">E</span><div>Ernesto Investing AI<small>Prototipo L.5 · Metáfora «El portafolio como huerto»</small></div></div>
+    <div class="estado-estudio" id="estadoEstudio" aria-live="polite">Estudio sin iniciar</div>
+  </header>
+
+  <main>
+    <!-- =========================== Pantalla de inicio =========================== -->
+    <section class="pantalla activa tarjeta" id="pInicio" aria-labelledby="tInicio">
+      <div class="inicio-grid">
+        <div>
+          <h1 id="tInicio">Evaluación de la metáfora «El portafolio como huerto»</h1>
+          <p class="sec">Vas a revisar una cartera de inversiones de dos maneras: como un <b>huerto</b> y como una
+            <b>tabla</b>. En cada vista harás 5 tareas cortas. Trabaja con rapidez y precisión; el sistema mide el
+            tiempo, los clics y los errores. Después de cada tarea indicarás qué tan fácil fue (1 a 7).</p>
+          <label class="campo">Identificador del participante
+            <input id="idParticipante" value="p1" autocomplete="off" aria-describedby="ordenTxt"></label>
+          <div class="orden" id="ordenTxt"></div>
+          <ul class="lista">
+            <li>Duración aproximada: 3 minutos. Los datos son anónimos.</li>
+            <li>Si no encuentras una respuesta, usa «No lo encuentro» (a los 60 s la tarea termina sola).</li>
+            <li>Al final, descarga el CSV y envíalo al equipo.</li>
+          </ul>
+          <p style="margin-top:1rem"><button class="btn primario" id="btnComenzar">Comenzar</button></p>
+        </div>
+        <div>
+          <h2>Cómo leer el huerto</h2>
+          <table class="mapeo" aria-label="Mapeo entre huerto y portafolio">
+            <thead><tr><th>En el huerto…</th><th>…significa en tu portafolio</th></tr></thead>
+            <tbody id="tablaMapeo"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================== Instrucciones de la vista =========================== -->
+    <section class="pantalla tarjeta" id="pInstrucciones" aria-labelledby="tInstr">
+      <h1 id="tInstr"></h1>
+      <div id="textoInstr" class="sec"></div>
+      <p style="margin-top:1rem"><button class="btn primario" id="btnEmpezarBloque">Empezar las 5 tareas</button></p>
+    </section>
+
+    <!-- =========================== Tarea =========================== -->
+    <section class="pantalla" id="pTarea" aria-labelledby="consigna">
+      <div class="tarjeta barra-tarea">
+        <div>
+          <div class="meta-tarea" id="metaTarea"></div>
+          <div class="consigna" id="consigna" tabindex="-1"></div>
+          <div class="progreso" aria-hidden="true"><i id="barraProgreso"></i></div>
+          <div class="aviso" id="aviso" aria-live="assertive"></div>
+        </div>
+        <button class="btn" id="btnRendirse">No lo encuentro</button>
+      </div>
+      <div class="zona-estudio">
+        <div class="tarjeta" id="areaVista"></div>
+        <aside class="tarjeta panel-acciones" aria-label="Acciones">
+          <div class="seleccion" id="seleccion" aria-live="polite">Nada seleccionado.</div>
+          <button class="btn accion" id="btnAccion1" disabled></button>
+          <button class="btn accion" id="btnAccion2" disabled></button>
+          <p class="ayuda-vista" id="ayudaVista"></p>
+        </aside>
+      </div>
+    </section>
+
+    <!-- =========================== SEQ =========================== -->
+    <section class="pantalla tarjeta" id="pSeq" aria-labelledby="tSeq">
+      <h2 id="tSeq">En general, ¿qué tan fácil o difícil fue esta tarea?</h2>
+      <div class="seq" id="botonesSeq" role="group" aria-label="Escala de 1 (muy difícil) a 7 (muy fácil)"></div>
+      <div class="seq-etq"><span>1 · Muy difícil</span><span>7 · Muy fácil</span></div>
+    </section>
+
+    <!-- =========================== Fin =========================== -->
+    <section class="pantalla tarjeta" id="pFin" aria-labelledby="tFin">
+      <h1 id="tFin">¡Gracias! Estudio completado</h1>
+      <p class="sec">Descarga el CSV y envíalo al equipo. Luego puedes iniciar el siguiente participante.</p>
+      <div class="resumen-cond" id="resumenCond"></div>
+      <p style="margin-top:1rem; display:flex; gap:.6rem; flex-wrap:wrap">
+        <button class="btn primario" id="btnExportar">Descargar CSV</button>
+        <button class="btn" id="btnNuevo">Siguiente participante</button>
+      </p>
+      <table class="resultados" id="tablaResultados"></table>
+      <div class="verif" id="verif"><h2>Verificación automática</h2><ul id="listaVerif"></ul></div>
+    </section>
+  </main>
+
+  <footer>Ernesto Investing AI · Prototipo de investigación (datos ficticios) · Equipo A · IHC 2026-2 · FISI · UNMSM</footer>
+
+  <script>
+    // ================================================================
+    // 1. Datos: dos carteras equivalentes (ficticias) y mapeo de la metáfora
+    // ================================================================
+    const CARTERAS = {
+      A: {
+        nombre: "Cartera A",
+        sectores: { tec: "Tecnología", ene: "Energía", sal: "Salud", ban: "Banca" },
+        activos: [
+          { id: "nube",   nombre: "NubeAndina",   sector: "tec", valor: 3600, rend: 18.5, div: false },
+          { id: "chip",   nombre: "ChipSur",      sector: "tec", valor: 3000, rend: 6.2,  div: false },
+          { id: "sol",    nombre: "SolPacífico",  sector: "ene", valor: 1800, rend: -9.4, div: true  },
+          { id: "gas",    nombre: "GasNorte",     sector: "ene", valor: 2100, rend: 2.1,  div: true  },
+          { id: "vida",   nombre: "VidaLab",      sector: "sal", valor: 3000, rend: 11.0, div: false },
+          { id: "farma",  nombre: "FarmaInca",    sector: "sal", valor: 900,  rend: -3.5, div: true  },
+          { id: "cumbre", nombre: "BancoCumbre",  sector: "ban", valor: 4400, rend: 4.8,  div: true  },
+          { id: "credi",  nombre: "CrediLima",    sector: "ban", valor: 1400, rend: -14.2, div: false }
+        ],
+        aRegar: "vida"
+      },
+      B: {
+        nombre: "Cartera B",
+        sectores: { con: "Consumo", min: "Minería", tel: "Telecomunicaciones", inm: "Inmobiliario" },
+        activos: [
+          { id: "merca",  nombre: "MercaSol",        sector: "con", valor: 3100, rend: 7.4,  div: true  },
+          { id: "bebida", nombre: "BebidasPuna",     sector: "con", valor: 1200, rend: -5.1, div: true  },
+          { id: "cobre",  nombre: "CobreAlto",       sector: "min", valor: 3700, rend: 3.2,  div: true  },
+          { id: "oro",    nombre: "OroChavín",       sector: "min", valor: 2800, rend: 16.9, div: false },
+          { id: "red",    nombre: "RedAndes",        sector: "tel", valor: 2400, rend: -12.8, div: false },
+          { id: "fibra",  nombre: "FibraCosta",      sector: "tel", valor: 1500, rend: 1.6,  div: true  },
+          { id: "torre",  nombre: "TorreMiraflores", sector: "inm", valor: 4400, rend: 9.7,  div: true  },
+          { id: "lotes",  nombre: "LotesSur",        sector: "inm", valor: 1100, rend: -2.4, div: false }
+        ],
+        aRegar: "merca"
+      }
+    };
+    const MAPEO = [
+      ["Parcela", "Sector (diversificación)"], ["Tamaño de la parcela", "Peso del sector en la cartera"],
+      ["Planta", "Activo (posición)"], ["Tamaño de la planta", "Valor de la posición"],
+      ["Follaje verde y erguido / amarillo o marchito", "Rendimiento positivo / negativo"],
+      ["Frutos", "Paga dividendos (cosecha)"], ["Regar", "Aportar capital a un activo"],
+      ["Podar", "Vender una parte para tomar ganancias"], ["Clima del huerto", "Tendencia del mercado"]
+    ];
+    const fmt = new Intl.NumberFormat("es-PE", { style: "currency", currency: "PEN", maximumFractionDigits: 0 });
+    const pct = v => `${v > 0 ? "+" : ""}${v.toFixed(1)} %`;
+    const total = c => c.activos.reduce((s, a) => s + a.valor, 0);
+    const pesoSector = (c, s) => c.activos.filter(a => a.sector === s).reduce((t, a) => t + a.valor, 0) / total(c) * 100;
+
+    // ================================================================
+    // 2. Tareas (5 por vista) generadas a partir de los datos
+    // ================================================================
+    function tareasPara(cartera, cond) {
+      const c = CARTERAS[cartera];
+      const sectorMayor = Object.keys(c.sectores).sort((x, y) => pesoSector(c, y) - pesoSector(c, x))[0];
+      const peor = [...c.activos].sort((x, y) => x.rend - y.rend)[0];
+      const mayor = [...c.activos].sort((x, y) => y.valor - x.valor)[0];
+      const mejor = [...c.activos].sort((x, y) => y.rend - x.rend)[0];
+      const regar = c.activos.find(a => a.id === c.aRegar);
+      const H = cond === "huerto";
+      return [
+        { n: 1, clave: "sector_mayor_peso", tipo: "sector", objetivo: sectorMayor,
+          texto: H ? "Selecciona la parcela que ocupa más espacio en tu huerto (el sector con mayor peso)." : "Selecciona el sector con mayor peso en la cartera." },
+        { n: 2, clave: "peor_rendimiento", tipo: "activo", objetivo: peor.id,
+          texto: H ? "Selecciona la planta más marchita (el activo con peor rendimiento)." : "Selecciona el activo con peor rendimiento." },
+        { n: 3, clave: "mayor_valor", tipo: "activo", objetivo: mayor.id,
+          texto: H ? "Selecciona la planta más grande (el activo de mayor valor)." : "Selecciona el activo de mayor valor." },
+        { n: 4, clave: "aportar_capital", tipo: "accion", objetivo: regar.id, accion: "aportar",
+          texto: H ? `Riega ${regar.nombre}: aporta S/ 500 a ese activo.` : `Aporta S/ 500 al activo ${regar.nombre}.` },
+        { n: 5, clave: "tomar_ganancias", tipo: "accion", objetivo: mejor.id, accion: "vender",
+          texto: H ? "Poda la planta más frondosa: toma ganancias del activo con mejor rendimiento." : "Toma ganancias (vende una parte) del activo con mejor rendimiento." }
+      ];
+    }
+
+    // Contrabalanceo: orden de vistas y asignación de cartera según el número del participante
+    const ESQUEMAS = [
+      [{ cond: "huerto", cartera: "A" }, { cond: "tabla", cartera: "B" }],
+      [{ cond: "tabla", cartera: "A" }, { cond: "huerto", cartera: "B" }],
+      [{ cond: "huerto", cartera: "B" }, { cond: "tabla", cartera: "A" }],
+      [{ cond: "tabla", cartera: "B" }, { cond: "huerto", cartera: "A" }]
+    ];
+    function esquemaDe(id) {
+      const n = parseInt(String(id).replace(/\D/g, ""), 10);
+      return ESQUEMAS[((isNaN(n) ? 1 : n) - 1) % 4];
+    }
+
+    // ================================================================
+    // 3. Estado del estudio e instrumentación (performance.now + addEventListener)
+    // ================================================================
+    const E = { participante: "p1", bloques: [], bloque: 0, tarea: 0, ensayo: 0, registros: [],
+                actual: null, seleccion: null, modoPrueba: false, temporizador: null };
+    const $ = id => document.getElementById(id);
+    function mostrar(id) {
+      document.querySelectorAll(".pantalla").forEach(p => p.classList.toggle("activa", p.id === id));
+    }
+    function nombreNavegador() {
+      const ua = navigator.userAgent;
+      if (navigator.brave) return "Brave";
+      if (/Edg\//.test(ua)) return "Edge"; if (/Firefox\//.test(ua)) return "Firefox";
+      if (/Chrome\//.test(ua)) return "Chrome"; if (/Safari\//.test(ua)) return "Safari"; return "Otro";
+    }
+
+    // Clics dentro del área de estudio durante la tarea
+    $("pTarea").addEventListener("click", () => { if (E.actual && !E.actual.cerrada) E.actual.clics++; }, true);
+
+    function actualizarOrden() {
+      const esq = esquemaDe($("idParticipante").value);
+      $("ordenTxt").innerHTML = `Orden asignado: <b>1.ª ${esq[0].cond === "huerto" ? "vista huerto" : "vista tabla"}</b> (${CARTERAS[esq[0].cartera].nombre}) → ` +
+        `<b>2.ª ${esq[1].cond === "huerto" ? "vista huerto" : "vista tabla"}</b> (${CARTERAS[esq[1].cartera].nombre}).`;
+    }
+    $("idParticipante").addEventListener("input", actualizarOrden);
+    $("tablaMapeo").innerHTML = MAPEO.map(([f, d]) => `<tr><td>${f}</td><td>${d}</td></tr>`).join("");
+
+    $("btnComenzar").addEventListener("click", () => {
+      E.participante = ($("idParticipante").value.trim() || "p1").replace(/[^\w-]/g, "");
+      E.bloques = esquemaDe(E.participante); E.bloque = 0; E.ensayo = 0; E.registros = [];
+      instrucciones();
+    });
+
+    function instrucciones() {
+      const b = E.bloques[E.bloque];
+      $("estadoEstudio").textContent = `Participante ${E.participante} · vista ${E.bloque + 1} de 2`;
+      $("tInstr").textContent = b.cond === "huerto" ? `Vista ${E.bloque + 1} de 2: el huerto` : `Vista ${E.bloque + 1} de 2: la tabla`;
+      $("textoInstr").innerHTML = b.cond === "huerto"
+        ? `<p>Tu cartera se muestra como un huerto. Cada <b>parcela</b> es un sector y su tamaño indica su peso; cada <b>planta</b> es un activo y su tamaño indica su valor.
+           El follaje <b>verde y erguido</b> indica ganancia; <b>amarillo o marchito</b>, pérdida. Los frutos indican que paga dividendos.
+           Pasa el cursor (o enfoca con Tab) sobre una planta para ver sus cifras exactas.</p>
+           <p style="margin-top:.5rem">Para responder, haz clic en la parcela o en la planta. Para regar o podar, primero selecciona la planta y luego usa el botón.</p>`
+        : `<p>Tu cartera se muestra como una tabla de activos y un resumen por sector. Puedes ordenar las columnas haciendo clic en su encabezado.</p>
+           <p style="margin-top:.5rem">Para responder, haz clic en la fila del activo o del sector. Para aportar o vender, primero selecciona la fila y luego usa el botón.</p>`;
+      E.tarea = 0;
+      mostrar("pInstrucciones");
+      $("btnEmpezarBloque").focus();
+    }
+    $("btnEmpezarBloque").addEventListener("click", () => iniciarTarea());
+
+    // ================================================================
+    // 4. Renderizado de las vistas
+    // ================================================================
+    // Codificación continua del rendimiento (r, en %):
+    //  - color del follaje: de marrón (≤ −15 %) a verde intenso (≥ +18 %)
+    //  - caída de hojas y tallo: proporcional a la pérdida («más marchita» = más pérdida)
+    //  - frondosidad (tamaño de hojas y copa): proporcional a la ganancia
+    function colorFollaje(r) {
+      const t = Math.max(0, Math.min(1, (r + 15) / 33));
+      return `hsl(${Math.round(30 + t * 95)}, ${Math.round(48 + t * 12)}%, ${Math.round(40 - t * 6)}%)`;
+    }
+    function svgPlanta(a, escala) {
+      const h = Math.round(46 + escala * 74), w = Math.round(46 + escala * 46);
+      const cx = w / 2, color = colorFollaje(a.rend);
+      const caida = a.rend < 0 ? Math.min(42, -a.rend * 2.8) : 0;          // grados
+      const curva = a.rend < 0 ? Math.min(16, -a.rend * 1.1) : 0;          // px de inclinación del tallo
+      const frondosa = a.rend > 0 ? a.rend / 18 : 0;
+      const nHojas = 3 + Math.round(escala * 4);
+      const hojas = [];
+      for (let i = 0; i < nHojas; i++) {
+        const y = h - 14 - (i + 1) * ((h - 22) / (nHojas + 1));
+        const x = cx + curva * (1 - y / h);
+        const lado = i % 2 ? 1 : -1, largo = (9 + escala * 10) * (1 + 0.55 * frondosa);
+        const ang = lado * (-30 + caida * 1.6);
+        hojas.push(`<ellipse cx="${x + lado * largo * 0.55}" cy="${y}" rx="${largo * 0.55}" ry="${(3.2 + escala * 2.4) * (1 + 0.3 * frondosa)}" fill="${color}" transform="rotate(${ang} ${x} ${y})"/>`);
+      }
+      const xTope = cx + curva;
+      const copa = a.rend >= 0
+        ? `<circle cx="${xTope}" cy="${15}" r="${(6 + escala * 6) * (1 + 0.45 * frondosa)}" fill="${color}"/>`
+        : `<path d="M${xTope} 14 q ${6 + caida * 0.25} 2 ${8 + caida * 0.35} ${6 + caida * 0.45}" stroke="${color}" stroke-width="${3.5 + escala * 3}" fill="none" stroke-linecap="round"/>`;
+      const frutos = a.div ? [0, 1, 2].map(k => `<circle cx="${cx - 9 + k * 9 + curva * 0.5}" cy="${h * 0.48 + (k % 2) * 6}" r="3.2" fill="#C5961A" stroke="#8B6A10" stroke-width=".8"/>`).join("") : "";
+      return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" aria-hidden="true">
+        <path d="M${cx} ${h - 4} Q ${cx + curva * 0.3} ${h * 0.5} ${xTope} 14" stroke="#4E6B3A" stroke-width="${2.5 + escala * 2.5}" fill="none" stroke-linecap="round"/>
+        ${hojas.join("")}${copa}${frutos}
+        <ellipse cx="${cx}" cy="${h - 3}" rx="${w * 0.35}" ry="3" fill="#8A6A4A" opacity=".55"/></svg>`;
+    }
+    function renderHuerto(c) {
+      const max = Math.max(...c.activos.map(a => a.valor));
+      const media = c.activos.reduce((s, a) => s + a.rend * a.valor, 0) / total(c);
+      const clima = media >= 5 ? "☀️ Soleado: el huerto crece" : media >= 0 ? "⛅ Templado: crecimiento moderado" : "🌧️ Lluvioso: el huerto sufre";
+      const sectores = Object.keys(c.sectores);
+      // El área de cada parcela es proporcional al peso del sector
+      const html = `<div class="huerto" role="group" aria-label="Huerto de la ${c.nombre}">
+        <div class="clima"><span>${clima}</span><span class="num">Valor total ${fmt.format(total(c))}</span></div>
+        ${sectores.map(s => {
+          const peso = pesoSector(c, s);
+          const alto = Math.round(peso * 11);  // altura proporcional al peso (ancho igual): área ∝ peso
+          return `<div class="parcela" data-sector="${s}" style="min-height:${alto}px">
+            <button class="parcela-cab" data-sel="sector:${s}" aria-label="Parcela ${c.sectores[s]}"><span>🌱 ${c.sectores[s]}</span></button>
+            <div class="surco">${c.activos.filter(a => a.sector === s).map(a => `
+              <button class="planta" data-sel="activo:${a.id}" aria-label="${a.nombre}, ${c.sectores[s]}, ${fmt.format(a.valor)}, rendimiento ${pct(a.rend)}${a.div ? ", paga dividendos" : ""}">
+                <span class="tooltip num">${a.nombre} · ${fmt.format(a.valor)} · ${pct(a.rend)}</span>
+                ${svgPlanta(a, a.valor / max)}<span class="rotulo">${a.nombre}</span></button>`).join("")}
+            </div></div>`;
+        }).join("")}</div>`;
+      return html;
+    }
+    let ordenTabla = { col: null, asc: true };
+    function renderTabla(c) {
+      let filas = [...c.activos];
+      if (ordenTabla.col) filas.sort((x, y) => (ordenTabla.col === "nombre" ? x.nombre.localeCompare(y.nombre) : x[ordenTabla.col] - y[ordenTabla.col]) * (ordenTabla.asc ? 1 : -1));
+      const cab = (col, txt, n) => `<th class="${n ? "n" : ""}" aria-sort="${ordenTabla.col === col ? (ordenTabla.asc ? "ascending" : "descending") : "none"}"><button data-orden="${col}">${txt}${ordenTabla.col === col ? (ordenTabla.asc ? " ▲" : " ▼") : ""}</button></th>`;
+      return `<div class="tabla-vista tablas">
+        <table aria-label="Activos de la ${c.nombre}"><thead><tr>${cab("nombre", "Activo")}<th>Sector</th>${cab("valor", "Valor", 1)}<th class="n">Peso</th>${cab("rend", "Rendimiento", 1)}<th>Dividendos</th></tr></thead>
+          <tbody>${filas.map(a => `<tr data-sel="activo:${a.id}" tabindex="0"><td>${a.nombre}</td><td>${c.sectores[a.sector]}</td><td class="n num">${fmt.format(a.valor)}</td><td class="n num">${(a.valor / total(c) * 100).toFixed(1)} %</td><td class="n num ${a.rend >= 0 ? "pos" : "neg"}">${pct(a.rend)}</td><td>${a.div ? "Sí" : "No"}</td></tr>`).join("")}</tbody></table>
+        <table aria-label="Resumen por sector"><thead><tr><th>Sector</th><th class="n">Peso</th></tr></thead>
+          <tbody>${Object.keys(c.sectores).map(s => `<tr data-sel="sector:${s}" tabindex="0"><td>${c.sectores[s]}</td><td class="n num">${pesoSector(c, s).toFixed(1)} %</td></tr>`).join("")}</tbody></table>
+      </div>`;
+    }
+    function pintarVista() {
+      const b = E.bloques[E.bloque], c = CARTERAS[b.cartera];
+      $("areaVista").innerHTML = b.cond === "huerto" ? renderHuerto(c) : renderTabla(c);
+      $("areaVista").querySelectorAll("[data-sel]").forEach(el => {
+        el.addEventListener("click", () => seleccionar(el.dataset.sel));
+        if (el.tagName === "TR") el.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); seleccionar(el.dataset.sel); } });
+      });
+      $("areaVista").querySelectorAll("[data-orden]").forEach(btn => btn.addEventListener("click", e => {
+        e.stopPropagation();
+        const col = btn.dataset.orden;
+        ordenTabla = { col, asc: ordenTabla.col === col ? !ordenTabla.asc : col === "nombre" };
+        pintarVista(); marcarSeleccion();
+      }));
+    }
+    function marcarSeleccion() {
+      $("areaVista").querySelectorAll("[data-sel]").forEach(el => el.classList.toggle("sel", el.dataset.sel === E.seleccion));
+      $("areaVista").querySelectorAll(".parcela").forEach(p => p.classList.toggle("sel", E.seleccion === `sector:${p.dataset.sector}`));
+    }
+
+    // ================================================================
+    // 5. Ciclo de cada tarea
+    // ================================================================
+    function iniciarTarea() {
+      const b = E.bloques[E.bloque];
+      const t = tareasPara(b.cartera, b.cond)[E.tarea];
+      E.seleccion = null; ordenTabla = { col: null, asc: true };
+      E.ensayo++;
+      $("metaTarea").textContent = `Vista ${b.cond === "huerto" ? "huerto" : "tabla"} · tarea ${E.tarea + 1} de 5 · ensayo ${E.ensayo} de 10`;
+      $("consigna").textContent = t.texto;
+      $("barraProgreso").style.width = `${(E.ensayo - 1) * 10}%`;
+      $("aviso").textContent = "";
+      const H = b.cond === "huerto";
+      $("btnAccion1").textContent = H ? "💧 Regar · aportar S/ 500" : "Aportar S/ 500";
+      $("btnAccion2").textContent = H ? "✂️ Podar · vender 20 %" : "Vender 20 %";
+      $("ayudaVista").textContent = H ? "Pasa el cursor sobre una planta para ver sus cifras." : "Haz clic en un encabezado para ordenar.";
+      $("seleccion").textContent = "Nada seleccionado.";
+      [$("btnAccion1"), $("btnAccion2")].forEach(btn => { btn.disabled = true; btn.style.display = t.tipo === "accion" ? "" : "none"; });
+      mostrar("pTarea");
+      pintarVista();
+      const A = { t, cond: b.cond, cartera: b.cartera, clics: 0, errores: 0, respuestas: [], cerrada: false, inicio: performance.now() };
+      E.actual = A;
+      // El cronómetro arranca cuando la vista ya está pintada (siguiente cuadro)
+      requestAnimationFrame(() => { if (!A.cerrada) A.inicio = performance.now(); });
+      clearTimeout(E.temporizador);
+      E.temporizador = setTimeout(() => cerrarTarea(false, "tiempo_agotado"), E.modoPrueba ? 200000 : 60000);
+      $("consigna").focus();
+    }
+    function nombreDe(sel) {
+      const [tipo, id] = sel.split(":"), c = CARTERAS[E.actual.cartera];
+      return tipo === "sector" ? `Sector ${c.sectores[id]}` : c.activos.find(a => a.id === id).nombre;
+    }
+    function seleccionar(sel) {
+      const A = E.actual; if (!A || A.cerrada) return;
+      E.seleccion = sel; marcarSeleccion();
+      $("seleccion").innerHTML = `Seleccionado: <b>${nombreDe(sel)}</b>`;
+      const [tipo, id] = sel.split(":");
+      if (A.t.tipo === "accion") { [$("btnAccion1"), $("btnAccion2")].forEach(b => b.disabled = tipo !== "activo"); return; }
+      A.respuestas.push(id);
+      if (tipo === A.t.tipo && id === A.t.objetivo) cerrarTarea(true, id);
+      else { A.errores++; $("aviso").textContent = "Esa no es la respuesta. Intenta de nuevo."; }
+    }
+    function accion(cual) {
+      const A = E.actual; if (!A || A.cerrada || !E.seleccion) return;
+      const id = E.seleccion.split(":")[1];
+      A.respuestas.push(`${cual}:${id}`);
+      if (id === A.t.objetivo && cual === A.t.accion) cerrarTarea(true, `${cual}:${id}`);
+      else { A.errores++; $("aviso").textContent = cual !== A.t.accion ? "Esa acción no corresponde a la tarea." : "Ese no es el activo indicado. Intenta de nuevo."; }
+    }
+    $("btnAccion1").addEventListener("click", () => accion("aportar"));
+    $("btnAccion2").addEventListener("click", () => accion("vender"));
+    $("btnRendirse").addEventListener("click", () => cerrarTarea(false, "no_lo_encuentro"));
+
+    function cerrarTarea(exito, respuesta) {
+      const A = E.actual; if (!A || A.cerrada) return;
+      A.cerrada = true; clearTimeout(E.temporizador);
+      const tiempo = Math.round(performance.now() - A.inicio);
+      E.registros.push({
+        participante: E.participante, orden_vistas: E.bloques.map(b => b.cond).join(">"), ensayo: E.ensayo,
+        bloque: E.bloque + 1, condicion: A.cond, cartera: A.cartera, tarea: A.t.n, clave_tarea: A.t.clave,
+        objetivo: A.t.objetivo, respuesta_final: respuesta, tiempo_ms: tiempo, clics: A.clics, errores: A.errores,
+        exito: exito ? 1 : 0, seq: null, navegador: nombreNavegador(), fecha: new Date().toISOString(),
+        modo: E.modoPrueba ? "PRUEBA" : "real"
+      });
+      $("aviso").textContent = exito ? "" : "Tarea terminada sin respuesta correcta.";
+      mostrar("pSeq");
+      $("botonesSeq").querySelector("button").focus();
+    }
+    $("botonesSeq").innerHTML = [1, 2, 3, 4, 5, 6, 7].map(v => `<button data-seq="${v}" aria-label="${v}">${v}</button>`).join("");
+    $("botonesSeq").querySelectorAll("button").forEach(b => b.addEventListener("click", () => registrarSeq(+b.dataset.seq)));
+    function registrarSeq(v) {
+      E.registros[E.registros.length - 1].seq = v;
+      E.tarea++;
+      if (E.tarea < 5) return iniciarTarea();
+      E.bloque++;
+      if (E.bloque < 2) return instrucciones();
+      finalizar();
+    }
+
+    // ================================================================
+    // 6. Fin, resumen y exportación CSV
+    // ================================================================
+    function resumenCond(cond) {
+      const r = E.registros.filter(x => x.condicion === cond);
+      const med = arr => { const s = [...arr].sort((a, b) => a - b); return s.length ? (s.length % 2 ? s[(s.length - 1) / 2] : (s[s.length / 2 - 1] + s[s.length / 2]) / 2) : 0; };
+      return { n: r.length, tiempo: med(r.map(x => x.tiempo_ms)), exito: r.filter(x => x.exito).length, errores: r.reduce((s, x) => s + x.errores, 0),
+               seq: r.length ? r.reduce((s, x) => s + x.seq, 0) / r.length : 0 };
+    }
+    function finalizar() {
+      $("estadoEstudio").textContent = `Participante ${E.participante} · completado`;
+      $("barraProgreso").style.width = "100%";
+      $("resumenCond").innerHTML = ["huerto", "tabla"].map(c => { const s = resumenCond(c); return `<div><div>Vista ${c}</div>
+        <strong class="num">${(s.tiempo / 1000).toFixed(1)} s</strong> <span class="sec">mediana por tarea</span><br>
+        <span class="sec">Éxito ${s.exito}/${s.n} · errores ${s.errores} · facilidad media ${s.seq.toFixed(1)}/7</span></div>`; }).join("");
+      const cols = ["ensayo", "condicion", "cartera", "tarea", "tiempo_ms", "clics", "errores", "exito", "seq"];
+      $("tablaResultados").innerHTML = `<thead><tr>${cols.map(c => `<th>${c}</th>`).join("")}</tr></thead><tbody>${E.registros.map(r => `<tr>${cols.map(c => `<td class="num">${r[c]}</td>`).join("")}</tr>`).join("")}</tbody>`;
+      try { localStorage.setItem(`huertoL5_${E.participante}`, JSON.stringify(E.registros)); } catch (e) { /* sin almacenamiento */ }
+      mostrar("pFin");
+      $("btnExportar").focus();
+    }
+    const COLUMNAS = ["participante", "orden_vistas", "ensayo", "bloque", "condicion", "cartera", "tarea", "clave_tarea", "objetivo",
+                      "respuesta_final", "tiempo_ms", "clics", "errores", "exito", "seq", "navegador", "fecha", "modo"];
+    function generarCSV() {
+      const esc = v => `"${String(v ?? "").replace(/"/g, '""')}"`;
+      return "﻿" + COLUMNAS.join(",") + "\n" + E.registros.map(r => COLUMNAS.map(c => esc(r[c])).join(",")).join("\n");
+    }
+    $("btnExportar").addEventListener("click", () => {
+      const url = URL.createObjectURL(new Blob([generarCSV()], { type: "text/csv;charset=utf-8" }));
+      const a = Object.assign(document.createElement("a"), { href: url, download: `L5_huerto_${E.participante}${E.modoPrueba ? "_PRUEBA" : ""}.csv` });
+      document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+    });
+    $("btnNuevo").addEventListener("click", () => {
+      const n = parseInt(E.participante.replace(/\D/g, ""), 10);
+      $("idParticipante").value = `p${isNaN(n) ? 1 : n + 1}`;
+      actualizarOrden(); $("estadoEstudio").textContent = "Estudio sin iniciar"; mostrar("pInicio");
+    });
+
+    // ================================================================
+    // 7. Verificación automática (?autotest=1): simula una sesión completa
+    //    con datos marcados como PRUEBA (no se usan en el análisis)
+    // ================================================================
+    function verificar() {
+      E.modoPrueba = true;
+      const pruebas = [];
+      const ok = (nombre, cond, det = "") => pruebas.push({ nombre, cond: !!cond, det });
+      ok("Contrabalanceo de 4 esquemas (p1–p4)", ["p1", "p2", "p3", "p4"].map(p => esquemaDe(p).map(b => b.cond[0] + b.cartera).join("")).join(" ") === "hAtB tAhB hBtA tBhA",
+         ["p1", "p2", "p3", "p4"].map(p => `${p}: ${esquemaDe(p).map(b => b.cond + "-" + b.cartera).join(" → ")}`).join(" · "));
+      ok("Objetivos únicos en ambas carteras", ["A", "B"].every(k => { const c = CARTERAS[k], r = c.activos.map(a => a.rend), v = c.activos.map(a => a.valor);
+         return new Set(r).size === r.length && v.filter(x => x === Math.max(...v)).length === 1; }));
+      $("idParticipante").value = "p1"; $("btnComenzar").click();
+      let tareasHechas = 0, errorProvocado = false;
+      for (let bloque = 0; bloque < 2; bloque++) {
+        $("btnEmpezarBloque").click();
+        for (let k = 0; k < 5; k++) {
+          const t = E.actual.t, prefijo = t.tipo === "sector" ? "sector" : "activo";
+          if (!errorProvocado && t.tipo === "activo") {   // un error deliberado para comprobar el conteo
+            const otro = CARTERAS[E.actual.cartera].activos.find(a => a.id !== t.objetivo).id;
+            $("areaVista").querySelector(`[data-sel="activo:${otro}"]`).click(); errorProvocado = true;
+          }
+          if (bloque === 1 && k === 4) { $("btnRendirse").click(); }
+          else {
+            $("areaVista").querySelector(`[data-sel="${prefijo}:${t.objetivo}"]`).click();
+            if (t.tipo === "accion") (t.accion === "aportar" ? $("btnAccion1") : $("btnAccion2")).click();
+          }
+          tareasHechas++;
+          $("botonesSeq").querySelector('[data-seq="6"]').click();
+        }
+      }
+      const r = E.registros;
+      ok("Se registran 10 ensayos por participante (5 tareas × 2 vistas)", r.length === 10, `${r.length} registros`);
+      ok("Ambas vistas se renderizan", r.filter(x => x.condicion === "huerto").length === 5 && r.filter(x => x.condicion === "tabla").length === 5);
+      ok("Detección de éxito", r.filter(x => x.exito === 1).length === 9, `${r.filter(x => x.exito === 1).length} éxitos de 10 (1 abandono deliberado)`);
+      ok("Conteo de errores", r.reduce((s, x) => s + x.errores, 0) === 1, `${r.reduce((s, x) => s + x.errores, 0)} error registrado`);
+      ok("Tiempo medido con performance.now()", r.every(x => Number.isFinite(x.tiempo_ms) && x.tiempo_ms >= 0));
+      ok("Clics contados en el área de estudio", r.every(x => x.clics >= 1), `clics por ensayo: ${r.map(x => x.clics).join(", ")}`);
+      ok("Escala SEQ registrada", r.every(x => x.seq === 6));
+      const csv = generarCSV(), lineas = csv.trim().split("\n");
+      ok("CSV con encabezado y 10 filas", lineas.length === 11 && lineas[0].includes("tiempo_ms") && lineas[0].includes("condicion"), `${lineas.length - 1} filas · ${COLUMNAS.length} columnas`);
+      ok("Datos de verificación marcados como PRUEBA", r.every(x => x.modo === "PRUEBA"));
+      const pasan = pruebas.filter(p => p.cond).length;
+      $("listaVerif").innerHTML = pruebas.map(p => `<li>${p.cond ? "✅" : "❌"} ${p.nombre}${p.det ? ` <span class="sec">— ${p.det}</span>` : ""}</li>`).join("") +
+        `<li style="margin-top:.4rem"><b>${pasan} de ${pruebas.length} comprobaciones superadas</b> · ${nombreNavegador()}</li>`;
+      $("verif").classList.add("visible");
+      window.__verificacionHuerto = { pasan, total: pruebas.length, pruebas, registros: r };
+      return window.__verificacionHuerto;
+    }
+
+    actualizarOrden();
+    const PARAMS = new URLSearchParams(location.search);
+    // ?demo=1 marca la sesión como PRUEBA (capturas y demostraciones; no entra al análisis)
+    if (PARAMS.get("demo") === "1") E.modoPrueba = true;
+    if (PARAMS.get("autotest") === "1") verificar();
+  </script>
+</body>
+</html>

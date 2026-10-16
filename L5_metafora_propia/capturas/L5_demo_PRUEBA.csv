@@ -1,0 +1,11 @@
+﻿participante,orden_vistas,ensayo,bloque,condicion,cartera,tarea,clave_tarea,objetivo,respuesta_final,tiempo_ms,clics,errores,exito,seq,navegador,fecha,modo
+"p1","huerto>tabla","1","1","huerto","A","1","sector_mayor_peso","tec","tec","537","1","0","1","6","Chrome","2026-10-16T22:36:46.644Z","PRUEBA"
+"p1","huerto>tabla","2","1","huerto","A","2","peor_rendimiento","credi","credi","452","1","0","1","6","Chrome","2026-10-16T22:36:47.177Z","PRUEBA"
+"p1","huerto>tabla","3","1","huerto","A","3","mayor_valor","cumbre","cumbre","19","1","0","1","6","Chrome","2026-10-16T22:36:47.244Z","PRUEBA"
+"p1","huerto>tabla","4","1","huerto","A","4","aportar_capital","vida","aportar:vida","186","3","0","1","6","Chrome","2026-10-16T22:36:47.478Z","PRUEBA"
+"p1","huerto>tabla","5","1","huerto","A","5","tomar_ganancias","nube","vender:nube","53","2","0","1","6","Chrome","2026-10-16T22:36:47.578Z","PRUEBA"
+"p1","huerto>tabla","6","2","tabla","B","1","sector_mayor_peso","min","min","402","1","0","1","5","Chrome","2026-10-16T22:36:48.060Z","PRUEBA"
+"p1","huerto>tabla","7","2","tabla","B","2","peor_rendimiento","red","red","19","1","0","1","5","Chrome","2026-10-16T22:36:48.127Z","PRUEBA"
+"p1","huerto>tabla","8","2","tabla","B","3","mayor_valor","torre","torre","19","1","0","1","5","Chrome","2026-10-16T22:36:48.193Z","PRUEBA"
+"p1","huerto>tabla","9","2","tabla","B","4","aportar_capital","merca","aportar:merca","53","2","0","1","5","Chrome","2026-10-16T22:36:48.294Z","PRUEBA"
+"p1","huerto>tabla","10","2","tabla","B","5","tomar_ganancias","oro","vender:oro","52","2","0","1","5","Chrome","2026-10-16T22:36:48.394Z","PRUEBA"
