@@ -1,0 +1,11 @@
+﻿participante,ensayo,tarea,evento,and_correcto,and_seleccionado,tiempo_ms,clics,exito,fecha
+"p1","1","Identificar andén","Sustentación de Ingeniería","A","B","2969","1","0","2026-10-16T21:35:52.653Z"
+"p1","2","Identificar andén","Conferencia de IA","B","C","708","1","0","2026-10-16T21:35:54.452Z"
+"p1","3","Identificar andén","Taller de UX","C","A","1077","1","0","2026-10-16T21:35:57.394Z"
+"p1","4","Identificar andén","Seminario de Redes","A","B","828","1","0","2026-10-16T21:36:01.263Z"
+"p1","5","Identificar andén","Defensa de Tesis","B","A","1753","1","0","2026-10-16T21:36:04.242Z"
+"p1","6","Identificar andén","Conferencia de Seguridad","C","C","3313","1","1","2026-10-16T21:36:09.086Z"
+"p1","7","Identificar andén","Sustentación de Ingeniería","A","B","891","1","0","2026-10-16T21:36:10.818Z"
+"p1","8","Identificar andén","Taller de UX","C","B","592","1","0","2026-10-16T21:36:12.716Z"
+"p1","9","Identificar andén","Defensa de Tesis","B","B","3821","1","1","2026-10-16T21:36:21.751Z"
+"p1","10","Identificar andén","Conferencia de IA","B","B","848","1","1","2026-10-16T21:36:23.920Z"

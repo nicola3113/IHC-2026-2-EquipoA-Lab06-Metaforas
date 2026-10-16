@@ -1,0 +1,7 @@
+﻿participante,tarea,estilo,descripcion,tiempo_ms,clics,exito,fecha
+"p1","1","Esqueumórfico","Activar interruptor","1432","1","1","2026-10-16T21:32:02.834Z"
+"p1","2","Plano","Activar interruptor","2323","1","1","2026-10-16T21:32:05.818Z"
+"p1","3","Neumórfico","Activar interruptor","1905","1","1","2026-10-16T21:32:08.518Z"
+"p1","4","Esqueumórfico","Presionar botón Enviar","872","1","1","2026-10-16T21:32:10.078Z"
+"p1","5","Plano","Presionar botón Enviar","1427","1","1","2026-10-16T21:32:12.290Z"
+"p1","6","Neumórfico","Presionar botón Enviar","666","1","1","2026-10-16T21:32:14.065Z"

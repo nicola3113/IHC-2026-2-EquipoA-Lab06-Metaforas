@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<!-- =============================================================== -->
+<!-- Ejercicio 6.1 (regenerado desde el prompt AIAP de la guía)      -->
+<!-- Galería interactiva de 12 metáforas de interfaz en 6 tipos      -->
+<!-- IHC 2026-2 · UNMSM · Equipo A                                   -->
+<!-- Generado con Claude (Anthropic) y revisado por el equipo        -->
+<!-- =============================================================== -->
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ejercicio 6.1 (regenerado) — Galería de Metáforas de Interfaz</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Lucide con versión fija (evita cambios inesperados de @latest) -->
+  <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
+  <style>
+    :root {
+      --fondo: #0B1120;
+      --superficie: #151E32;
+      --superficie-2: #1F2A44;
+      --borde: #2E3B5B;
+      --texto: #E8EDF7;
+      --texto-sec: #A3B1CC;
+      --primario: #4F8DF7;
+      --exito: #22C38E;
+      --alerta: #F5B544;
+      --peligro: #F06A6A;
+      --t-estructural: #4F8DF7;
+      --t-orientacional: #22C38E;
+      --t-ontologica: #A27BF6;
+      --t-contenedor: #F5B544;
+      --t-viaje: #F0679E;
+      --t-conversacional: #2CC3DC;
+      --radio: 14px;
+      --transicion: 0.25s ease;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--fondo);
+      color: var(--texto);
+      line-height: 1.55;
+    }
+    button { font-family: inherit; }
+
+    /* Encabezado */
+    header {
+      padding: 2.5rem 1.5rem 2rem;
+      text-align: center;
+      background: radial-gradient(circle at 50% 0%, #1B2A4D 0%, var(--fondo) 70%);
+      border-bottom: 1px solid var(--borde);
+    }
+    .insignia {
+      display: inline-flex; align-items: center; gap: .4rem;
+      font-size: .75rem; font-weight: 600; color: var(--alerta);
+      border: 1px solid var(--alerta); border-radius: 999px; padding: .2rem .8rem;
+      margin-bottom: 1rem;
+    }
+    header h1 { font-size: clamp(1.5rem, 4vw, 2.2rem); font-weight: 800; margin-bottom: .5rem; }
+    header p { color: var(--texto-sec); max-width: 720px; margin: 0 auto; font-size: .95rem; }
+
+    /* Filtros */
+    nav.filtros {
+      position: sticky; top: 0; z-index: 50;
+      display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem;
+      padding: 1rem; background: rgba(21, 30, 50, .95); border-bottom: 1px solid var(--borde);
+      backdrop-filter: blur(6px);
+    }
+    .filtro {
+      display: inline-flex; align-items: center; gap: .4rem;
+      background: transparent; color: var(--texto-sec);
+      border: 1px solid var(--borde); border-radius: 999px;
+      padding: .45rem .95rem; font-size: .8rem; font-weight: 600; cursor: pointer;
+      transition: var(--transicion);
+    }
+    .filtro:hover { color: var(--texto); border-color: var(--primario); }
+    .filtro.activo { background: var(--primario); border-color: var(--primario); color: #fff; }
+    .filtro .contador { font-size: .7rem; opacity: .8; }
+
+    main { max-width: 1240px; margin: 0 auto; padding: 2rem 1.25rem 3rem; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.25rem; }
+
+    /* Tarjeta */
+    .tarjeta {
+      display: flex; flex-direction: column;
+      background: var(--superficie); border: 1px solid var(--borde); border-radius: var(--radio);
+      overflow: hidden; transition: transform var(--transicion), border-color var(--transicion), box-shadow var(--transicion);
+    }
+    .tarjeta:hover { transform: translateY(-3px); border-color: var(--color-tipo); box-shadow: 0 12px 28px -12px rgba(0,0,0,.6); }
+    .tarjeta.oculta { display: none; }
+    .tarjeta-cabecera { display: flex; gap: .8rem; padding: 1.1rem 1.1rem .6rem; align-items: flex-start; }
+    .tarjeta-icono {
+      width: 46px; height: 46px; border-radius: 12px; flex-shrink: 0;
+      display: grid; place-items: center; background: var(--color-tipo); color: #fff;
+    }
+    .tarjeta-icono svg { width: 24px; height: 24px; }
+    .tarjeta h2 { font-size: 1.02rem; font-weight: 700; line-height: 1.3; }
+    .etiqueta-tipo {
+      display: inline-block; margin-top: .25rem; font-size: .68rem; font-weight: 700; letter-spacing: .04em;
+      text-transform: uppercase; padding: .1rem .5rem; border-radius: 4px;
+      color: var(--color-tipo); background: color-mix(in srgb, var(--color-tipo) 18%, transparent);
+    }
+    .tarjeta-texto { padding: 0 1.1rem; font-size: .85rem; color: var(--texto-sec); }
+    .demo {
+      margin: .8rem 1.1rem; padding: .9rem; min-height: 120px;
+      background: var(--fondo); border: 1px dashed var(--borde); border-radius: 10px;
+      display: flex; flex-direction: column; justify-content: center; gap: .5rem;
+      font-size: .78rem;
+    }
+    .demo-ayuda { font-size: .68rem; color: var(--texto-sec); text-align: center; }
+    .dominios { display: flex; flex-wrap: wrap; gap: .4rem; padding: 0 1.1rem; font-size: .7rem; }
+    .dominios span { padding: .15rem .5rem; border-radius: 4px; border: 1px solid var(--borde); color: var(--texto-sec); }
+    .dominios b { color: var(--texto); font-weight: 600; }
+    .tarjeta-pie { margin-top: auto; padding: .9rem 1.1rem 1.1rem; }
+    .btn-detalle {
+      width: 100%; display: inline-flex; justify-content: center; align-items: center; gap: .4rem;
+      background: var(--superficie-2); color: var(--texto); border: 1px solid var(--borde);
+      border-radius: 8px; padding: .55rem; font-size: .8rem; font-weight: 600; cursor: pointer;
+      transition: var(--transicion);
+    }
+    .btn-detalle:hover { background: var(--color-tipo); border-color: var(--color-tipo); }
+    .btn-detalle svg { width: 16px; height: 16px; }
+
+    /* Botones pequeños de las demos */
+    .mini {
+      background: var(--superficie-2); color: var(--texto); border: 1px solid var(--borde);
+      border-radius: 6px; padding: .3rem .6rem; font-size: .72rem; font-weight: 600; cursor: pointer;
+    }
+    .mini:hover { border-color: var(--primario); }
+    .mini:disabled { opacity: .4; cursor: not-allowed; }
+    .fila { display: flex; align-items: center; justify-content: center; gap: .5rem; flex-wrap: wrap; }
+
+    /* Demo escritorio */
+    .escritorio { display: grid; grid-template-columns: repeat(3, 1fr); gap: .4rem; }
+    .icono-esc { display: flex; flex-direction: column; align-items: center; gap: .2rem; padding: .4rem; border-radius: 6px; cursor: pointer; border: 1px solid transparent; background: none; color: var(--texto-sec); font-size: .66rem; }
+    .icono-esc svg { width: 22px; height: 22px; }
+    .icono-esc.sel { background: color-mix(in srgb, var(--primario) 25%, transparent); border-color: var(--primario); color: var(--texto); }
+    /* Demo ventanas */
+    .escena-ventanas { position: relative; height: 100px; }
+    .ventana { position: absolute; width: 58%; height: 70px; border-radius: 6px; border: 1px solid var(--borde); background: var(--superficie-2); cursor: pointer; overflow: hidden; transition: box-shadow var(--transicion); }
+    .ventana .barra { display: flex; justify-content: space-between; align-items: center; padding: .15rem .4rem; background: var(--superficie); font-size: .62rem; }
+    .ventana .barra i { font-style: normal; color: var(--peligro); cursor: pointer; }
+    .ventana .cuerpo { padding: .3rem .4rem; font-size: .62rem; color: var(--texto-sec); }
+    .ventana.frente { box-shadow: 0 0 0 2px var(--primario); }
+    /* Demo tablero */
+    .tablero { display: flex; align-items: center; gap: .8rem; justify-content: center; }
+    .tablero svg { width: 96px; height: 60px; }
+    /* Demo progreso */
+    .barra-fondo { height: 12px; border-radius: 6px; background: var(--superficie-2); overflow: hidden; }
+    .barra-relleno { height: 100%; width: 10%; background: linear-gradient(90deg, var(--exito), var(--primario)); transition: width .5s ease; }
+    /* Demo zoom */
+    .visor { height: 70px; overflow: hidden; border-radius: 6px; background: #0E1A30; position: relative; }
+    .mapa { position: absolute; inset: 0; transition: transform .35s ease; transform-origin: center; display: grid; grid-template-columns: repeat(4,1fr); gap: 3px; padding: 6px; }
+    .mapa div { border-radius: 3px; background: #1E3A66; font-size: .5rem; color: #9CC0FF; display: grid; place-items: center; }
+    /* Demo arrastrar */
+    .zona-drag { display: flex; align-items: center; justify-content: space-around; gap: .5rem; }
+    .doc-drag { width: 48px; height: 48px; display: grid; place-items: center; border-radius: 8px; background: var(--superficie-2); border: 2px solid var(--primario); cursor: grab; touch-action: none; user-select: none; }
+    .doc-drag.arrastrando { cursor: grabbing; opacity: .85; z-index: 10; position: relative; }
+    .destino-drag { width: 70px; height: 60px; border: 2px dashed var(--borde); border-radius: 8px; display: grid; place-items: center; font-size: .62rem; color: var(--texto-sec); text-align: center; transition: var(--transicion); }
+    .destino-drag.sobre { border-color: var(--exito); background: color-mix(in srgb, var(--exito) 15%, transparent); }
+    .destino-drag.lleno { border-style: solid; border-color: var(--exito); color: var(--exito); }
+    /* Demo nube */
+    .nube-escena { display: flex; align-items: center; justify-content: space-around; }
+    .nube-escena svg { width: 28px; height: 28px; }
+    .flujo { font-size: 1rem; color: var(--t-ontologica); min-width: 30px; text-align: center; transition: transform .4s ease; }
+    /* Demo carrito y papelera */
+    .contador-badge { position: relative; display: inline-grid; place-items: center; }
+    .contador-badge svg { width: 30px; height: 30px; }
+    .contador-badge span { position: absolute; top: -6px; right: -8px; min-width: 18px; height: 18px; border-radius: 9px; background: var(--peligro); color: #fff; font-size: .62rem; font-weight: 700; display: grid; place-items: center; padding: 0 4px; }
+    .archivos { display: flex; gap: .3rem; justify-content: center; flex-wrap: wrap; }
+    .archivo { font-size: .66rem; padding: .2rem .45rem; border-radius: 4px; background: var(--superficie-2); border: 1px solid var(--borde); }
+    /* Demo migas */
+    .migas { display: flex; flex-wrap: wrap; justify-content: center; gap: .3rem; font-size: .74rem; }
+    .migas button { background: none; border: none; color: var(--primario); cursor: pointer; font-size: inherit; text-decoration: underline; }
+    .migas .actual { color: var(--texto); font-weight: 700; }
+    .migas .sep { color: var(--texto-sec); }
+    /* Demo asistente paso a paso */
+    .pasos { display: flex; align-items: center; justify-content: center; }
+    .paso { width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; font-size: .66rem; font-weight: 700; background: var(--superficie-2); color: var(--texto-sec); }
+    .paso.hecho { background: var(--exito); color: #fff; }
+    .paso.actual { background: var(--primario); color: #fff; }
+    .conector { width: 26px; height: 2px; background: var(--borde); }
+    .conector.hecho { background: var(--exito); }
+    /* Demo chat */
+    .chat { display: flex; flex-direction: column; gap: .3rem; max-height: 92px; overflow-y: auto; }
+    .burbuja { max-width: 85%; padding: .3rem .55rem; border-radius: 10px; font-size: .68rem; }
+    .burbuja.bot { background: var(--superficie-2); border-bottom-left-radius: 3px; }
+    .burbuja.usr { background: var(--primario); color: #fff; margin-left: auto; border-bottom-right-radius: 3px; }
+
+    /* Panel de métricas */
+    .panel {
+      margin-top: 2.5rem; background: var(--superficie); border: 1px solid var(--borde); border-radius: var(--radio);
+      padding: 1.25rem;
+    }
+    .panel h2 { font-size: 1rem; display: flex; align-items: center; gap: .5rem; margin-bottom: .9rem; }
+    .panel h2 svg { width: 18px; height: 18px; color: var(--primario); }
+    .metricas { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: .75rem; }
+    .metrica { background: var(--fondo); border: 1px solid var(--borde); border-radius: 10px; padding: .8rem; text-align: center; }
+    .metrica strong { display: block; font-size: 1.45rem; font-weight: 800; color: var(--primario); }
+    .metrica span { font-size: .7rem; color: var(--texto-sec); }
+
+    /* Modal */
+    .modal-fondo { position: fixed; inset: 0; background: rgba(3, 7, 18, .75); display: none; align-items: center; justify-content: center; padding: 1.5rem; z-index: 100; }
+    .modal-fondo.visible { display: flex; }
+    .modal { position: relative; width: 100%; max-width: 720px; max-height: 88vh; overflow-y: auto; background: var(--superficie); border: 1px solid var(--borde); border-radius: var(--radio); padding: 1.8rem; }
+    .modal h2 { font-size: 1.35rem; padding-right: 2.5rem; margin: .3rem 0 .4rem; }
+    .modal h3 { font-size: .9rem; color: var(--alerta); margin: 1.1rem 0 .4rem; }
+    .modal p, .modal li { font-size: .88rem; color: var(--texto-sec); }
+    .modal ul { padding-left: 1.2rem; }
+    .tabla-mapeo { width: 100%; border-collapse: collapse; font-size: .82rem; }
+    .tabla-mapeo th, .tabla-mapeo td { border: 1px solid var(--borde); padding: .4rem .55rem; text-align: left; }
+    .tabla-mapeo th { background: var(--superficie-2); color: var(--texto); }
+    .tabla-mapeo td { color: var(--texto-sec); }
+    .cerrar { position: absolute; top: 1rem; right: 1rem; width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--borde); background: var(--superficie-2); color: var(--texto); cursor: pointer; display: grid; place-items: center; }
+    .cerrar:hover { background: var(--peligro); }
+
+    footer { text-align: center; color: var(--texto-sec); font-size: .75rem; padding: 2rem 1rem; border-top: 1px solid var(--borde); }
+    @media (max-width: 640px) { .grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <header>
+    <span class="insignia">IHC · UNMSM 2026-2 · Laboratorio 6</span>
+    <h1>Galería Interactiva de Metáforas de Interfaz</h1>
+    <p>Doce metáforas clasificadas en los seis tipos de la taxonomía de Lakoff y Johnson (1980) aplicada al diseño de
+      interfaces. Prueba la demo de cada tarjeta y abre su detalle para ver el mapeo entre dominio fuente y destino.</p>
+  </header>
+
+  <nav class="filtros" aria-label="Filtrar por tipo de metáfora" id="filtros"></nav>
+
+  <main>
+    <section class="grid" id="grid" aria-live="polite"></section>
+
+    <section class="panel" aria-labelledby="tituloPanel">
+      <h2 id="tituloPanel"><i data-lucide="activity"></i> Panel de métricas de interacción (performance.now())</h2>
+      <div class="metricas">
+        <div class="metrica"><strong id="mClics">0</strong><span>Clics registrados</span></div>
+        <div class="metrica"><strong id="mTarjetas">0 / 12</strong><span>Metáforas exploradas</span></div>
+        <div class="metrica"><strong id="mFiltros">0</strong><span>Filtros aplicados</span></div>
+        <div class="metrica"><strong id="mDemos">0</strong><span>Interacciones con demos</span></div>
+        <div class="metrica"><strong id="mPrimera">—</strong><span>Tiempo hasta la 1.ª interacción</span></div>
+        <div class="metrica"><strong id="mLatencia">—</strong><span>Latencia media de apertura del modal</span></div>
+        <div class="metrica"><strong id="mTiempo">0 s</strong><span>Tiempo en la página</span></div>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal-fondo" id="modalFondo" role="dialog" aria-modal="true" aria-labelledby="modalTitulo">
+    <div class="modal">
+      <button class="cerrar" id="modalCerrar" aria-label="Cerrar detalle"><i data-lucide="x"></i></button>
+      <div id="modalCuerpo"></div>
+    </div>
+  </div>
+
+  <footer>Ejercicio 6.1 regenerado desde el prompt AIAP de la guía · Equipo A · IHC 2026-2 · UNMSM<br>
+    Código generado con asistencia de IA (Claude, Anthropic) y verificado por el equipo.</footer>
+
+  <script>
+    // ==========================================================
+    // Tipos de la taxonomía (Lakoff y Johnson, 1980)
+    // ==========================================================
+    const TIPOS = {
+      estructural:   { nombre: "Estructural",    color: "var(--t-estructural)" },
+      orientacional: { nombre: "Orientacional",  color: "var(--t-orientacional)" },
+      ontologica:    { nombre: "Ontológica",     color: "var(--t-ontologica)" },
+      contenedor:    { nombre: "De contenedor",  color: "var(--t-contenedor)" },
+      viaje:         { nombre: "De viaje",       color: "var(--t-viaje)" },
+      conversacional:{ nombre: "Conversacional", color: "var(--t-conversacional)" }
+    };
+
+    // ==========================================================
+    // Datos de las 12 metáforas
+    // ==========================================================
+    const METAFORAS = [
+      { id: "escritorio", tipo: "estructural", nombre: "Escritorio", icono: "monitor",
+        resumen: "La pantalla funciona como la superficie de una mesa de oficina con documentos, carpetas y herramientas.",
+        fuente: "Mesa de oficina", destino: "Sistema operativo",
+        origen: "Xerox Star (1981) la llevó a un producto comercial; Apple Macintosh (1984) y Windows la masificaron.",
+        mapeo: [["Superficie de la mesa", "Fondo de pantalla"], ["Hoja de papel", "Archivo"], ["Carpeta", "Directorio"], ["Papelera", "Eliminación recuperable"], ["Bandeja de documentos", "Portapapeles"]],
+        fortalezas: "Aprovecha el conocimiento de oficina para que el usuario novato entienda dónde guarda y busca su trabajo.",
+        debilidades: "Un archivo físico está en un solo lugar; el sistema permite accesos directos, etiquetas y búsqueda global que la mesa no tiene.",
+        referencia: "Smith, D. C., Irby, C., Kimball, R., Verplank, B. y Harslem, E. (1982). Designing the Star user interface. Byte, 7(4), 242–282." },
+      { id: "ventanas", tipo: "estructural", nombre: "Ventanas", icono: "app-window",
+        resumen: "Cada aplicación se ve a través de un marco que se abre, se cierra, se mueve y se superpone a otros.",
+        fuente: "Ventana de un edificio", destino: "Área de aplicación",
+        origen: "Entorno Smalltalk de Xerox PARC en los años setenta; base de los gestores de ventanas actuales.",
+        mapeo: [["Marco de la ventana", "Borde de la aplicación"], ["Abrir y cerrar", "Iniciar y terminar"], ["Mirar a través", "Vista parcial del documento"], ["Ventana más cercana", "Ventana con el foco"], ["Correr la ventana", "Mover con la barra de título"]],
+        fortalezas: "Hace visible el trabajo en paralelo y permite comparar documentos lado a lado.",
+        debilidades: "Las ventanas ocultas se pierden detrás de otras; en móviles la metáfora se reemplaza por pantallas completas apiladas.",
+        referencia: "Myers, B. A. (1988). A taxonomy of window manager user interfaces. IEEE Computer Graphics and Applications, 8(5), 65–84." },
+      { id: "tablero", tipo: "estructural", nombre: "Panel de control", icono: "gauge",
+        resumen: "Los indicadores clave se agrupan como los instrumentos del tablero de un vehículo.",
+        fuente: "Tablero de un auto", destino: "Dashboard de datos",
+        origen: "Tomado de los tableros de aviones y automóviles; difundido en inteligencia de negocios en los años 2000.",
+        mapeo: [["Velocímetro", "Indicador en tiempo real"], ["Nivel de combustible", "Capacidad restante"], ["Luz de advertencia", "Alerta"], ["Volante y palancas", "Controles de acción"], ["Retrovisor", "Datos históricos"]],
+        fortalezas: "Ofrece conciencia de la situación de un vistazo y ayuda a detectar anomalías.",
+        debilidades: "Si se acumulan indicadores aparece sobrecarga de información; el novato no sabe cuál mirar primero.",
+        referencia: "Few, S. (2006). Information dashboard design: The effective visual communication of data. O'Reilly." },
+      { id: "progreso", tipo: "orientacional", nombre: "Progreso ascendente", icono: "trending-up",
+        resumen: "Arriba y a la derecha significan más y avance; abajo y a la izquierda, menos y retroceso.",
+        fuente: "Orientación espacial", destino: "Barras e indicadores",
+        origen: "Lakoff y Johnson (1980) describieron «más es arriba» como una metáfora básica de la cognición.",
+        mapeo: [["Subir", "Aumentar o mejorar"], ["Bajar", "Disminuir o empeorar"], ["Avanzar a la derecha", "Completar una tarea"], ["Nivel superior", "Categoría general"], ["Profundizar", "Ver detalle"]],
+        fortalezas: "Se apoya en esquemas corporales muy arraigados, por lo que casi no requiere aprendizaje.",
+        debilidades: "La dirección depende de la escritura (en árabe o hebreo el avance va a la izquierda) y el desplazamiento hacia abajo para ver «más» la contradice.",
+        referencia: "Lakoff, G. y Johnson, M. (1980). Metaphors we live by. University of Chicago Press." },
+      { id: "zoom", tipo: "orientacional", nombre: "Zoom espacial", icono: "zoom-in",
+        resumen: "Acercarse muestra detalle y alejarse muestra contexto, como con una lupa o un mapa.",
+        fuente: "Lupa y mapa", destino: "Niveles de detalle",
+        origen: "Bederson y Hollan (1994) formalizaron las interfaces con zoom (ZUI) en el sistema Pad++.",
+        mapeo: [["Acercar la lupa", "Zoom in"], ["Alejarse", "Zoom out"], ["Campo de visión", "Viewport"], ["Enfocar un punto", "Centrar la vista"], ["Nitidez", "Nivel de detalle"]],
+        fortalezas: "El gesto de pellizcar es universal en pantallas táctiles y funciona bien en mapas, imágenes y planos.",
+        debilidades: "Sin indicador de nivel el usuario se desorienta y no sabe cuánto más puede acercarse.",
+        referencia: "Bederson, B. B. y Hollan, J. D. (1994). Pad++: A zooming graphical interface for exploring alternate interface physics. En Proceedings of UIST '94 (pp. 17–26). ACM." },
+      { id: "arrastrar", tipo: "ontologica", nombre: "Arrastrar y soltar", icono: "move",
+        resumen: "Los datos se tratan como objetos que se agarran, se llevan y se sueltan en otro lugar.",
+        fuente: "Mover objetos con la mano", destino: "Reorganizar elementos",
+        origen: "Deriva de la manipulación directa descrita por Shneiderman (1983).",
+        mapeo: [["Agarrar", "Presionar y mantener"], ["Llevar", "Arrastrar el cursor"], ["Soltar", "Liberar el botón"], ["Recipiente que acepta", "Zona de destino resaltada"], ["Peso del objeto", "Sombra que sigue al cursor"]],
+        fortalezas: "Da sensación de control directo y evita menús.",
+        debilidades: "No es descubrible y exige precisión motora; necesita una alternativa por teclado.",
+        referencia: "Shneiderman, B. (1983). Direct manipulation: A step beyond programming languages. Computer, 16(8), 57–69." },
+      { id: "nube", tipo: "ontologica", nombre: "La nube", icono: "cloud",
+        resumen: "Los datos viven en un lugar abstracto y omnipresente al que se «sube» y del que se «baja».",
+        fuente: "Nube atmosférica", destino: "Servidores remotos",
+        origen: "El dibujo de nube representaba en los diagramas de red lo que no hacía falta detallar; luego se volvió marca comercial.",
+        mapeo: [["Nube en el cielo", "Centro de datos"], ["Subir", "Upload"], ["Bajar", "Download"], ["Estar en todas partes", "Acceso desde cualquier equipo"], ["Intangible", "Ubicación física desconocida"]],
+        fortalezas: "Simplifica una infraestructura compleja y transmite disponibilidad permanente.",
+        debilidades: "Oculta latencia, dependencia de conexión, privacidad y jurisdicción de los datos.",
+        referencia: "Lakoff, G. y Johnson, M. (1980). Metaphors we live by. University of Chicago Press." },
+      { id: "carrito", tipo: "contenedor", nombre: "Carrito de compras", icono: "shopping-cart",
+        resumen: "Los productos elegidos se acumulan en un recipiente antes de pasar por caja.",
+        fuente: "Supermercado", destino: "Comercio electrónico",
+        origen: "Primeras tiendas en línea de mediados de los noventa; hoy es una convención universal.",
+        mapeo: [["Carrito", "Lista temporal de productos"], ["Meter un producto", "Agregar al carrito"], ["Sacar un producto", "Eliminar del carrito"], ["Pasar por caja", "Checkout"], ["Boleta", "Confirmación del pedido"]],
+        fortalezas: "Permite explorar sin compromiso: agregar y quitar no tiene costo.",
+        debilidades: "No cubre bien suscripciones, listas de deseos ni productos digitales inmediatos.",
+        referencia: "Nielsen, J. (2000). Designing web usability. New Riders." },
+      { id: "papelera", tipo: "contenedor", nombre: "Papelera de reciclaje", icono: "trash-2",
+        resumen: "Lo que se borra va a un recipiente temporal del que todavía se puede recuperar.",
+        fuente: "Papelera de oficina", destino: "Eliminación reversible",
+        origen: "Parte del escritorio del Macintosh (1984); Windows la adoptó como Papelera de reciclaje.",
+        mapeo: [["Tirar un papel", "Eliminar un archivo"], ["Papelera con papeles", "Icono de papelera llena"], ["Rebuscar", "Restaurar"], ["Vaciar la papelera", "Borrado definitivo"], ["Recipiente", "Carpeta de eliminados"]],
+        fortalezas: "Permite deshacer y quita el miedo a borrar.",
+        debilidades: "En el Mac clásico también servía para expulsar discos, y en el correo se vacía sola: dos rupturas conocidas.",
+        referencia: "Norman, D. A. (2013). The design of everyday things (ed. rev.). Basic Books." },
+      { id: "migas", tipo: "viaje", nombre: "Migas de pan", icono: "navigation",
+        resumen: "La ruta recorrida queda marcada para volver a cualquier punto anterior.",
+        fuente: "Cuento de Hansel y Gretel", destino: "Navegación jerárquica",
+        origen: "Inspirada en el cuento de los hermanos Grimm; patrón de navegación web desde los noventa.",
+        mapeo: [["Migas en el camino", "Enlaces de la ruta"], ["Camino de regreso", "Páginas padre"], ["Bosque", "Sitio grande"], ["Casa", "Página de inicio"], ["Cada miga", "Un nivel de la jerarquía"]],
+        fortalezas: "Ocupa poco espacio y muestra dónde está el usuario (visibilidad del estado del sistema).",
+        debilidades: "Solo tiene sentido en estructuras jerárquicas; en una SPA plana pierde significado.",
+        referencia: "Lida, B., Hull, S. y Pilcher, K. (2003). Breadcrumb navigation: An exploratory study of usage. Usability News, 5(1)." },
+      { id: "asistente", tipo: "viaje", nombre: "Asistente paso a paso", icono: "footprints",
+        resumen: "Un proceso largo se recorre por etapas, con la posición actual siempre visible.",
+        fuente: "Recorrido con guía", destino: "Formulario multipaso",
+        origen: "Los «wizards» de instalación de Windows en los noventa.",
+        mapeo: [["Guía", "Indicador de pasos"], ["Siguiente parada", "Botón Siguiente"], ["Volver atrás", "Botón Anterior"], ["Mapa del recorrido", "Barra de etapas"], ["Llegada", "Pantalla de confirmación"]],
+        fortalezas: "Divide la carga cognitiva y dice cuánto falta.",
+        debilidades: "Frustra al experto que quiere hacerlo todo de una vez y obliga a un orden fijo.",
+        referencia: "Tidwell, J. (2010). Designing interfaces (2.ª ed.). O'Reilly." },
+      { id: "conversacion", tipo: "conversacional", nombre: "Conversación", icono: "message-circle",
+        resumen: "El usuario dialoga con el sistema por turnos, como con otra persona.",
+        fuente: "Conversación humana", destino: "Chatbots y asistentes",
+        origen: "De ELIZA (1966) a los asistentes de voz y los chatbots basados en modelos de lenguaje.",
+        mapeo: [["Saludo", "Mensaje de bienvenida"], ["Pregunta", "Consulta del usuario"], ["Respuesta", "Salida del sistema"], ["Turno de palabra", "Alternancia usuario-sistema"], ["Recordar lo dicho", "Historial de contexto"]],
+        fortalezas: "Accesible para quien no domina interfaces gráficas; permite expresar intenciones complejas.",
+        debilidades: "La apariencia humana eleva expectativas que el sistema no siempre cumple.",
+        referencia: "Desai, S., Dubiel, M. y Leiva, L. A. (2024). Examining humanness as a metaphor to design voice user interfaces. En Proceedings of CUI '24. ACM." }
+    ];
+
+    // ==========================================================
+    // Métricas (todas las marcas de tiempo con performance.now())
+    // ==========================================================
+    const metricas = {
+      inicio: performance.now(),
+      clics: 0,
+      filtros: 0,
+      demos: 0,
+      primeraInteraccion: null,
+      exploradas: new Set(),
+      latencias: []
+    };
+    function registrarInteraccion(tipo) {
+      if (metricas.primeraInteraccion === null) metricas.primeraInteraccion = performance.now() - metricas.inicio;
+      if (tipo === "demo") metricas.demos++;
+      actualizarPanel();
+    }
+    document.addEventListener("click", () => { metricas.clics++; actualizarPanel(); }, true);
+
+    function actualizarPanel() {
+      document.getElementById("mClics").textContent = metricas.clics;
+      document.getElementById("mTarjetas").textContent = `${metricas.exploradas.size} / 12`;
+      document.getElementById("mFiltros").textContent = metricas.filtros;
+      document.getElementById("mDemos").textContent = metricas.demos;
+      document.getElementById("mPrimera").textContent =
+        metricas.primeraInteraccion === null ? "—" : `${(metricas.primeraInteraccion / 1000).toFixed(1)} s`;
+      const l = metricas.latencias;
+      document.getElementById("mLatencia").textContent =
+        l.length ? `${(l.reduce((a, b) => a + b, 0) / l.length).toFixed(1)} ms` : "—";
+    }
+    setInterval(() => {
+      const s = Math.floor((performance.now() - metricas.inicio) / 1000);
+      document.getElementById("mTiempo").textContent = s >= 60 ? `${Math.floor(s / 60)} min ${s % 60} s` : `${s} s`;
+    }, 1000);
+
+    // ==========================================================
+    // Demos interactivas: plantilla HTML + función que la activa
+    // ==========================================================
+    const DEMOS = {
+      escritorio: {
+        html: `<div class="escritorio">
+            <button class="icono-esc" data-n="Documentos"><i data-lucide="folder"></i>Documentos</button>
+            <button class="icono-esc" data-n="Fotos"><i data-lucide="image"></i>Fotos</button>
+            <button class="icono-esc" data-n="Papelera"><i data-lucide="trash-2"></i>Papelera</button>
+          </div><div class="demo-ayuda" data-salida>Haz clic para seleccionar; doble clic para abrir.</div>`,
+        activar(d) {
+          const salida = d.querySelector("[data-salida]");
+          d.querySelectorAll(".icono-esc").forEach(b => {
+            b.addEventListener("click", () => {
+              d.querySelectorAll(".icono-esc").forEach(x => x.classList.remove("sel"));
+              b.classList.add("sel"); salida.textContent = `Seleccionado: ${b.dataset.n}`; registrarInteraccion("demo");
+            });
+            b.addEventListener("dblclick", () => { salida.textContent = `Abriendo «${b.dataset.n}»… (como abrir una carpeta física)`; registrarInteraccion("demo"); });
+          });
+        }
+      },
+      ventanas: {
+        html: `<div class="escena-ventanas">
+            <div class="ventana" style="left:4%;top:4px;z-index:1" data-v="Notas"><div class="barra">Notas <i data-cerrar>✕</i></div><div class="cuerpo">Lista de pendientes…</div></div>
+            <div class="ventana frente" style="left:38%;top:26px;z-index:2" data-v="Navegador"><div class="barra">Navegador <i data-cerrar>✕</i></div><div class="cuerpo">unmsm.edu.pe</div></div>
+          </div><div class="fila"><button class="mini" data-reabrir>Reabrir ventanas</button></div>`,
+        activar(d) {
+          let z = 3;
+          const ventanas = d.querySelectorAll(".ventana");
+          ventanas.forEach(v => {
+            v.addEventListener("click", () => { ventanas.forEach(x => x.classList.remove("frente")); v.classList.add("frente"); v.style.zIndex = z++; registrarInteraccion("demo"); });
+            v.querySelector("[data-cerrar]").addEventListener("click", e => { e.stopPropagation(); v.style.display = "none"; registrarInteraccion("demo"); });
+          });
+          d.querySelector("[data-reabrir]").addEventListener("click", () => { ventanas.forEach(v => v.style.display = ""); registrarInteraccion("demo"); });
+        }
+      },
+      tablero: {
+        html: `<div class="tablero">
+            <svg viewBox="0 0 100 60" aria-hidden="true"><path d="M10 55 A40 40 0 0 1 90 55" fill="none" stroke="#2E3B5B" stroke-width="8"/>
+              <path data-arco d="M10 55 A40 40 0 0 1 90 55" fill="none" stroke="#22C38E" stroke-width="8" stroke-dasharray="126" stroke-dashoffset="88"/>
+              <line data-aguja x1="50" y1="55" x2="50" y2="20" stroke="#E8EDF7" stroke-width="3" stroke-linecap="round" style="transform-origin:50px 55px;transform:rotate(-54deg);transition:transform .3s"/></svg>
+            <div><strong data-valor style="font-size:1.2rem">30</strong> km/h<br><span class="demo-ayuda" data-alerta>Sin alertas</span></div>
+          </div><input type="range" min="0" max="100" value="30" aria-label="Velocidad" data-rango style="width:100%">`,
+        activar(d) {
+          const r = d.querySelector("[data-rango]");
+          r.addEventListener("input", () => {
+            const v = +r.value;
+            d.querySelector("[data-aguja]").style.transform = `rotate(${-90 + v * 1.8}deg)`;
+            d.querySelector("[data-arco]").setAttribute("stroke-dashoffset", 126 - v * 1.26);
+            d.querySelector("[data-arco]").setAttribute("stroke", v > 80 ? "#F06A6A" : "#22C38E");
+            d.querySelector("[data-valor]").textContent = v;
+            d.querySelector("[data-alerta]").textContent = v > 80 ? "⚠ Luz de advertencia: exceso" : "Sin alertas";
+            registrarInteraccion("demo");
+          });
+        }
+      },
+      progreso: {
+        html: `<div class="barra-fondo"><div class="barra-relleno" data-barra></div></div>
+          <div class="demo-ayuda" data-txt>10 % — arriba/derecha = más</div>
+          <div class="fila"><button class="mini" data-menos>− Retroceder</button><button class="mini" data-mas>+ Avanzar</button></div>`,
+        activar(d) {
+          let p = 10;
+          const pintar = () => { d.querySelector("[data-barra]").style.width = p + "%"; d.querySelector("[data-txt]").textContent = p === 100 ? "100 % — ¡completado!" : `${p} % — arriba/derecha = más`; registrarInteraccion("demo"); };
+          d.querySelector("[data-mas]").addEventListener("click", () => { p = Math.min(100, p + 15); pintar(); });
+          d.querySelector("[data-menos]").addEventListener("click", () => { p = Math.max(0, p - 15); pintar(); });
+        }
+      },
+      zoom: {
+        html: `<div class="visor"><div class="mapa" data-mapa>${["Lima", "Callao", "Surco", "Miraflores", "SJL", "Comas", "Ate", "Barranco"].map(n => `<div>${n}</div>`).join("")}</div></div>
+          <div class="fila"><button class="mini" data-out>− Alejar</button><span data-nivel>Nivel 1 · contexto</span><button class="mini" data-in>+ Acercar</button></div>`,
+        activar(d) {
+          let n = 1;
+          const pintar = () => { d.querySelector("[data-mapa]").style.transform = `scale(${1 + (n - 1) * 0.6})`; d.querySelector("[data-nivel]").textContent = `Nivel ${n} · ${n === 1 ? "contexto" : n === 4 ? "detalle máximo" : "más detalle"}`; registrarInteraccion("demo"); };
+          d.querySelector("[data-in]").addEventListener("click", () => { n = Math.min(4, n + 1); pintar(); });
+          d.querySelector("[data-out]").addEventListener("click", () => { n = Math.max(1, n - 1); pintar(); });
+        }
+      },
+      arrastrar: {
+        html: `<div class="zona-drag"><div class="doc-drag" data-doc aria-label="Documento arrastrable">📄</div><div class="destino-drag" data-destino>Suelta aquí la carpeta</div></div>
+          <div class="demo-ayuda" data-txt>Arrastra el documento hasta la carpeta.</div>`,
+        activar(d) {
+          const doc = d.querySelector("[data-doc]"), dest = d.querySelector("[data-destino]"), txt = d.querySelector("[data-txt]");
+          let x0 = 0, y0 = 0, activo = false;
+          const dentro = e => { const r = dest.getBoundingClientRect(); return e.clientX > r.left && e.clientX < r.right && e.clientY > r.top && e.clientY < r.bottom; };
+          doc.addEventListener("pointerdown", e => { activo = true; x0 = e.clientX; y0 = e.clientY; doc.setPointerCapture(e.pointerId); doc.classList.add("arrastrando"); });
+          doc.addEventListener("pointermove", e => { if (!activo) return; doc.style.transform = `translate(${e.clientX - x0}px, ${e.clientY - y0}px)`; dest.classList.toggle("sobre", dentro(e)); });
+          doc.addEventListener("pointerup", e => {
+            if (!activo) return; activo = false; doc.classList.remove("arrastrando"); doc.style.transform = ""; dest.classList.remove("sobre");
+            if (dentro(e)) { dest.classList.add("lleno"); dest.textContent = "📁 1 documento"; txt.textContent = "¡Soltado! El archivo se movió a la carpeta."; }
+            else { txt.textContent = "Fuera del destino: el documento vuelve a su lugar."; }
+            registrarInteraccion("demo");
+          });
+        }
+      },
+      nube: {
+        html: `<div class="nube-escena"><i data-lucide="laptop"></i><span class="flujo" data-flujo>⇅</span><i data-lucide="cloud"></i></div>
+          <div class="demo-ayuda" data-txt>Tu archivo está en el equipo.</div>
+          <div class="fila"><button class="mini" data-subir>Subir</button><button class="mini" data-bajar>Bajar</button></div>`,
+        activar(d) {
+          const txt = d.querySelector("[data-txt]"), f = d.querySelector("[data-flujo]");
+          const mover = (dir) => {
+            const t0 = performance.now(); f.textContent = dir === "subir" ? "→" : "←"; txt.textContent = "Transfiriendo…";
+            setTimeout(() => { txt.textContent = `${dir === "subir" ? "Subido a" : "Bajado de"} «la nube» en ${(performance.now() - t0).toFixed(0)} ms (latencia simulada)`; f.textContent = "⇅"; }, 400 + Math.random() * 600);
+            registrarInteraccion("demo");
+          };
+          d.querySelector("[data-subir]").addEventListener("click", () => mover("subir"));
+          d.querySelector("[data-bajar]").addEventListener("click", () => mover("bajar"));
+        }
+      },
+      carrito: {
+        html: `<div class="fila"><span class="contador-badge"><i data-lucide="shopping-cart"></i><span data-n>0</span></span>
+            <div><div>Audífonos · S/ 89.90</div><div class="demo-ayuda" data-total>Total: S/ 0.00</div></div></div>
+          <div class="fila"><button class="mini" data-quitar>− Quitar</button><button class="mini" data-agregar>+ Agregar</button></div>`,
+        activar(d) {
+          let n = 0;
+          const pintar = () => { d.querySelector("[data-n]").textContent = n; d.querySelector("[data-total]").textContent = `Total: S/ ${(n * 89.9).toFixed(2)}`; registrarInteraccion("demo"); };
+          d.querySelector("[data-agregar]").addEventListener("click", () => { n++; pintar(); });
+          d.querySelector("[data-quitar]").addEventListener("click", () => { n = Math.max(0, n - 1); pintar(); });
+        }
+      },
+      papelera: {
+        html: `<div class="archivos" data-archivos></div>
+          <div class="fila"><span class="contador-badge"><i data-lucide="trash-2"></i><span data-n>0</span></span>
+            <button class="mini" data-borrar>Eliminar uno</button><button class="mini" data-restaurar>Restaurar</button><button class="mini" data-vaciar>Vaciar</button></div>`,
+        activar(d) {
+          let archivos = ["informe.docx", "foto.png", "datos.csv"], papelera = [];
+          const pintar = () => {
+            d.querySelector("[data-archivos]").innerHTML = archivos.length ? archivos.map(a => `<span class="archivo">${a}</span>`).join("") : `<span class="demo-ayuda">Sin archivos</span>`;
+            d.querySelector("[data-n]").textContent = papelera.length;
+          };
+          d.querySelector("[data-borrar]").addEventListener("click", () => { if (archivos.length) papelera.push(archivos.pop()); pintar(); registrarInteraccion("demo"); });
+          d.querySelector("[data-restaurar]").addEventListener("click", () => { if (papelera.length) archivos.push(papelera.pop()); pintar(); registrarInteraccion("demo"); });
+          d.querySelector("[data-vaciar]").addEventListener("click", () => { papelera = []; pintar(); registrarInteraccion("demo"); });
+          pintar();
+        }
+      },
+      migas: {
+        html: `<nav class="migas" aria-label="Ruta de ejemplo" data-migas></nav>
+          <div class="fila"><button class="mini" data-entrar>Entrar un nivel</button></div>`,
+        activar(d) {
+          const niveles = ["Inicio", "Facultades", "FISI", "Software", "IHC"];
+          let prof = 3;
+          const pintar = () => {
+            d.querySelector("[data-migas]").innerHTML = niveles.slice(0, prof).map((n, i) =>
+              i === prof - 1 ? `<span class="actual">${n}</span>` : `<button data-i="${i}">${n}</button><span class="sep">›</span>`).join("");
+            d.querySelectorAll("[data-migas] button").forEach(b => b.addEventListener("click", () => { prof = +b.dataset.i + 1; pintar(); registrarInteraccion("demo"); }));
+            d.querySelector("[data-entrar]").disabled = prof === niveles.length;
+          };
+          d.querySelector("[data-entrar]").addEventListener("click", () => { prof = Math.min(niveles.length, prof + 1); pintar(); registrarInteraccion("demo"); });
+          pintar();
+        }
+      },
+      asistente: {
+        html: `<div class="pasos" data-pasos></div><div class="demo-ayuda" data-txt></div>
+          <div class="fila"><button class="mini" data-ant>Anterior</button><button class="mini" data-sig>Siguiente</button></div>`,
+        activar(d) {
+          const etapas = ["Datos", "Envío", "Pago", "Confirmar"];
+          let actual = 1;
+          const pintar = () => {
+            d.querySelector("[data-pasos]").innerHTML = etapas.map((e, i) =>
+              `${i ? `<span class="conector ${i <= actual ? "hecho" : ""}"></span>` : ""}<span class="paso ${i < actual ? "hecho" : i === actual ? "actual" : ""}" title="${e}">${i < actual ? "✓" : i + 1}</span>`).join("");
+            d.querySelector("[data-txt]").textContent = actual === etapas.length ? "¡Recorrido completado!" : `Paso ${actual + 1} de ${etapas.length}: ${etapas[actual]}`;
+            d.querySelector("[data-ant]").disabled = actual === 0;
+            d.querySelector("[data-sig]").disabled = actual === etapas.length;
+          };
+          d.querySelector("[data-sig]").addEventListener("click", () => { actual = Math.min(etapas.length, actual + 1); pintar(); registrarInteraccion("demo"); });
+          d.querySelector("[data-ant]").addEventListener("click", () => { actual = Math.max(0, actual - 1); pintar(); registrarInteraccion("demo"); });
+          pintar();
+        }
+      },
+      conversacion: {
+        html: `<div class="chat" data-chat><div class="burbuja bot">¡Hola! ¿En qué te ayudo?</div></div>
+          <div class="fila"><button class="mini" data-q="¿Cuál es mi horario?">Horario</button><button class="mini" data-q="Cancela mi vuelo">Cancelar vuelo</button></div>`,
+        activar(d) {
+          const chat = d.querySelector("[data-chat]");
+          const respuestas = { "¿Cuál es mi horario?": "Tienes IHC el martes a las 8:00.", "Cancela mi vuelo": "Lo siento, todavía no puedo gestionar vuelos." };
+          d.querySelectorAll("[data-q]").forEach(b => b.addEventListener("click", () => {
+            chat.insertAdjacentHTML("beforeend", `<div class="burbuja usr">${b.dataset.q}</div>`);
+            setTimeout(() => { chat.insertAdjacentHTML("beforeend", `<div class="burbuja bot">${respuestas[b.dataset.q]}</div>`); chat.scrollTop = chat.scrollHeight; }, 350);
+            registrarInteraccion("demo");
+          }));
+        }
+      }
+    };
+
+    // ==========================================================
+    // Renderizado de filtros y tarjetas
+    // ==========================================================
+    function crearFiltros() {
+      const nav = document.getElementById("filtros");
+      const botones = [["todas", "Todas", METAFORAS.length]].concat(
+        Object.entries(TIPOS).map(([k, t]) => [k, t.nombre, METAFORAS.filter(m => m.tipo === k).length]));
+      nav.innerHTML = botones.map(([k, n, c], i) =>
+        `<button class="filtro ${i === 0 ? "activo" : ""}" data-filtro="${k}">${n} <span class="contador">${c}</span></button>`).join("");
+      nav.querySelectorAll(".filtro").forEach(b => b.addEventListener("click", () => {
+        nav.querySelectorAll(".filtro").forEach(x => x.classList.remove("activo"));
+        b.classList.add("activo");
+        metricas.filtros++; registrarInteraccion("filtro");
+        document.querySelectorAll(".tarjeta").forEach(t =>
+          t.classList.toggle("oculta", b.dataset.filtro !== "todas" && t.dataset.tipo !== b.dataset.filtro));
+      }));
+    }
+
+    function crearTarjetas() {
+      const grid = document.getElementById("grid");
+      grid.innerHTML = METAFORAS.map(m => `
+        <article class="tarjeta" data-id="${m.id}" data-tipo="${m.tipo}" style="--color-tipo:${TIPOS[m.tipo].color}">
+          <div class="tarjeta-cabecera">
+            <div class="tarjeta-icono"><i data-lucide="${m.icono}"></i></div>
+            <div><h2>${m.nombre}</h2><span class="etiqueta-tipo">${TIPOS[m.tipo].nombre}</span></div>
+          </div>
+          <p class="tarjeta-texto">${m.resumen}</p>
+          <div class="demo" data-demo="${m.id}">${DEMOS[m.id].html}</div>
+          <div class="dominios"><span>Fuente: <b>${m.fuente}</b></span><span>Destino: <b>${m.destino}</b></span></div>
+          <div class="tarjeta-pie"><button class="btn-detalle" data-abrir="${m.id}"><i data-lucide="info"></i> Ver detalle</button></div>
+        </article>`).join("");
+      METAFORAS.forEach(m => DEMOS[m.id].activar(grid.querySelector(`[data-demo="${m.id}"]`)));
+      grid.querySelectorAll("[data-abrir]").forEach(b => b.addEventListener("click", () => abrirModal(b.dataset.abrir)));
+    }
+
+    // ==========================================================
+    // Modal de detalle con medición de latencia
+    // ==========================================================
+    function abrirModal(id) {
+      const t0 = performance.now();
+      const m = METAFORAS.find(x => x.id === id);
+      document.getElementById("modalCuerpo").innerHTML = `
+        <span class="etiqueta-tipo" style="--color-tipo:${TIPOS[m.tipo].color}">${TIPOS[m.tipo].nombre}</span>
+        <h2 id="modalTitulo">${m.nombre}</h2>
+        <p>${m.resumen}</p>
+        <h3>Origen</h3><p>${m.origen}</p>
+        <h3>Mapeo conceptual</h3>
+        <table class="tabla-mapeo"><thead><tr><th>Dominio fuente: ${m.fuente}</th><th>Dominio destino: ${m.destino}</th></tr></thead>
+          <tbody>${m.mapeo.map(([f, d]) => `<tr><td>${f}</td><td>${d}</td></tr>`).join("")}</tbody></table>
+        <h3>Fortalezas</h3><p>${m.fortalezas}</p>
+        <h3>Debilidades y rupturas</h3><p>${m.debilidades}</p>
+        <h3>Referencia</h3><p><em>${m.referencia}</em></p>`;
+      document.getElementById("modalFondo").classList.add("visible");
+      document.getElementById("modalCerrar").focus();
+      metricas.exploradas.add(id);
+      requestAnimationFrame(() => { metricas.latencias.push(performance.now() - t0); registrarInteraccion("modal"); });
+    }
+    function cerrarModal() { document.getElementById("modalFondo").classList.remove("visible"); }
+    document.getElementById("modalCerrar").addEventListener("click", cerrarModal);
+    document.getElementById("modalFondo").addEventListener("click", e => { if (e.target === e.currentTarget) cerrarModal(); });
+    document.addEventListener("keydown", e => { if (e.key === "Escape") cerrarModal(); });
+
+    // ==========================================================
+    // Inicio
+    // ==========================================================
+    crearFiltros();
+    crearTarjetas();
+    if (window.lucide) lucide.createIcons();
+    actualizarPanel();
+  </script>
+</body>
+</html>
