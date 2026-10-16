@@ -1,0 +1,319 @@
+{
+  "doi": {
+    "10.1016/S0020-7373(85)80076-6": {
+      "titulo": "Metaphor, computing systems, and active learning",
+      "revista": "International Journal of Man-Machine Studies",
+      "anio": 1985,
+      "volumen": "22",
+      "numero": "1",
+      "paginas": "39-57",
+      "autores": [
+        "Carroll, John M.",
+        "Mack, Robert L."
+      ]
+    },
+    "10.1109/MC.1983.1654471": {
+      "titulo": "Direct Manipulation: A Step Beyond Programming Languages",
+      "revista": "Computer",
+      "anio": 1983,
+      "volumen": "16",
+      "numero": "8",
+      "paginas": "57-69",
+      "autores": [
+        "Shneiderman, "
+      ]
+    },
+    "10.1145/1188816.1188820": {
+      "titulo": "The reification of metaphor as a design tool",
+      "revista": "ACM Transactions on Computer-Human Interaction",
+      "anio": 2006,
+      "volumen": "13",
+      "numero": "4",
+      "paginas": "490-530",
+      "autores": [
+        "Blackwell, Alan F."
+      ]
+    },
+    "10.1080/01621459.1937.10503522": {
+      "titulo": "The Use of Ranks to Avoid the Assumption of Normality Implicit in the Analysis of Variance",
+      "revista": "Journal of the American Statistical Association",
+      "anio": 1937,
+      "volumen": "32",
+      "numero": "200",
+      "paginas": "675-701",
+      "autores": [
+        "Friedman, Milton"
+      ]
+    },
+    "10.2307/3001968": {
+      "titulo": "Individual Comparisons by Ranking Methods",
+      "revista": "Biometrics Bulletin",
+      "anio": 1945,
+      "volumen": "1",
+      "numero": "6",
+      "paginas": "80",
+      "autores": [
+        "Wilcoxon, Frank"
+      ]
+    },
+    "10.1145/1518701.1518946": {
+      "titulo": "Comparison of three one-question, post-task usability questionnaires",
+      "revista": "Proceedings of the SIGCHI Conference on Human Factors in Computing Systems",
+      "anio": 2009,
+      "volumen": null,
+      "numero": null,
+      "paginas": "1599-1608",
+      "autores": [
+        "Sauro, Jeff",
+        "Dumas, Joseph S."
+      ]
+    },
+    "10.1038/s41592-019-0686-2": {
+      "titulo": "SciPy 1.0: fundamental algorithms for scientific computing in Python",
+      "revista": "Nature Methods",
+      "anio": 2020,
+      "volumen": "17",
+      "numero": "3",
+      "paginas": "261-272",
+      "autores": [
+        "Virtanen, Pauli",
+        "Gommers, Ralf",
+        "Oliphant, Travis E.",
+        "Haberland, Matt",
+        "Reddy, Tyler",
+        "Cournapeau, David",
+        "Burovski, Evgeni",
+        "Peterson, Pearu",
+        "Weckesser, Warren",
+        "Bright, Jonathan",
+        "van der Walt, Stéfan J.",
+        "Brett, Matthew",
+        "Wilson, Joshua",
+        "Millman, K. Jarrod",
+        "Mayorov, Nikolay",
+        "Nelson, Andrew R. J.",
+        "Jones, Eric",
+        "Kern, Robert",
+        "Larson, Eric",
+        "Carey, C J",
+        "Polat, İlhan",
+        "Feng, Yu",
+        "Moore, Eric W.",
+        "VanderPlas, Jake",
+        "Laxalde, Denis",
+        "Perktold, Josef",
+        "Cimrman, Robert",
+        "Henriksen, Ian",
+        "Quintero, E. A.",
+        "Harris, Charles R.",
+        "Archibald, Anne M.",
+        "Ribeiro, Antônio H.",
+        "Pedregosa, Fabian",
+        "van Mulbregt, Paul",
+        ", ",
+        "Vijaykumar, Aditya",
+        "Bardelli, Alessandro Pietro",
+        "Rothberg, Alex",
+        "Hilboll, Andreas",
+        "Kloeckner, Andreas",
+        "Scopatz, Anthony",
+        "Lee, Antony",
+        "Rokem, Ariel",
+        "Woods, C. Nathan",
+        "Fulton, Chad",
+        "Masson, Charles",
+        "Häggström, Christian",
+        "Fitzgerald, Clark",
+        "Nicholson, David A.",
+        "Hagen, David R.",
+        "Pasechnik, Dmitrii V.",
+        "Olivetti, Emanuele",
+        "Martin, Eric",
+        "Wieser, Eric",
+        "Silva, Fabrice",
+        "Lenders, Felix",
+        "Wilhelm, Florian",
+        "Young, G.",
+        "Price, Gavin A.",
+        "Ingold, Gert-Ludwig",
+        "Allen, Gregory E.",
+        "Lee, Gregory R.",
+        "Audren, Hervé",
+        "Probst, Irvin",
+        "Dietrich, Jörg P.",
+        "Silterra, Jacob",
+        "Webber, James T",
+        "Slavič, Janko",
+        "Nothman, Joel",
+        "Buchner, Johannes",
+        "Kulick, Johannes",
+        "Schönberger, Johannes L.",
+        "de Miranda Cardoso, José Vinícius",
+        "Reimer, Joscha",
+        "Harrington, Joseph",
+        "Rodríguez, Juan Luis Cano",
+        "Nunez-Iglesias, Juan",
+        "Kuczynski, Justin",
+        "Tritz, Kevin",
+        "Thoma, Martin",
+        "Newville, Matthew",
+        "Kümmerer, Matthias",
+        "Bolingbroke, Maximilian",
+        "Tartre, Michael",
+        "Pak, Mikhail",
+        "Smith, Nathaniel J.",
+        "Nowaczyk, Nikolai",
+        "Shebanov, Nikolay",
+        "Pavlyk, Oleksandr",
+        "Brodtkorb, Per A.",
+        "Lee, Perry",
+        "McGibbon, Robert T.",
+        "Feldbauer, Roman",
+        "Lewis, Sam",
+        "Tygier, Sam",
+        "Sievert, Scott",
+        "Vigna, Sebastiano",
+        "Peterson, Stefan",
+        "More, Surhud",
+        "Pudlik, Tadeusz",
+        "Oshima, Takuya",
+        "Pingel, Thomas J.",
+        "Robitaille, Thomas P.",
+        "Spura, Thomas",
+        "Jones, Thouis R.",
+        "Cera, Tim",
+        "Leslie, Tim",
+        "Zito, Tiziano",
+        "Krauss, Tom",
+        "Upadhyay, Utkarsh",
+        "Halchenko, Yaroslav O.",
+        "Vázquez-Baeza, Yoshiki"
+      ]
+    },
+    "10.1109/MCSE.2007.55": {
+      "titulo": "Matplotlib: A 2D Graphics Environment",
+      "revista": "Computing in Science &amp; Engineering",
+      "anio": 2007,
+      "volumen": "9",
+      "numero": "3",
+      "paginas": "90-95",
+      "autores": [
+        "Hunter, John D."
+      ]
+    },
+    "10.25080/Majora-92bf1922-011": {
+      "titulo": "Statsmodels: Econometric and Statistical Modeling with Python",
+      "revista": "Proceedings of the Python in Science Conference",
+      "anio": 2010,
+      "volumen": null,
+      "numero": null,
+      "paginas": "92-96",
+      "autores": [
+        "Seabold, Skipper",
+        "Perktold, Josef"
+      ]
+    },
+    "10.25080/Majora-92bf1922-00a": {
+      "titulo": "Data Structures for Statistical Computing in Python",
+      "revista": "Proceedings of the Python in Science Conference",
+      "anio": 2010,
+      "volumen": null,
+      "numero": null,
+      "paginas": "56-61",
+      "autores": [
+        "McKinney, Wes"
+      ]
+    }
+  },
+  "busqueda": {
+    "Examining humanness as a metaphor to design voice user interfaces": [
+      {
+        "doi": "10.1145/3640794.3665535",
+        "titulo": "Examining Humanness as a Metaphor to Design Voice User Interfaces",
+        "anio": 2024,
+        "evento": "ACM Conversational User Interfaces 2024",
+        "autores": [
+          "Desai",
+          "Dubiel",
+          "Leiva"
+        ]
+      },
+      {
+        "doi": "10.1145/3816046.3816223",
+        "titulo": "Toward Metaphor-Fluid Conversation Design for Voice User Interfaces",
+        "anio": 2026,
+        "evento": "Proceedings of the 8th ACM Conference on Conversational User Interfaces",
+        "autores": [
+          "Desai",
+          "Chin",
+          "Wang",
+          "Cowan",
+          "Twidale"
+        ]
+      },
+      {
+        "doi": "10.1007/978-3-642-45743-2_8",
+        "titulo": "Metaphor-based User Interfaces for Hyperspaces",
+        "anio": 1995,
+        "evento": "Designing User Interfaces for Hypermedia",
+        "autores": [
+          "Väänänen"
+        ]
+      }
+    ]
+  },
+  "url": {
+    "https://press.uchicago.edu/ucp/books/book/chicago/M/bo3637992.html": {
+      "estado": 200,
+      "final": "https://press.uchicago.edu/ucp/books/book/chicago/M/bo3637992.html",
+      "titulo": "Metaphors We Live By, Lakoff, Johnson",
+      "fechas": []
+    },
+    "https://www.basicbooks.com/titles/don-norman/the-design-of-everyday-things/9780465050659/": {
+      "estado": 200,
+      "final": "https://www.hachettebookgroup.com/titles/don-norman/the-design-of-everyday-things/9780465050659/?lens=basic-books",
+      "titulo": "The Design of Everyday Things by Don Norman | Hachette Book Group",
+      "fechas": [
+        "2017-06-27",
+        "2026-10-08",
+        "2013-11-05"
+      ]
+    },
+    "https://www.nngroup.com/articles/ten-usability-heuristics/": {
+      "estado": 200,
+      "final": "https://www.nngroup.com/articles/ten-usability-heuristics/",
+      "titulo": "10 Usability Heuristics for User Interface Design - NN/G",
+      "fechas": [
+        "1994-04-24",
+        "2026-08-20"
+      ]
+    },
+    "https://www.nngroup.com/articles/metaphor/": {
+      "estado": 404
+    },
+    "https://www.w3.org/TR/WCAG22/": {
+      "estado": 200,
+      "final": "https://www.w3.org/TR/WCAG22/",
+      "titulo": "Web Content Accessibility Guidelines (WCAG) 2.2",
+      "fechas": []
+    },
+    "https://developer.mozilla.org/es/docs/Web/API/Performance/now": {
+      "estado": 200,
+      "final": "https://developer.mozilla.org/es/docs/Web/API/Performance/now",
+      "titulo": "performance.now() - API web | MDN",
+      "fechas": []
+    },
+    "https://www.jstor.org/stable/4615733": {
+      "estado": 200,
+      "final": "https://www.jstor.org/stable/4615733",
+      "titulo": "Client Challenge",
+      "fechas": []
+    },
+    "https://lawsofux.com/": {
+      "estado": 200,
+      "final": "https://lawsofux.com/",
+      "titulo": "Home | Laws of UX",
+      "fechas": []
+    }
+  }
+}
